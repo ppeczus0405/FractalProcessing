@@ -1,5 +1,9 @@
 #include <gtkmm.h>
 #include <iostream>
+#include "BitmapFileHeader.hpp"
+#include "BitmapInfoHeader.hpp"
+#include "Bitmap.hpp"
+#include "Complex.hpp"
 
 Gtk::Window *pWindow = nullptr;
 Glib::RefPtr<Gtk::Application> app;
@@ -36,6 +40,8 @@ void on_app_activate()
 
     // Get the GtkBuilder-instantiated window:
     pWindow = refBuilder->get_widget<Gtk::Window>("mainWindow");
+    auto img = refBuilder->get_widget<Gtk::Image>("lol_img");
+    img->set("../resources/fractal.jpg");
     if (pWindow == nullptr)
     {
         std::cerr << "Could not get the window" << std::endl;
@@ -61,7 +67,15 @@ void on_app_activate()
 
 int main(int argc, char** argv)
 {
+    Bitmap b(300, 300);
+    b.setPixel(200, 200, 255, 0, 0);
+    b.setPixel(100, 100, 0, 255, 0);
+    b.setPixel(150, 150, 0, 0, 255);
+    b.write("test.bmp");
+    /*
     app = Gtk::Application::create("org.gtkmm.example");
     app->signal_activate().connect([] () { on_app_activate(); });
     return app->run(argc, argv);
+    */
+   return 0;
 }
