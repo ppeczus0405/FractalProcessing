@@ -15,7 +15,9 @@ void Bitmap::setPixel(int x, int y, uint8_t red, uint8_t green, uint8_t blue){
     }
     x--; y--;
     int ind = y * m_width * 3 + x * 3;
-    m_pixels[ind] = blue;
+    
+    // BMP is Little Endian file format
+    m_pixels[ind] = blue; 
     m_pixels[ind + 1] = green;
     m_pixels[ind + 2] = red;
 }

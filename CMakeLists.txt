@@ -11,9 +11,10 @@ pkg_check_modules(GTKMM gtkmm-4.0)
 set(HEADERS_DIR src)
 set(SOURCE_DIR src)
 
-set(SOURCE ${SOURCE_DIR}/main.cpp ${SOURCE_DIR}/Complex.cpp ${SOURCE_DIR}/Bitmap.cpp)
+set(SOURCE ${SOURCE_DIR}/main.cpp ${SOURCE_DIR}/Complex.cpp ${SOURCE_DIR}/Bitmap.cpp ${SOURCE_DIR}/Mandelbrot.cpp)
 set(HEADERS ${HEADERS_DIR}/Complex.hpp ${HEADERS_DIR}/CompareDoubles.hpp ${HEADERS_DIR}/BitmapFileHeader.hpp
-            ${HEADERS_DIR}/BitmapInfoHeader.hpp ${HEADERS_DIR}/Bitmap.hpp)
+            ${HEADERS_DIR}/BitmapInfoHeader.hpp ${HEADERS_DIR}/Bitmap.hpp ${HEADERS_DIR}/Mandelbrot.hpp
+            ${HEADERS_DIR}/Scale.hpp)
 
 add_executable(main ${SOURCE} ${HEADERS})
 target_link_directories(main PRIVATE ${GTKMM_LIBRARY_DIRS})

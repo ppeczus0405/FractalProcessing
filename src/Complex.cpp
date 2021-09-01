@@ -24,7 +24,6 @@ Complex Complex::power(const Complex &c, int exponent){
     while(exponent > 0){
         if(exponent & 1){
             result *= to_multiply;
-            std::cout << "EXP: " << to_multiply << std::endl;
         }
         exponent >>= 1;
         to_multiply *= to_multiply;

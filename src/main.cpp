@@ -4,6 +4,8 @@
 #include "BitmapInfoHeader.hpp"
 #include "Bitmap.hpp"
 #include "Complex.hpp"
+#include "Scale.hpp"
+#include "Mandelbrot.hpp"
 
 Gtk::Window *pWindow = nullptr;
 Glib::RefPtr<Gtk::Application> app;
@@ -67,10 +69,20 @@ void on_app_activate()
 
 int main(int argc, char** argv)
 {
-    Bitmap b(300, 300);
-    b.setPixel(200, 200, 255, 0, 0);
-    b.setPixel(100, 100, 0, 255, 0);
-    b.setPixel(150, 150, 0, 0, 255);
+    const int d = 10000;
+    Bitmap b(d, d);
+    Scale s(d, d, -0.957, -0.893, 0.234, 0.298);
+    Mandelbrot::setMaxIterations(250);
+    for(int i = 1; i <= d; i++){
+        for(int j = 1; j <= d; j++){
+            auto result = s.to_scale(i, j);
+            //cout << "(" << i << ", " << j << ") ---> (" << result.first << ", " << result.second << ")" << endl;
+            Complex c(result.first, result.second);
+            int iter = Mandelbrot::getIterations(c);
+            int8_t color = iter * 255 / Mandelbrot::getMaxIterations();
+            b.setPixel(i, j, color, color, color);
+        }
+    }
     b.write("test.bmp");
     /*
     app = Gtk::Application::create("org.gtkmm.example");
