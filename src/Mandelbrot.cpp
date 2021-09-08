@@ -2,7 +2,7 @@
 
 int Mandelbrot::MAX_ITERATIONS = 1000;
 
-int Mandelbrot::getIterations(Complex p)
+pair <Complex, int> Mandelbrot::getIterations(Complex p)
 {
     int iterations = 0;
     Complex z = p;
@@ -10,7 +10,7 @@ int Mandelbrot::getIterations(Complex p)
         z = Complex::power(z, 2) + p;
         iterations++;
     }
-    return iterations;
+    return {z, iterations};
 }
 
 int Mandelbrot::getMaxIterations(){

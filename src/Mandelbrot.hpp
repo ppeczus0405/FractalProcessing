@@ -2,11 +2,13 @@
 #define MANDELBROT_HEADER
 
 #include "Complex.hpp"
+#include <utility>
+using namespace std;
 
 class Mandelbrot
 {
     public:
-        static int getIterations(Complex p);
+        static pair<Complex, int> getIterations(Complex p);
         static int getMaxIterations();
         static void setMaxIterations(int iterNumber);
     private:
