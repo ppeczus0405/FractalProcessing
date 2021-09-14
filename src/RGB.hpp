@@ -31,7 +31,7 @@ class RGB
         }
 
         friend ostream& operator<<(ostream & stream, const RGB &color){
-            stream << "RGB(" << color.r << ", " << color.g << ", " << color.b << ")";
+            stream << "RGB(" << (int)color.r << ", " << (int)color.g << ", " << (int)color.b << ")";
             return stream;
         }
 

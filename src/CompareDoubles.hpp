@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-constexpr double EPSILON = 1e-6;
+constexpr double EPSILON = 1e-7;
 
 class CompareDoubles
 {

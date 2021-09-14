@@ -11,7 +11,7 @@ Bitmap::Bitmap(int width, int height) :
 
 void Bitmap::setPixel(int x, int y, uint8_t red, uint8_t green, uint8_t blue){
     if(x < 1 || x > m_width || y < 1 || y > m_height){
-        throw new invalid_argument("Can't set pixel. Pixel coordinates out of bound");
+        throw new out_of_range("Can't set pixel. Pixel coordinates out of range");
     }
     x--; y--;
     int ind = y * m_width * 3 + x * 3;

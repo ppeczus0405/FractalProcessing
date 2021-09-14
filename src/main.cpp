@@ -8,7 +8,7 @@
 #include "Complex.hpp"
 #include "Scale.hpp"
 #include "Mandelbrot.hpp"
-#include "GradientGenerator.hpp"
+#include "Gradient.hpp"
 #include "spline.hpp"
 using namespace std;
 
@@ -74,6 +74,7 @@ void on_app_activate()
 
 int main(int argc, char** argv)
 {
+    /*
     const int MAP_SIZE = 2048;
     vector <pair <double, RGB> > gradient;
     gradient.push_back({0.0, {0, 7, 100}});
@@ -81,8 +82,25 @@ int main(int argc, char** argv)
     gradient.push_back({0.42, {237, 255, 255}});
     gradient.push_back({0.6425, {255, 170, 0}});
     gradient.push_back({0.8575, {0, 2, 0}});
+    gradient.push_back({1.0, {0, 5, 97}});
     auto colors = GradientGenerator::generateGradientMap(gradient, MAP_SIZE);
-    
+    */
+
+    const int MAP_SIZE = 2048;
+    Gradient gradient;
+    gradient.insertPoint(1.0, {44, 54, 97});
+    gradient.insertPoint(0.0, {22, 72, 100});
+    gradient.insertPoint(0.6425, {255, 170, 55});
+    gradient.insertPoint(0.8575, {113, 132, 102});
+    gradient.insertPoint(0.16, {107, 202, 241});
+    gradient.insertPoint(0.42, {237, 255, 255});
+    auto points = gradient.getPoints();
+    for(const auto &p : points){
+        cout << "(" << p.first << ", " << p.second << ")" << endl;
+    }
+    auto colors = gradient.generateGradientMap(MAP_SIZE);
+    gradient.write("testujemy.bmp");
+
     /*
     Bitmap b(MAP_SIZE, MAP_SIZE);
     for(int i = 1; i <= MAP_SIZE; i++){
@@ -90,14 +108,14 @@ int main(int argc, char** argv)
         uint8_t gg = colors[i - 1].getG();
         uint8_t bb = colors[i - 1].getB();
         cout << i << " -> (" << (int)rr << ", " << (int)gg << ", " << (int)bb << ")" << endl;
-        for(int j = 1; j <= MAP_SIZ);E; j++){
+        for(int j = 1; j <= MAP_SIZE; j++){
             b.setPixel(i, j, rr, gg, bb);
         }
     }
     b.write("test_gradient.bmp");
     */
-    
-    const int d = 10024;
+
+    const int d = 1024;
     Bitmap b(d, d);
     Scale s(d, d, -0.957f, -0.893f, 0.234f, 0.298f);
     Mandelbrot::setMaxIterations(250);
@@ -119,7 +137,8 @@ int main(int argc, char** argv)
             b.setPixel(i, j, rr, gg, bb);
         }
     }
-    b.write("test.bmp");
+    b.write("test3.bmp");
+
     /*
     app = Gtk::Application::create("org.gtkmm.example");
     app->signal_activate().connect([] () { on_app_activate(); });
