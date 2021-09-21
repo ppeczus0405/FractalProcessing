@@ -2,9 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#include "BitmapFileHeader.hpp"
-#include "BitmapInfoHeader.hpp"
-#include "Bitmap.hpp"
+#include <Image.hpp>
 #include "Complex.hpp"
 #include "Scale.hpp"
 #include "Mandelbrot.hpp"
@@ -87,19 +85,19 @@ int main(int argc, char** argv)
     */
 
     const int MAP_SIZE = 2048;
-    Gradient gradient;
-    gradient.insertPoint(1.0, {44, 54, 97});
-    gradient.insertPoint(0.0, {22, 72, 100});
-    gradient.insertPoint(0.6425, {255, 170, 55});
-    gradient.insertPoint(0.8575, {113, 132, 102});
-    gradient.insertPoint(0.16, {107, 202, 241});
-    gradient.insertPoint(0.42, {237, 255, 255});
+    PekiProcessing::Gradient gradient;
+    gradient.insertPoint(0.0, {0, 7, 100});
+    gradient.insertPoint(0.16, {32, 107, 203});
+    gradient.insertPoint(0.42, {0, 5, 97});
+    gradient.insertPoint(0.6425, {255, 170, 255});
+    gradient.insertPoint(0.8575, {0, 2, 0});
+    gradient.insertPoint(1.0, {0, 5, 97});
     auto points = gradient.getPoints();
     for(const auto &p : points){
         cout << "(" << p.first << ", " << p.second << ")" << endl;
     }
     auto colors = gradient.generateGradientMap(MAP_SIZE);
-    gradient.write("testujemy.bmp");
+    gradient.write("testujemy");
 
     /*
     Bitmap b(MAP_SIZE, MAP_SIZE);
@@ -116,8 +114,8 @@ int main(int argc, char** argv)
     */
 
     const int d = 1024;
-    Bitmap b(d, d);
-    Scale s(d, d, -0.957f, -0.893f, 0.234f, 0.298f);
+    PekiProcessing::Image b(d, d);
+    Scale s(d, d, -1.5f, 0.5f, -1.0f, 1.0f);
     Mandelbrot::setMaxIterations(250);
     for(int i = 1; i <= d; i++){
         for(int j = 1; j <= d; j++){
@@ -126,18 +124,16 @@ int main(int argc, char** argv)
             Complex c(result.first, result.second);
             auto end = Mandelbrot::getIterations(c);
             int iter = end.second;
-            uint8_t rr = 0, gg = 0, bb = 0;
+            RGB pixel;
             if(iter < Mandelbrot::getMaxIterations()){
                 double smoothed = log2(log2(Complex::absolute_square(end.first)) / 2);
                 int colorI = (int)(sqrt(iter + 10 - smoothed) * 256) % MAP_SIZE;
-                rr = colors[colorI].getR();
-                gg = colors[colorI].getG();
-                bb = colors[colorI].getB();
+                pixel = colors[colorI];
             }
-            b.setPixel(i, j, rr, gg, bb);
+            b.setPixel(i, j, pixel);
         }
     }
-    b.write("test3.bmp");
+    b.write("test2");
 
     /*
     app = Gtk::Application::create("org.gtkmm.example");

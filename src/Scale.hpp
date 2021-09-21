@@ -2,7 +2,6 @@
 #define SCALING_HEADER
 
 #include <utility>
-#include <iostream>
 #include "CompareDoubles.hpp"
 using namespace std;
 

@@ -2,7 +2,7 @@
 #include <functional>
 #include "Gradient.hpp"
 #include "CompareDoubles.hpp"
-#include "Bitmap.hpp"
+using namespace PekiProcessing;
 
 Gradient::Gradient(const double x, const RGB &color) : 
     grad_points(1, {x, color}) 
@@ -119,14 +119,13 @@ bool Gradient::write(string filename, int w, int h){
     if(w <= 0 || h <= 0)
         return false;
     auto colors = generateGradientMap(w); 
-    Bitmap b(w, h);
+    Image gradientImage(w, h);
     for(int i = 0; i < w; i++){
         for(int j = 0; j < h; j++){
-            b.setPixel(i + 1, j + 1,
-                       colors[i].getR(), colors[i].getG(), colors[i].getB());
+            gradientImage.setPixel(i + 1, j + 1, colors[i]);
         }
     }
-    return b.write(filename);
+    return gradientImage.write(filename);
 }
 
 
