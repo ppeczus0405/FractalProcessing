@@ -9,10 +9,10 @@ class Scale
 {
     private:
         int baseWidth, baseHeight;
-        double widthMin, widthMax, wratio;
-        double heightMin, heightMax, hratio;
+        long double widthMin, widthMax, wratio;
+        long double heightMin, heightMax, hratio;
     public:
-        Scale(int baseW, int baseH, double widthm, double widthM, double heightm, double heightM)
+        Scale(int baseW, int baseH, long double widthm, long double widthM, long double heightm, long double heightM)
              : baseWidth(baseW), baseHeight(baseH),
                widthMin(widthm), widthMax(widthM),
                heightMin(heightm), heightMax(heightM)
@@ -35,7 +35,7 @@ class Scale
             hratio = (heightMax - heightMin) / (baseHeight - 1);
         }
         
-        pair <double, double> to_scale(int x, int y){
+        pair <long double, long double> to_scale(int x, int y){
             if(x < 1 || x > baseWidth){
                 string error_message = "Error: Can't scale pixel. Reason: " + to_string(x) + "is not in range [1, ";
                 error_message.append(to_string(baseWidth) + "]");

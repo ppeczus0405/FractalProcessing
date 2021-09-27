@@ -3,7 +3,7 @@
 #include <utility>
 #include <cmath>
 
-Complex::Complex(double real_v, double imaginary_v) : real(real_v), imaginary(imaginary_v) { }
+Complex::Complex(long double real_v, long double imaginary_v) : real(real_v), imaginary(imaginary_v) { }
 
 Complex::Complex(const Complex & toCopy){
     *this = toCopy;
@@ -38,28 +38,33 @@ Complex Complex::conjugate(const Complex &c){
     return Complex(c.real, -c.imaginary);
 }
 
-double Complex::absolute(const Complex &c){
+long double Complex::absolute(const Complex &c){
     return sqrt(Complex::absolute_square(c));
 }
 
-double Complex::absolute_square(const Complex &c){
+long double Complex::absolute_square(const Complex &c){
     return c.real * c.real + c.imaginary * c.imaginary;
 }
 
-double Complex::getReal() const noexcept{
+long double Complex::getReal() const noexcept{
     return real;
 }
 
-double Complex::getImaginary() const noexcept{
+long double Complex::getImaginary() const noexcept{
     return imaginary;
 }
 
-void Complex::setReal(double value){
+void Complex::setReal(long double value){
     real = value;
 }
 
-void Complex::setImaginary(double value){
+void Complex::setImaginary(long double value){
     imaginary = value;
+}
+
+bool Complex::operator==(const Complex &c){
+    return CompareDoubles::isEqual(this->real, c.real) && 
+           CompareDoubles::isEqual(this->imaginary, c.imaginary);
 }
 
 Complex & Complex::operator=(const Complex &c){
@@ -89,16 +94,16 @@ Complex & Complex::operator-=(const Complex &c){
 }
 
 Complex Complex::operator*(const Complex &c){
-    double real_result = this->real * c.real - this->imaginary * c.imaginary;
-    double imaginary_result = this->real * c.imaginary + this->imaginary * c.real; 
+    long double real_result = this->real * c.real - this->imaginary * c.imaginary;
+    long double imaginary_result = this->real * c.imaginary + this->imaginary * c.real; 
     return Complex(real_result, imaginary_result);
 }
 
-Complex Complex::operator*(const double a){
+Complex Complex::operator*(const long double a){
     return Complex(a * this->real, a * this->imaginary);
 }
 
-Complex & Complex::operator*=(const double a){
+Complex & Complex::operator*=(const long double a){
     return *this = *this * a;
 }
 
@@ -107,8 +112,8 @@ Complex & Complex::operator*=(const Complex &c){
 }
 
 Complex Complex::operator/(const Complex &c){
-    bool realCompare = CompareDoubles::isEqual(c.real, 0.0f);
-    bool imagCompare = CompareDoubles::isEqual(c.imaginary, 0.0f);
+    bool realCompare = CompareDoubles::isEqual(c.real, 0.0L);
+    bool imagCompare = CompareDoubles::isEqual(c.imaginary, 0.0L);
     if(realCompare && imagCompare){
         throw new std::invalid_argument("Cannot divide by 0");
     }
@@ -118,20 +123,20 @@ Complex Complex::operator/(const Complex &c){
     else if(!realCompare && imagCompare){
         return *this / c.real;
     }
-    double real_result = this->real * c.real + this->imaginary * c.imaginary;
-    double imag_result = this->imaginary * c.real - this->real * c.imaginary;
-    double abs_square = Complex::absolute_square(c);
+    long double real_result = this->real * c.real + this->imaginary * c.imaginary;
+    long double imag_result = this->imaginary * c.real - this->real * c.imaginary;
+    long double abs_square = Complex::absolute_square(c);
     return Complex(real_result / abs_square, imag_result / abs_square);
 }
 
-Complex Complex::operator/(const double a){
-    if(CompareDoubles::isEqual(a, 0.0f)){
+Complex Complex::operator/(const long double a){
+    if(CompareDoubles::isEqual(a, 0.0L)){
         throw new std::invalid_argument("Cannot divide by 0");
     }
     return Complex(this->real / a, this->imaginary / a);
 }
 
-Complex & Complex::operator/=(const double a){
+Complex & Complex::operator/=(const long double a){
     return *this = *this / a;
 }
 

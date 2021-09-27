@@ -6,23 +6,27 @@ class Complex
 {
     public:
         // Constructors
-        Complex(double real_v, double imaginary_v);
+        Complex() = default;
+        Complex(long double real_v, long double imaginary_v);
         Complex(const Complex & toCopy);
         Complex(Complex && toMove);
 
         // Static useful functions
         static Complex power(const Complex &c, int exponent);
         static Complex conjugate(const Complex &c);
-        static double absolute(const Complex &c);
-        static double absolute_square(const Complex &c);
+        static long double absolute(const Complex &c);
+        static long double absolute_square(const Complex &c);
 
         // Getters
-        double getReal() const noexcept;
-        double getImaginary() const noexcept;
+        long double getReal() const noexcept;
+        long double getImaginary() const noexcept;
 
         // Setters
-        void setReal(double value);
-        void setImaginary(double value);
+        void setReal(long double value);
+        void setImaginary(long double value);
+
+        // Comparing
+        bool operator==(const Complex &c);
 
         // Copy / Move
         Complex & operator=(const Complex &c);
@@ -38,19 +42,19 @@ class Complex
 
         // Multiplication
         Complex operator*(const Complex &c);
-        Complex operator*(const double a); // Scalar
-        Complex & operator*=(const double a); // Scalar
+        Complex operator*(const long double a); // Scalar
+        Complex & operator*=(const long double a); // Scalar
         Complex & operator*=(const Complex &c);
 
         // Division
         Complex operator/(const Complex &c);
-        Complex operator/(const double a); // Scalar
-        Complex & operator/=(const double a); // Scalar
+        Complex operator/(const long double a); // Scalar
+        Complex & operator/=(const long double a); // Scalar
         Complex & operator/=(const Complex &c);
 
         friend std::ostream & operator<<(std::ostream &stream, const Complex &c);
     private:
-        double real, imaginary;
+        long double real = 0.0f, imaginary = 0.0f;
 
 };
 

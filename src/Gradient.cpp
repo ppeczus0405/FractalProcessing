@@ -82,9 +82,7 @@ vector <pair <double, RGB> > Gradient::getPoints() noexcept
 vector<RGB> Gradient::generateGradientMap(int map_size)
 {
     // Can't generate map with negative size
-    if(map_size < 0){
-        throw new invalid_argument("Gradient map size can't be negative");
-    }
+    assert(map_size >= 0);
     // Base case if user want just empty gradient map
     if(map_size == 0){
         return vector<RGB>();

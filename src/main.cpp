@@ -5,9 +5,9 @@
 #include <Image.hpp>
 #include "Complex.hpp"
 #include "Scale.hpp"
-#include "Mandelbrot.hpp"
 #include "Gradient.hpp"
 #include "spline.hpp"
+#include "FractalAlgorithmCreator.hpp"
 using namespace std;
 
 Gtk::Window *pWindow = nullptr;
@@ -84,12 +84,13 @@ int main(int argc, char** argv)
     auto colors = GradientGenerator::generateGradientMap(gradient, MAP_SIZE);
     */
 
+    /*
     const int MAP_SIZE = 2048;
     PekiProcessing::Gradient gradient;
     gradient.insertPoint(0.0, {0, 7, 100});
     gradient.insertPoint(0.16, {32, 107, 203});
-    gradient.insertPoint(0.42, {0, 5, 97});
-    gradient.insertPoint(0.6425, {255, 170, 255});
+    gradient.insertPoint(0.20, {237, 255, 255});
+    gradient.insertPoint(0.6425, {255, 170, 0});
     gradient.insertPoint(0.8575, {0, 2, 0});
     gradient.insertPoint(1.0, {0, 5, 97});
     auto points = gradient.getPoints();
@@ -98,6 +99,7 @@ int main(int argc, char** argv)
     }
     auto colors = gradient.generateGradientMap(MAP_SIZE);
     gradient.write("testujemy");
+    */
 
     /*
     Bitmap b(MAP_SIZE, MAP_SIZE);
@@ -112,21 +114,22 @@ int main(int argc, char** argv)
     }
     b.write("test_gradient.bmp");
     */
-
-    const int d = 1024;
+    
+    /*
+    const int d = 512;
     PekiProcessing::Image b(d, d);
-    Scale s(d, d, -1.5f, 0.5f, -1.0f, 1.0f);
-    Mandelbrot::setMaxIterations(250);
+    Scale s(d, d, -2.0, 2.0, -2.0, 2.0);
+    auto fractal = FractalAlgorithmCreator::createPolynomialJuliaSet(3);
     for(int i = 1; i <= d; i++){
         for(int j = 1; j <= d; j++){
             auto result = s.to_scale(i, j);
             //cout << "(" << i << ", " << j << ") ---> (" << result.first << ", " << result.second << ")" << endl;
             Complex c(result.first, result.second);
-            auto end = Mandelbrot::getIterations(c);
-            int iter = end.second;
+            auto end = fractal->getIterations(c);
+            int iter = end.first;
             RGB pixel;
-            if(iter < Mandelbrot::getMaxIterations()){
-                double smoothed = log2(log2(Complex::absolute_square(end.first)) / 2);
+            if(iter < fractal->getMaxIterationsNumber()){
+                long double smoothed = log2(log2(Complex::absolute_square(end.second)) / 2);
                 int colorI = (int)(sqrt(iter + 10 - smoothed) * 256) % MAP_SIZE;
                 pixel = colors[colorI];
             }
@@ -134,6 +137,7 @@ int main(int argc, char** argv)
         }
     }
     b.write("test2");
+    */
 
     /*
     app = Gtk::Application::create("org.gtkmm.example");

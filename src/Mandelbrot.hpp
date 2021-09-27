@@ -2,18 +2,20 @@
 #define MANDELBROT_HEADER
 
 #include "Complex.hpp"
+#include "CompareDoubles.hpp"
+#include "FractalAlgorithm.hpp"
 #include <utility>
 using namespace std;
 
-class Mandelbrot
+class Mandelbrot : public FractalAlgorithm
 {
     public:
-        static pair<Complex, int> getIterations(Complex p);
-        static int getMaxIterations();
-        static void setMaxIterations(int iterNumber);
+        Mandelbrot() = default;
+        Mandelbrot(const int &exponent); // For Multibrot
+        pair<int, Complex> getIterations(const Complex &c) override;
     private:
-        static int MAX_ITERATIONS;
-        Mandelbrot();
+        // Default value for Mandelbrot set, values other than 2 means Multibrot set
+        int m_exponent = 2; 
 };
 
 #endif // MANDELBROT HEADER
