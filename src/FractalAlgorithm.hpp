@@ -11,13 +11,17 @@ constexpr int MAX_ITERATIONS = 1e4;
 constexpr int MIN_ITERATIONS = 1;
 constexpr int DEFAULT_ITERATIONS = 250;
 
+// Bailouts
+constexpr long double DIVERGENCE_BAILOUT = 1e4;
+constexpr long double CONVERGENCE_BAILOUT = 1e-14;
+
 class FractalAlgorithm
 {
     public:
         FractalAlgorithm() = default;
         
         // Function to get number of iterations and end point using fractal algorithm
-        virtual pair<int, Complex> getIterations(const Complex &c) = 0;
+        virtual pair<int, tuple<Complex, Complex, Complex> > getIterations(const Complex &c) = 0;
         
         inline void setMaxIterationsNumber(int n){
             // We can only change value if it makes sense

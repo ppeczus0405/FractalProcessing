@@ -11,6 +11,10 @@ class Complex
         Complex(const Complex & toCopy);
         Complex(Complex && toMove);
 
+        // Static useful consts
+        static const Complex ZERO;
+        static const Complex ONE;
+
         // Static useful functions
         static Complex power(const Complex &c, int exponent);
         static Complex conjugate(const Complex &c);
@@ -31,6 +35,10 @@ class Complex
         // Copy / Move
         Complex & operator=(const Complex &c);
         Complex & operator=(Complex &&c);
+
+        // Change sign
+        Complex operator-();
+        const Complex operator-() const;
 
         // Addition
         Complex operator+(const Complex &c);
@@ -54,8 +62,7 @@ class Complex
 
         friend std::ostream & operator<<(std::ostream &stream, const Complex &c);
     private:
-        long double real = 0.0f, imaginary = 0.0f;
-
+        long double real = 0.0L, imaginary = 0.0L;
 };
 
 #endif // COMPLEX_HPP

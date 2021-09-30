@@ -3,6 +3,9 @@
 #include <utility>
 #include <cmath>
 
+const Complex Complex::ZERO(0.0L, 0.0L);
+const Complex Complex::ONE(1.0L, 0.0L);
+
 Complex::Complex(long double real_v, long double imaginary_v) : real(real_v), imaginary(imaginary_v) { }
 
 Complex::Complex(const Complex & toCopy){
@@ -15,12 +18,12 @@ Complex::Complex(Complex && toMove){
 
 Complex Complex::power(const Complex &c, int exponent){
     if(exponent == 0){
-        return Complex(1.0, 0.0);
+        return Complex::ONE;
     }
     bool neg_exp = exponent < 0;
     exponent = abs(exponent);
     Complex to_multiply(c);
-    Complex result(1.0, 0.0);
+    Complex result = Complex::ONE;
     while(exponent > 0){
         if(exponent & 1){
             result *= to_multiply;
@@ -60,6 +63,14 @@ void Complex::setReal(long double value){
 
 void Complex::setImaginary(long double value){
     imaginary = value;
+}
+
+Complex Complex::operator-(){
+    return Complex(-this->real, -this->imaginary);
+}
+
+const Complex Complex::operator-() const{
+    return Complex(-this->real, -this->imaginary);
 }
 
 bool Complex::operator==(const Complex &c){

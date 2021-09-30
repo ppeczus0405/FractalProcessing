@@ -4,6 +4,7 @@
 #include "FractalAlgorithm.hpp"
 #include "Mandelbrot.hpp"
 #include "JuliaSet.hpp"
+#include "Newton.hpp"
 
 class FractalAlgorithmCreator
 {
@@ -31,7 +32,7 @@ class FractalAlgorithmCreator
             return make_unique<JuliaSet>(incremenation);
         }
 
-        static unique_ptr<FractalAlgorithm> createJuliaSet(Complex &&incremenation){
+        static unique_ptr<FractalAlgorithm> createJuliaSet(Complex&& incremenation){
             return make_unique<JuliaSet>(move(incremenation));
         }
 
@@ -43,6 +44,56 @@ class FractalAlgorithmCreator
         template <typename T, typename U>
         static unique_ptr<FractalAlgorithm> createPolynomialJuliaSet(T&& exponent, U&& incrementation){
             return make_unique<JuliaSet>(forward<T>(exponent), forward<U>(incrementation));
+        }
+
+        // Newton Fractal
+        static unique_ptr<FractalAlgorithm> createNewton(){
+            return make_unique<Newton>();
+        }
+
+        template <typename T>
+        static unique_ptr<FractalAlgorithm> createNewton(T&& polynomial){
+            return make_unique<Newton>(forward<T>(polynomial));
+        }
+
+        template <typename T>
+        static unique_ptr<FractalAlgorithm> createNewton(T&& polynomial, const Complex &relaxation){
+            return make_unique<Newton>(forward<T>(polynomial), relaxation);
+        }
+
+        template <typename T>
+        static unique_ptr<FractalAlgorithm> createNewton(T&& polynomial, Complex&& relaxation){
+            return make_unique<Newton>(forward<T>(polynomial), move(relaxation));
+        }
+
+        // Nova Fractal
+        static unique_ptr<FractalAlgorithm> createNova(){
+            return make_unique<Newton>(true);
+        }
+
+        template <typename T>
+        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial){
+            return make_unique<Newton>(forward<T>(polynomial), true);
+        }
+
+        template <typename T>
+        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, const Complex &relaxation){
+            return make_unique<Newton>(forward<T>(polynomial), relaxation, true);
+        }
+
+        template <typename T>
+        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, Complex&& relaxation){
+            return make_unique<Newton>(forward<T>(polynomial), move(relaxation), true);
+        }
+
+        template <typename T, typename U>
+        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, U&& relaxation, const Complex &incrementation){
+            return make_unique<Newton>(forward<T>(polynomial), forward<U>(relaxation), incrementation);
+        }
+
+        template <typename T, typename U>
+        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, U&& relaxation, Complex&& incrementation){
+            return make_unique<Newton>(forward<T>(polynomial), forward<U>(relaxation), move(incrementation));
         }
 };
 

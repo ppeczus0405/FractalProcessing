@@ -12,7 +12,7 @@ class Mandelbrot : public FractalAlgorithm
     public:
         Mandelbrot() = default;
         Mandelbrot(const int &exponent); // For Multibrot
-        pair<int, Complex> getIterations(const Complex &c) override;
+        pair<int, tuple<Complex, Complex, Complex> > getIterations(const Complex &c) override;
     private:
         // Default value for Mandelbrot set, values other than 2 means Multibrot set
         int m_exponent = 2; 

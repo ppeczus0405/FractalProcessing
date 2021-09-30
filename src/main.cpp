@@ -72,6 +72,12 @@ void on_app_activate()
 
 int main(int argc, char** argv)
 {
+    // FractalAlgorithm *fract = new Newton();
+    // cout << fract->getIterations({2L, 3L}).second << endl;
+    // cout << fract->getIterations({7L, -2L}).second << endl;
+    // cout << fract->getIterations(Complex::ONE).second << endl;
+    // cout << fract->getIterations({4L, 0L}).second << endl;
+
     /*
     const int MAP_SIZE = 2048;
     vector <pair <double, RGB> > gradient;
@@ -84,8 +90,7 @@ int main(int argc, char** argv)
     auto colors = GradientGenerator::generateGradientMap(gradient, MAP_SIZE);
     */
 
-    /*
-    const int MAP_SIZE = 2048;
+    const int MAP_SIZE = 512;
     PekiProcessing::Gradient gradient;
     gradient.insertPoint(0.0, {0, 7, 100});
     gradient.insertPoint(0.16, {32, 107, 203});
@@ -99,8 +104,6 @@ int main(int argc, char** argv)
     }
     auto colors = gradient.generateGradientMap(MAP_SIZE);
     gradient.write("testujemy");
-    */
-
     /*
     Bitmap b(MAP_SIZE, MAP_SIZE);
     for(int i = 1; i <= MAP_SIZE; i++){
@@ -114,22 +117,20 @@ int main(int argc, char** argv)
     }
     b.write("test_gradient.bmp");
     */
-    
-    /*
-    const int d = 512;
+    const int d = 2048;
     PekiProcessing::Image b(d, d);
-    Scale s(d, d, -2.0, 2.0, -2.0, 2.0);
-    auto fractal = FractalAlgorithmCreator::createPolynomialJuliaSet(3);
+    Scale s(d, d, -2.0L, 1.2L, -1.2L, 0.7L);
+    unique_ptr<FractalAlgorithm> fractal = FractalAlgorithmCreator::createJuliaSet(Complex(-0.7269L, 0.1889L));
+    fractal->setMaxIterationsNumber(250);
     for(int i = 1; i <= d; i++){
         for(int j = 1; j <= d; j++){
             auto result = s.to_scale(i, j);
-            //cout << "(" << i << ", " << j << ") ---> (" << result.first << ", " << result.second << ")" << endl;
             Complex c(result.first, result.second);
             auto end = fractal->getIterations(c);
             int iter = end.first;
             RGB pixel;
-            if(iter < fractal->getMaxIterationsNumber()){
-                long double smoothed = log2(log2(Complex::absolute_square(end.second)) / 2);
+            if(iter > -1 && iter < fractal->getMaxIterationsNumber()){
+                long double smoothed = log2(log2(Complex::absolute_square(get<2>(end.second))) / 2);
                 int colorI = (int)(sqrt(iter + 10 - smoothed) * 256) % MAP_SIZE;
                 pixel = colors[colorI];
             }
@@ -137,8 +138,6 @@ int main(int argc, char** argv)
         }
     }
     b.write("test2");
-    */
-
     /*
     app = Gtk::Application::create("org.gtkmm.example");
     app->signal_activate().connect([] () { on_app_activate(); });
