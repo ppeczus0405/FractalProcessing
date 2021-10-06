@@ -5,7 +5,7 @@ Mandelbrot::Mandelbrot(const int &exponent) : m_exponent(exponent){
     assert(exponent >= 1);
 }
 
-pair<int, tuple<Complex, Complex, Complex> > Mandelbrot::getIterations(const Complex &c)
+pair<int, tuple<Complex, Complex, Complex> > Mandelbrot::getIterationsAndOrbit(const Complex &c)
 {
     int iterations = 0;
     tuple <Complex, Complex, Complex> three_orbit(c, c, c);

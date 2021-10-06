@@ -8,6 +8,7 @@
 #include "Gradient.hpp"
 #include "spline.hpp"
 #include "FractalAlgorithmCreator.hpp"
+#include "FractalColoringCreator.hpp"
 using namespace std;
 
 Gtk::Window *pWindow = nullptr;
@@ -89,21 +90,21 @@ int main(int argc, char** argv)
     gradient.push_back({1.0, {0, 5, 97}});
     auto colors = GradientGenerator::generateGradientMap(gradient, MAP_SIZE);
     */
-
+    
     const int MAP_SIZE = 512;
     PekiProcessing::Gradient gradient;
     gradient.insertPoint(0.0, {0, 7, 100});
     gradient.insertPoint(0.16, {32, 107, 203});
-    gradient.insertPoint(0.20, {237, 255, 255});
+    gradient.insertPoint(0.42, {237, 255, 255});
     gradient.insertPoint(0.6425, {255, 170, 0});
     gradient.insertPoint(0.8575, {0, 2, 0});
-    gradient.insertPoint(1.0, {0, 5, 97});
     auto points = gradient.getPoints();
     for(const auto &p : points){
         cout << "(" << p.first << ", " << p.second << ")" << endl;
     }
     auto colors = gradient.generateGradientMap(MAP_SIZE);
     gradient.write("testujemy");
+
     /*
     Bitmap b(MAP_SIZE, MAP_SIZE);
     for(int i = 1; i <= MAP_SIZE; i++){
@@ -117,27 +118,24 @@ int main(int argc, char** argv)
     }
     b.write("test_gradient.bmp");
     */
+    
     const int d = 2048;
     PekiProcessing::Image b(d, d);
-    Scale s(d, d, -2.0L, 1.2L, -1.2L, 0.7L);
-    unique_ptr<FractalAlgorithm> fractal = FractalAlgorithmCreator::createJuliaSet(Complex(-0.7269L, 0.1889L));
-    fractal->setMaxIterationsNumber(250);
+    Scale s(d, d, -2.8L, 2.8L, -2.1L, 2.1L);
+    vector <Complex> poly{{-5.0L, 0.0L}, {32.0L, 7.0L}, {1.0L, 2.0L}, {3.0L, -2.0L}, Complex::ONE, Complex::ZERO, {-10.0L, 0.0L}};
+    unique_ptr<FractalAlgorithm> fractal = FractalAlgorithmCreator::createNewton(poly);
+    fractal->setMaxIterationsNumber(35);
+    unique_ptr<FractalColoring> fcolor = 
+        FractalColoringCreator::createSmoothConvergence(fractal->getMaxIterationsNumber(), 6, CONVERGENCE_BAILOUT, gradient);
     for(int i = 1; i <= d; i++){
         for(int j = 1; j <= d; j++){
             auto result = s.to_scale(i, j);
             Complex c(result.first, result.second);
-            auto end = fractal->getIterations(c);
-            int iter = end.first;
-            RGB pixel;
-            if(iter > -1 && iter < fractal->getMaxIterationsNumber()){
-                long double smoothed = log2(log2(Complex::absolute_square(get<2>(end.second))) / 2);
-                int colorI = (int)(sqrt(iter + 10 - smoothed) * 256) % MAP_SIZE;
-                pixel = colors[colorI];
-            }
-            b.setPixel(i, j, pixel);
+            b.setPixel(i, j, fcolor->getPixel(fractal->getIterationsAndOrbit(c)));
         }
     }
     b.write("test2");
+
     /*
     app = Gtk::Application::create("org.gtkmm.example");
     app->signal_activate().connect([] () { on_app_activate(); });

@@ -21,7 +21,7 @@ class Newton : public FractalAlgorithm
         static const Complex NEUTRAL_INCREMENT;
         static const Complex NEUTRAL_RELAXATION;
 
-        pair <int, tuple <Complex, Complex, Complex> > getIterations(const Complex &c) override;
+        pair <int, tuple <Complex, Complex, Complex> > getIterationsAndOrbit(const Complex &c) override;
 
     private:
         function<Complex(Complex)> f = nullptr;

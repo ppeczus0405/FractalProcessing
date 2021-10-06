@@ -23,6 +23,8 @@ namespace PekiProcessing
             Gradient(const double x, const RGB &color);
             Gradient(const vector < pair <double, RGB> > &gradient_points);
             
+            static const Gradient WHITE_BLACK;
+
             bool insertPoint(const double x, const RGB &color);
             bool changePoint(const double x, const RGB &color);
             bool isPointInside(const double x) noexcept;

@@ -78,7 +78,7 @@ function<Complex(Complex)> Newton::createPolynomialFunction(const vector <Comple
     return func;
 }
 
-pair <int, tuple <Complex, Complex, Complex> > Newton::getIterations(const Complex &c){
+pair <int, tuple <Complex, Complex, Complex> > Newton::getIterationsAndOrbit(const Complex &c){
     auto nextIter = [&](Complex z){
         Complex dx_value = fdx(z);
         if(dx_value == Complex::ZERO)
@@ -96,8 +96,8 @@ pair <int, tuple <Complex, Complex, Complex> > Newton::getIterations(const Compl
     while(notEnd && iters < max_iter){
         auto next = nextIter(get<2>(three_orbit));
         // Encounter case when derivative is equal to zero 
-        if(!next.first) return make_pair(-1, three_orbit);
-        
+        if(!next.first) 
+            return make_pair(-1, three_orbit);
         get<0>(three_orbit) = get<1>(three_orbit);
         get<1>(three_orbit) = get<2>(three_orbit);
         get<2>(three_orbit) = next.second;

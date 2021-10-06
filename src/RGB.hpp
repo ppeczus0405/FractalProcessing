@@ -11,6 +11,8 @@ class RGB
         RGB() : r(0), g(0), b(0) { }
         RGB(uint8_t R, uint8_t G, uint8_t B) : r(R), g(G), b(B) { }
         
+        const static RGB WHITE, GRAY, BLACK, RED, GREEN, BLUE;
+
         uint8_t getR() const{
             return r;
         }

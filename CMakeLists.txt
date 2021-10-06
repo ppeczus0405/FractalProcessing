@@ -20,7 +20,8 @@ set(HEADERS ${HEADERS_DIR}/Complex.hpp ${HEADERS_DIR}/CompareDoubles.hpp ${HEADE
             ${HEADERS_DIR}/Scale.hpp ${HEADERS_DIR}/spline.hpp ${HEADERS_DIR}/RGB.hpp ${HEADERS_DIR}/Gradient.hpp
             ${HEADERS_DIR}/ImageSaver.hpp ${HEADERS_DIR}/Image.hpp ${SOURCE_DIR}/JuliaSet.hpp 
             ${HEADERS_DIR}/FractalAlgorithm.hpp ${HEADERS_DIR}/FractalAlgorithmCreator.hpp ${HEADERS_DIR}/Newton.hpp
-            ${HEADERS_DIR}/FractalColoring.hpp)
+            ${HEADERS_DIR}/FractalColoring.hpp ${HEADERS_DIR}/FractalColoringCreator.hpp ${HEADERS_DIR}/SmoothConvergence.hpp
+            ${HEADERS_DIR}/SmoothDivergence.hpp)
 
 add_executable(main ${SOURCE} ${HEADERS})
 add_definitions( -DMAGICKCORE_QUANTUM_DEPTH=16 )
