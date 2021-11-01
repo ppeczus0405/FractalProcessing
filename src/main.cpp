@@ -91,7 +91,7 @@ int main(int argc, char** argv)
     auto colors = GradientGenerator::generateGradientMap(gradient, MAP_SIZE);
     */
     
-    const int MAP_SIZE = 512;
+    const int MAP_SIZE = 1024;
     PekiProcessing::Gradient gradient;
     gradient.insertPoint(0.0, {0, 7, 100});
     gradient.insertPoint(0.16, {32, 107, 203});
@@ -119,12 +119,21 @@ int main(int argc, char** argv)
     b.write("test_gradient.bmp");
     */
     
-    const int d = 2048;
+    /*
+
+    const int d = 512;
     PekiProcessing::Image b(d, d);
-    Scale s(d, d, -2.8L, 2.8L, -2.1L, 2.1L);
-    vector <Complex> poly{{-5.0L, 0.0L}, {32.0L, 7.0L}, {1.0L, 2.0L}, {3.0L, -2.0L}, Complex::ONE, Complex::ZERO, {-10.0L, 0.0L}};
-    unique_ptr<FractalAlgorithm> fractal = FractalAlgorithmCreator::createNewton(poly);
-    fractal->setMaxIterationsNumber(35);
+    //Scale s(d, d, -1.7L, 0.5L, -1.0L, 1.0L);
+    //Scale s(d, d, -2.8L, 2.8L, -2.1L, 2.1L);
+    Scale s(d, d, -2.0L, 2.0L, -1.5L, 1.5L);
+    //vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex::ZERO, -Complex::ONE};
+    vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex(-2.0L, 0.0L), Complex(2.0L, 0.0L)};
+    //vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex::ZERO, Complex::ZERO, 
+    //                         Complex(3.0L, 0.0L), Complex::ZERO, Complex::ZERO, Complex::ZERO, Complex(-4.0L, 0.0L)};
+    //vector <Complex> poly = {Complex::ONE, Complex(2.0L, 0.0L), Complex(3.0L, 1.0L), Complex::ZERO, Complex::ZERO, -Complex::ONE};
+    //vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex(-2.0L, 0.2L)};
+    unique_ptr<FractalAlgorithm> fractal = FractalAlgorithmCreator::createNewton(poly, Complex(1.01L, 0.0L));
+    fractal->setMaxIterationsNumber(45);
     unique_ptr<FractalColoring> fcolor = 
         FractalColoringCreator::createSmoothConvergence(fractal->getMaxIterationsNumber(), 6, CONVERGENCE_BAILOUT, gradient);
     for(int i = 1; i <= d; i++){
@@ -134,8 +143,11 @@ int main(int argc, char** argv)
             b.setPixel(i, j, fcolor->getPixel(fractal->getIterationsAndOrbit(c)));
         }
     }
-    b.write("test2");
+    b.write("test1");
 
+    */
+
+   
     /*
     app = Gtk::Application::create("org.gtkmm.example");
     app->signal_activate().connect([] () { on_app_activate(); });

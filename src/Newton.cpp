@@ -2,49 +2,27 @@
 #include "CompareDoubles.hpp"
 #include <ranges>
 
-const Complex Newton::NEUTRAL_INCREMENT = Complex::ZERO;
-const Complex Newton::NEUTRAL_RELAXATION = Complex::ONE;
-
 // Newton constructors
-Newton::Newton() : pixel_as_inc(false)
+Newton::Newton(bool nova, bool pixstart) : is_nova(nova), pixel_start(pixstart)
 {
     // z^3 - 1 = 0
     m_polynomial = {Complex::ONE, Complex::ZERO, Complex::ZERO, -Complex::ONE};
     initialize_functions();
 }
 
-Newton::Newton(const vector <Complex> &polynomial) : m_polynomial(polynomial), pixel_as_inc(false)
+Newton::Newton(const vector <Complex> &polynomial, bool nova, bool pixstart) : m_polynomial(polynomial), is_nova(nova), pixel_start(pixstart)
 {
     initialize_functions();
 }
 
-Newton::Newton(const vector <Complex> &polynomial, const Complex &relaxation) : 
-               m_polynomial(polynomial), relax(relaxation), pixel_as_inc(false)
+Newton::Newton(const vector <Complex> &polynomial, const Complex &relaxation, bool nova, bool pixstart) : 
+               m_polynomial(polynomial), relax(relaxation), is_nova(nova), pixel_start(pixstart)
 {
     initialize_functions();
 }
 
-// Nova constructors
-Newton::Newton(bool pixelInc) : pixel_as_inc(pixelInc)
-{
-    // z^3 - 1 = 0
-    m_polynomial = {Complex::ONE, Complex::ZERO, Complex::ZERO, -Complex::ONE};
-    initialize_functions();
-}
-
-Newton::Newton(const vector <Complex> &polynomial, bool pixelInc) : m_polynomial(polynomial), pixel_as_inc(pixelInc)
-{
-    initialize_functions();
-}
-
-Newton::Newton(const vector <Complex> &polynomial, const Complex &relaxation, bool pixelInc) :
-               m_polynomial(polynomial), relax(relaxation), pixel_as_inc(pixelInc) 
-{
-    initialize_functions();
-}
-
-Newton::Newton(const vector <Complex> &polynomial, const Complex &relaxation, const Complex &incrementation) :
-               m_polynomial(polynomial), relax(relaxation), inc(incrementation), pixel_as_inc(false)
+Newton::Newton(const vector <Complex> &polynomial, const Complex &relaxation, const Complex &startval) :
+               m_polynomial(polynomial), relax(relaxation), start_value(startval), is_nova(true), pixel_start(false)
 {
     initialize_functions();
 }
@@ -83,7 +61,7 @@ pair <int, tuple <Complex, Complex, Complex> > Newton::getIterationsAndOrbit(con
         Complex dx_value = fdx(z);
         if(dx_value == Complex::ZERO)
             return make_pair(false, Complex::ZERO);
-        return make_pair(true, z - relax * (f(z) / dx_value) + (pixel_as_inc ? c : inc));
+        return make_pair(true, z - relax * (f(z) / dx_value) + (is_nova ? c : Complex::ZERO));
     };
     auto checkEndPoint = [](Complex a, Complex b){
         return Complex::absolute_square(b - a) / max(1.0L, Complex::absolute_square(b)) <= CONVERGENCE_BAILOUT;
@@ -91,8 +69,10 @@ pair <int, tuple <Complex, Complex, Complex> > Newton::getIterationsAndOrbit(con
 
     int iters = 0;
     bool notEnd = true;
-    tuple <Complex, Complex, Complex> three_orbit(c, c, c);
+    Complex z0 = pixel_start ? c : start_value; 
+    tuple <Complex, Complex, Complex> three_orbit(z0, z0, z0);
     
+
     while(notEnd && iters < max_iter){
         auto next = nextIter(get<2>(three_orbit));
         // Encounter case when derivative is equal to zero 

@@ -73,27 +73,32 @@ class FractalAlgorithmCreator
 
         template <typename T>
         static unique_ptr<FractalAlgorithm> createNova(T&& polynomial){
-            return make_unique<Newton>(forward<T>(polynomial), true);
+            return make_unique<Newton>(forward<T>(polynomial), true, false);
         }
 
         template <typename T>
         static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, const Complex &relaxation){
-            return make_unique<Newton>(forward<T>(polynomial), relaxation, true);
+            return make_unique<Newton>(forward<T>(polynomial), relaxation, true, false);
         }
 
         template <typename T>
         static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, Complex&& relaxation){
-            return make_unique<Newton>(forward<T>(polynomial), move(relaxation), true);
+            return make_unique<Newton>(forward<T>(polynomial), move(relaxation), true, false);
         }
 
         template <typename T, typename U>
-        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, U&& relaxation, const Complex &incrementation){
-            return make_unique<Newton>(forward<T>(polynomial), forward<U>(relaxation), incrementation);
+        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, U&& relaxation, const Complex &startval){
+            return make_unique<Newton>(forward<T>(polynomial), forward<U>(relaxation), startval);
         }
 
         template <typename T, typename U>
-        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, U&& relaxation, Complex&& incrementation){
-            return make_unique<Newton>(forward<T>(polynomial), forward<U>(relaxation), move(incrementation));
+        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, U&& relaxation, Complex&& startval){
+            return make_unique<Newton>(forward<T>(polynomial), forward<U>(relaxation), move(startval));
+        }
+
+        template <typename T, typename U>
+        static unique_ptr<FractalAlgorithm> createNova(T&& polynomial, U&& relaxation, const bool pixstart){
+            return make_unique<Newton>(forward<T>(polynomial), forward<U>(relaxation), true, pixstart);
         }
 };
 
