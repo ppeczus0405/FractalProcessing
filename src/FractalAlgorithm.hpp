@@ -9,7 +9,7 @@ using namespace std;
 // Max iterations are limited due to performance
 constexpr int MAX_ITERATIONS = 1e4;
 constexpr int MIN_ITERATIONS = 1;
-constexpr int DEFAULT_ITERATIONS = 50;
+constexpr int DEFAULT_ITERATIONS = 35;
 
 // Bailouts
 constexpr long double DIVERGENCE_BAILOUT = 1e8;

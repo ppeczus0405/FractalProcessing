@@ -1,14 +1,6 @@
 #include <gtkmm.h>
 #include <iostream>
-#include <vector>
-#include <cmath>
-#include <Image.hpp>
-#include "Complex.hpp"
-#include "Scale.hpp"
-#include "Gradient.hpp"
-#include "spline.hpp"
-#include "FractalAlgorithmCreator.hpp"
-#include "FractalColoringCreator.hpp"
+#include "Fractal.hpp"
 using namespace std;
 
 Gtk::Window *pWindow = nullptr;
@@ -90,7 +82,7 @@ int main(int argc, char** argv)
     gradient.push_back({1.0, {0, 5, 97}});
     auto colors = GradientGenerator::generateGradientMap(gradient, MAP_SIZE);
     */
-    
+
     const int MAP_SIZE = 1024;
     PekiProcessing::Gradient gradient;
     gradient.insertPoint(0.0, {0, 7, 100});
@@ -118,8 +110,8 @@ int main(int argc, char** argv)
     }
     b.write("test_gradient.bmp");
     */
-    
 
+    /*
     const int d = 512;
     PekiProcessing::Image b(d, d);
     //Scale s(d, d, -1.7L, 0.5L, -1.0L, 1.0L);
@@ -143,13 +135,14 @@ int main(int argc, char** argv)
         }
     }
     b.write("test1");
-
-
-   
+    */
+    unique_ptr<Fractal> frac = FractalBuilder(512, 512).setAlgorithm(FractalAlgorithmCreator::createNova()).
+                                                        setGradient(gradient).setMaxIterations(150).build();
+    frac->write("bigtest");
     /*
     app = Gtk::Application::create("org.gtkmm.example");
     app->signal_activate().connect([] () { on_app_activate(); });
     return app->run(argc, argv);
     */
-   return 0;
+    return 0;
 }

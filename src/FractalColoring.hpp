@@ -19,60 +19,24 @@ class FractalColoring{
         }
 
     public:
-        FractalColoring(int maxIterations, int exponent, long double bailout) : 
-            FractalColoring(exponent, bailout)
+        FractalColoring(int maxIterations, int exponent, long double bailout, 
+                        int mapSize = DEFAULT_COLOR_MAP_SIZE, unique_ptr<Gradient> gradient = nullptr)
+                            : FractalColoring(exponent, bailout)
         {
-            max_iterations = maxIterations;
-            color_map = m_gradient.generateGradientMap(map_size);
-        }
-        FractalColoring(int maxIterations, int exponent, long double bailout, int mapSize) : 
-            FractalColoring(exponent, bailout)
-        { 
-            assert(map_size >= 1 && map_size <= MAX_MAP_SIZE);
+            assert(mapSize >= 1 && mapSize <= MAX_MAP_SIZE);
+            if(gradient) m_gradient = move(gradient);
+            else         m_gradient = make_unique<Gradient>(Gradient::WHITE_BLACK);
+            
             map_size = mapSize;
             max_iterations = maxIterations;
-            color_map = m_gradient.generateGradientMap(map_size);
-        }
-        FractalColoring(int maxIterations, int exponent, long double bailout, const Gradient& gradient) :
-            FractalColoring(exponent, bailout)
-        {
-            m_gradient = gradient;
-            max_iterations = maxIterations;
-            color_map = m_gradient.generateGradientMap(map_size);
-        }
-        FractalColoring(int maxIterations, int exponent, long double bailout, Gradient&& gradient) :
-            FractalColoring(exponent, bailout)
-        {
-            m_gradient = move(gradient);
-            max_iterations = maxIterations;
-            color_map = m_gradient.generateGradientMap(map_size);
-        }
-        FractalColoring(int maxIterations, int exponent, long double bailout, int mapSize, const Gradient& gradient) : 
-            FractalColoring(exponent, bailout)
-        {
-            assert(map_size >= 1 && map_size <= MAX_MAP_SIZE);
-            m_gradient = gradient;
-            map_size = mapSize;
-            max_iterations = maxIterations;
-            color_map = m_gradient.generateGradientMap(map_size);
-        }
-        FractalColoring(int maxIterations, int exponent, long double bailout, int mapSize, Gradient&& gradient) : 
-            FractalColoring(exponent, bailout)
-        {
-            assert(map_size >= 1 && map_size <= MAX_MAP_SIZE);
-            m_gradient = move(gradient);
-            map_size = mapSize;
-            max_iterations = maxIterations;
-            color_map = m_gradient.generateGradientMap(map_size);
+            color_map = m_gradient->generateGradientMap(map_size);
         }
 
-        void setGradient(const Gradient &gradient){
-            m_gradient = gradient;
-            color_map = m_gradient.generateGradientMap(map_size);
-        }
-        void setGradient(Gradient &&gradient){
-            m_gradient = move(gradient);
-            color_map = m_gradient.generateGradientMap(map_size);
+        void setGradient(unique_ptr<Gradient> gradient){
+            if(gradient){
+                m_gradient = move(gradient);
+                color_map = m_gradient->generateGradientMap(map_size);
+            }
         }
 
         int getColorMapSize() const noexcept{
@@ -83,7 +47,7 @@ class FractalColoring{
             assert(mapSize >= 1 && mapSize <= MAX_MAP_SIZE);
             if(map_size != mapSize){
                 map_size = mapSize;
-                color_map = m_gradient.generateGradientMap(map_size);
+                color_map = m_gradient->generateGradientMap(map_size);
             }
         }
 
@@ -93,8 +57,8 @@ class FractalColoring{
         long double m_bailout;
         int max_iterations;
         int m_exponent;
-        int map_size = DEFAULT_COLOR_MAP_SIZE;
-        Gradient m_gradient = Gradient::WHITE_BLACK;
+        int map_size;
+        unique_ptr<Gradient> m_gradient = nullptr;
         vector <RGB> color_map;
 };
 

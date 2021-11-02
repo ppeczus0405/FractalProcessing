@@ -68,7 +68,7 @@ class FractalAlgorithmCreator
 
         // Nova Fractal
         static unique_ptr<FractalAlgorithm> createNova(){
-            return make_unique<Newton>(true);
+            return make_unique<Newton>(true, false);
         }
 
         template <typename T>

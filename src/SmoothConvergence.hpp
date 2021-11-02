@@ -2,26 +2,14 @@
 #define SMOOTH_CONVERGENCE
 
 #include "FractalColoring.hpp"
+#include "FractalAlgorithm.hpp"
 
 class SmoothConvergence : public FractalColoring{
     public:
-        SmoothConvergence(int maxIterations, int exponent, long double bailout) : 
-            FractalColoring(maxIterations, exponent, bailout) { }
-
-        SmoothConvergence(int maxIterations, int exponent, long double bailout, int mapSize) : 
-            FractalColoring(maxIterations, exponent, bailout, mapSize) { }
-
-        SmoothConvergence(int maxIterations, int exponent, long double bailout, const Gradient& gradient) : 
-            FractalColoring(maxIterations, exponent, bailout, gradient) { }
-
-        SmoothConvergence(int maxIterations, int exponent, long double bailout, Gradient&& gradient) : 
-            FractalColoring(maxIterations, exponent, bailout, move(gradient)) { }
-
-        SmoothConvergence(int maxIterations, int exponent, long double bailout, int mapSize, const Gradient& gradient) : 
-            FractalColoring(maxIterations, exponent, bailout, mapSize, gradient) { }
-
-        SmoothConvergence(int maxIterations, int exponent, long double bailout, int mapSize, Gradient&& gradient) : 
-            FractalColoring(maxIterations, exponent, bailout, mapSize, move(gradient)) { }
+        SmoothConvergence(int maxIterations, int exponent, 
+                          int mapSize = DEFAULT_COLOR_MAP_SIZE, unique_ptr<Gradient> gradient = nullptr) 
+                             : FractalColoring(maxIterations, exponent, CONVERGENCE_BAILOUT, mapSize, move(gradient)) 
+        { }
 
         virtual RGB getPixel(const pair <int, tuple <Complex, Complex, Complex> > &iterOrbit) override
         {

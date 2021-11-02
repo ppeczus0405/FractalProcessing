@@ -16,9 +16,8 @@ namespace PekiProcessing
         public:
             Image(int width, int height);
             void setPixel(int x, int y, const RGB &pixel);
-            bool write(const string &filename, const SaveFormat &format = SaveFormat::JPEG);
-            virtual ~Image() = default; 
-        private:
+            virtual bool write(const string &filename, const SaveFormat &format = SaveFormat::JPEG);
+        protected:
             int m_width = 0;
             int m_height = 0;
             unique_ptr<uint8_t[]> m_pixels = nullptr;

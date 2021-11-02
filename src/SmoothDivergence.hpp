@@ -2,27 +2,15 @@
 #define SMOOTH_DIVERGENCE
 
 #include "FractalColoring.hpp"
+#include "FractalAlgorithm.hpp"
 #include "CompareDoubles.hpp"
 
 class SmoothDivergence : public FractalColoring{
     public:
-        SmoothDivergence(int maxIterations, int exponent, long double bailout) : 
-            FractalColoring(maxIterations, exponent, bailout) { }
-
-        SmoothDivergence(int maxIterations, int exponent, long double bailout, int mapSize) : 
-            FractalColoring(maxIterations, exponent, bailout, mapSize) { }
-
-        SmoothDivergence(int maxIterations, int exponent, long double bailout, const Gradient& gradient) : 
-            FractalColoring(maxIterations, exponent, bailout, gradient) { }
-
-        SmoothDivergence(int maxIterations, int exponent, long double bailout, Gradient&& gradient) : 
-            FractalColoring(maxIterations, exponent, bailout, move(gradient)) { }
-
-        SmoothDivergence(int maxIterations, int exponent, long double bailout, int mapSize, const Gradient& gradient) : 
-            FractalColoring(maxIterations, exponent, bailout, mapSize, gradient) { }
-
-        SmoothDivergence(int maxIterations, int exponent, long double bailout, int mapSize, Gradient&& gradient) : 
-            FractalColoring(maxIterations, exponent, bailout, mapSize, move(gradient)) { }
+        SmoothDivergence(int maxIterations, int exponent, 
+                         int mapSize = DEFAULT_COLOR_MAP_SIZE, unique_ptr<Gradient> gradient = nullptr) 
+                             : FractalColoring(maxIterations, exponent, DIVERGENCE_BAILOUT, mapSize, move(gradient)) 
+        { }
 
         virtual RGB getPixel(const pair <int, tuple <Complex, Complex, Complex> > &iterOrbit) override
         {
