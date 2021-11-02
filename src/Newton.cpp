@@ -2,27 +2,34 @@
 #include "CompareDoubles.hpp"
 #include <ranges>
 
+using FAT = FractalAlgorithmType;
+
 // Newton constructors
-Newton::Newton(bool nova, bool pixstart) : is_nova(nova), pixel_start(pixstart)
+Newton::Newton(bool nova, bool pixstart) : FractalAlgorithm(nova ? FAT::NOVA : FAT::NEWTON),
+                                           is_nova(nova), pixel_start(pixstart)
 {
     // z^3 - 1 = 0
     m_polynomial = {Complex::ONE, Complex::ZERO, Complex::ZERO, -Complex::ONE};
     initialize_functions();
 }
 
-Newton::Newton(const vector <Complex> &polynomial, bool nova, bool pixstart) : m_polynomial(polynomial), is_nova(nova), pixel_start(pixstart)
+Newton::Newton(const vector <Complex> &polynomial, bool nova, bool pixstart) : 
+    FractalAlgorithm(nova ? FAT::NOVA : FAT::NEWTON),
+    m_polynomial(polynomial), is_nova(nova), pixel_start(pixstart)
 {
     initialize_functions();
 }
 
 Newton::Newton(const vector <Complex> &polynomial, const Complex &relaxation, bool nova, bool pixstart) : 
-               m_polynomial(polynomial), relax(relaxation), is_nova(nova), pixel_start(pixstart)
+    FractalAlgorithm(nova ? FAT::NOVA : FAT::NEWTON),
+    m_polynomial(polynomial), relax(relaxation), is_nova(nova), pixel_start(pixstart)
 {
     initialize_functions();
 }
 
 Newton::Newton(const vector <Complex> &polynomial, const Complex &relaxation, const Complex &startval) :
-               m_polynomial(polynomial), relax(relaxation), start_value(startval), is_nova(true), pixel_start(false)
+    FractalAlgorithm(FAT::NOVA),
+    m_polynomial(polynomial), relax(relaxation), start_value(startval), is_nova(true), pixel_start(false)
 {
     initialize_functions();
 }
@@ -85,4 +92,8 @@ pair <int, tuple <Complex, Complex, Complex> > Newton::getIterationsAndOrbit(con
         iters++;
     }
     return {iters, three_orbit};
+}
+
+int Newton::getExponent(){
+    return (int)m_polynomial.size() - 1;
 }

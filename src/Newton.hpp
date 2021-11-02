@@ -17,7 +17,8 @@ class Newton : public FractalAlgorithm
         Newton(const vector <Complex> &polynomial, const Complex &relaxation, const Complex &incrementation);
 
         pair <int, tuple <Complex, Complex, Complex> > getIterationsAndOrbit(const Complex &c) override;
-
+        int getExponent() override;
+        
     private:
         function<Complex(Complex)> f = nullptr;
         function<Complex(Complex)> fdx = nullptr;

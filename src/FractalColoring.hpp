@@ -7,7 +7,7 @@
 using namespace std;
 using namespace PekiProcessing;
 
-constexpr int DEFAULT_COLOR_MAP_SIZE = 2048;
+constexpr int DEFAULT_COLOR_MAP_SIZE = 512;
 constexpr int MAX_MAP_SIZE = 16384;
 
 class FractalColoring{

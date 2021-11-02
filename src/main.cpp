@@ -119,23 +119,22 @@ int main(int argc, char** argv)
     b.write("test_gradient.bmp");
     */
     
-    /*
 
     const int d = 512;
     PekiProcessing::Image b(d, d);
     //Scale s(d, d, -1.7L, 0.5L, -1.0L, 1.0L);
     //Scale s(d, d, -2.8L, 2.8L, -2.1L, 2.1L);
-    Scale s(d, d, -2.0L, 2.0L, -1.5L, 1.5L);
+    Scale s(d, d, -2.2L, 2.2L, -1.65L, 1.65L);
     //vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex::ZERO, -Complex::ONE};
-    vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex(-2.0L, 0.0L), Complex(2.0L, 0.0L)};
+    //vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex(-2.0L, 0.0L), Complex(2.0L, 0.0L)};
     //vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex::ZERO, Complex::ZERO, 
     //                         Complex(3.0L, 0.0L), Complex::ZERO, Complex::ZERO, Complex::ZERO, Complex(-4.0L, 0.0L)};
     //vector <Complex> poly = {Complex::ONE, Complex(2.0L, 0.0L), Complex(3.0L, 1.0L), Complex::ZERO, Complex::ZERO, -Complex::ONE};
     //vector <Complex> poly = {Complex::ONE, Complex::ZERO, Complex(-2.0L, 0.2L)};
-    unique_ptr<FractalAlgorithm> fractal = FractalAlgorithmCreator::createNewton(poly, Complex(1.01L, 0.0L));
+    unique_ptr<FractalAlgorithm> fractal = FractalAlgorithmCreator::createMultibrot(3);
     fractal->setMaxIterationsNumber(45);
     unique_ptr<FractalColoring> fcolor = 
-        FractalColoringCreator::createSmoothConvergence(fractal->getMaxIterationsNumber(), 6, CONVERGENCE_BAILOUT, gradient);
+        FractalColoringCreator::createSmoothConvergence(fractal->getMaxIterationsNumber(), 6, gradient);
     for(int i = 1; i <= d; i++){
         for(int j = 1; j <= d; j++){
             auto result = s.to_scale(i, j);
@@ -145,7 +144,6 @@ int main(int argc, char** argv)
     }
     b.write("test1");
 
-    */
 
    
     /*

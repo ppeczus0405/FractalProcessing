@@ -1,7 +1,13 @@
 #include <assert.h>
 #include "Mandelbrot.hpp"
 
-Mandelbrot::Mandelbrot(const int &exponent) : m_exponent(exponent){
+using FAT = FractalAlgorithmType;
+
+Mandelbrot::Mandelbrot() : FractalAlgorithm(FAT::MANDELBROT) {}
+
+Mandelbrot::Mandelbrot(const int &exponent) : 
+    FractalAlgorithm(FAT::MULTIBROT), m_exponent(exponent)
+{
     assert(exponent >= 1);
 }
 
@@ -16,4 +22,8 @@ pair<int, tuple<Complex, Complex, Complex> > Mandelbrot::getIterationsAndOrbit(c
         iterations++;
     }
     return {iterations, three_orbit};
+}
+
+int Mandelbrot::getExponent(){
+    return m_exponent;
 }
