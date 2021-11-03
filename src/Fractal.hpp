@@ -53,8 +53,8 @@ class FractalBuilder
         }
 
     private:
-        int maxIterations = DEFAULT_ITERATIONS;
-        int mapSize = DEFAULT_COLOR_MAP_SIZE;
+        int maxIterations = -1;
+        int mapSize = -1;
         unique_ptr<Gradient> gradient = nullptr;
         unique_ptr<Fractal> fractal = nullptr;
 };

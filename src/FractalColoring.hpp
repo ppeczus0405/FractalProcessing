@@ -9,6 +9,7 @@ using namespace PekiProcessing;
 
 constexpr int DEFAULT_COLOR_MAP_SIZE = 512;
 constexpr int MAX_MAP_SIZE = 16384;
+constexpr int MIN_MAP_SIZE = 1;
 
 class FractalColoring{
     private:
@@ -23,13 +24,11 @@ class FractalColoring{
                         int mapSize = DEFAULT_COLOR_MAP_SIZE, unique_ptr<Gradient> gradient = nullptr)
                             : FractalColoring(exponent, bailout)
         {
-            assert(mapSize >= 1 && mapSize <= MAX_MAP_SIZE);
             if(gradient) m_gradient = move(gradient);
             else         m_gradient = make_unique<Gradient>(Gradient::WHITE_BLACK);
-            
-            map_size = mapSize;
+
+            setColorMapSize(mapSize);
             max_iterations = maxIterations;
-            color_map = m_gradient->generateGradientMap(map_size);
         }
 
         void setGradient(unique_ptr<Gradient> gradient){
@@ -43,11 +42,28 @@ class FractalColoring{
             return map_size;
         }
 
-        void setColorMapSize(int mapSize){
-            assert(mapSize >= 1 && mapSize <= MAX_MAP_SIZE);
-            if(map_size != mapSize){
-                map_size = mapSize;
-                color_map = m_gradient->generateGradientMap(map_size);
+        bool setColorMapSize(int mapSize){
+            if(mapSize >= MIN_MAP_SIZE && mapSize <= MAX_MAP_SIZE){
+                if(map_size != mapSize){
+                    map_size = mapSize;
+                    color_map = m_gradient->generateGradientMap(map_size);
+                    return true;
+                }
+                return false;
+            }
+            else{
+                cerr << "Map size has to meet the condition: ";
+                cerr << MIN_MAP_SIZE << " <= size <= " << MAX_MAP_SIZE << endl;
+                if(map_size == -1){
+                    cerr << "Setted size to " << DEFAULT_COLOR_MAP_SIZE << endl;
+                    map_size = DEFAULT_COLOR_MAP_SIZE;
+                    color_map = m_gradient->generateGradientMap(map_size);
+                    return true;
+                }
+                else{
+                    cerr << "Size not changed" << endl;
+                    return false;
+                }
             }
         }
 
@@ -57,7 +73,7 @@ class FractalColoring{
         long double m_bailout;
         int max_iterations;
         int m_exponent;
-        int map_size;
+        int map_size = -1;
         unique_ptr<Gradient> m_gradient = nullptr;
         vector <RGB> color_map;
 };

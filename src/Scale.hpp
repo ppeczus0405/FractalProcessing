@@ -34,7 +34,7 @@ class Scale
             wratio = (widthMax - widthMin) / (baseWidth - 1);
             hratio = (heightMax - heightMin) / (baseHeight - 1);
         }
-        
+
         pair <long double, long double> to_scale(int x, int y){
             if(x < 1 || x > baseWidth){
                 string error_message = "Error: Can't scale pixel. Reason: " + to_string(x) + "is not in range [1, ";
@@ -47,6 +47,22 @@ class Scale
                 throw new invalid_argument(error_message);
             }
             return {widthMin + (x - 1) * wratio, heightMin + (y - 1) * hratio};
+        }
+
+        inline long double getMinReal() {
+            return widthMin;
+        }
+        
+        inline long double getMaxReal() {
+            return widthMax;
+        }
+
+        inline long double getMinImag() {
+            return heightMin;
+        }
+        
+        inline long double getMaxImag() {
+            return heightMax;
         }
 };
 

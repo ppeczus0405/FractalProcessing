@@ -1,4 +1,5 @@
 #include "Fractal.hpp"
+#include <cstring>
 
 // Abbreviation for better readability
 using FAT = FractalAlgorithmType;
@@ -18,23 +19,49 @@ Fractal::Fractal(int width, int height) : Image(width, height) { }
 
 
 void Fractal::resize(int width, int height){
-
+    if(width == m_width && height == m_height) return;
+    if(width <= 0 or height <= 0){
+        cerr << "Can't resize. Dimensions have to be positive integers. Size not changed" << endl;
+        return;
+    }
+    isGenerated = false;
+    m_pixels.release();
+    m_width = width;
+    m_height = height;
+    cout << m_width << " " << m_height << endl;
+    m_pixels = make_unique<uint8_t[]>(m_width * m_height * 3);
+    memset(m_pixels.get(), 0, m_width * m_height * 3);
+    setScale(scale->getMinReal(), scale->getMaxReal(), scale->getMinImag(), scale->getMaxImag());
 }
 
 void Fractal::setIterations(int iters){
-
+    isGenerated = !falg->setMaxIterationsNumber(iters);
 }
 
 void Fractal::setAlgorithm(unique_ptr<FractalAlgorithm> alg){
-
+    if(alg) falg = move(alg);
+    else    cerr << "Given algorithm is nullpointer. Not changed" << endl;
 }
 
 void Fractal::setScale(long double minR, long double maxR, long double minI, long double maxI){
-
+    bool sameScales = CompareDoubles::isEqual(minR, scale->getMinReal()) and 
+                      CompareDoubles::isEqual(maxR, scale->getMaxReal()) and
+                      CompareDoubles::isEqual(minI, scale->getMinImag()) and
+                      CompareDoubles::isEqual(maxI, scale->getMaxImag());
+    if(!sameScales){
+        try{
+            unique_ptr<Scale> ps = make_unique<Scale>(m_width, m_height, minR, maxR, minI, maxI);
+            scale = move(ps);
+            isGenerated = false;
+        }
+        catch(const invalid_argument &invArgument){
+            cerr << invArgument.what() << endl;
+        }
+    }
 }
 
 void Fractal::setGradientMapSize(int mapSize){
-
+    isGenerated = !fcol->setColorMapSize(mapSize);
 }
 
 void Fractal::zoom(long long times){
@@ -87,8 +114,7 @@ FractalBuilder & FractalBuilder::setMaxIterations(int mxIter){
 }
 
 FractalBuilder & FractalBuilder::setGradientMapSize(int size){
-    if(mapSize >= 1 && mapSize <= MAX_MAP_SIZE)
-        mapSize = size;
+    mapSize = size;
     return *this;
 }
 

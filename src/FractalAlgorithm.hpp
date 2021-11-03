@@ -34,10 +34,17 @@ class FractalAlgorithm
         // Function to get exponent of polynomial
         virtual int getExponent() = 0;
 
-        inline void setMaxIterationsNumber(int n){
+        inline bool setMaxIterationsNumber(int n){
             // We can only change value if it makes sense
             if(n >= MIN_ITERATIONS && n <= MAX_ITERATIONS){
                 max_iter = n;
+                return true;
+            }
+            else{
+                cerr << "Iteration value have to be integer meeting the condition: ";
+                cerr << MIN_ITERATIONS << " <= iterations <= " << MAX_ITERATIONS << endl;
+                cerr << "Not changed. Value = " << max_iter << endl;
+                return false;
             }
         }
 
