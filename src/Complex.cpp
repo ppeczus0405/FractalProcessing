@@ -126,7 +126,7 @@ Complex Complex::operator/(const Complex &c){
     bool realCompare = CompareDoubles::isEqual(c.real, 0.0L);
     bool imagCompare = CompareDoubles::isEqual(c.imaginary, 0.0L);
     if(realCompare && imagCompare){
-        throw new std::invalid_argument("Cannot divide by 0");
+        throw std::invalid_argument("Cannot divide by 0");
     }
     else if(realCompare && !imagCompare){
         return Complex(this->imaginary / c.imaginary, -this->real / c.imaginary);
@@ -142,7 +142,7 @@ Complex Complex::operator/(const Complex &c){
 
 Complex Complex::operator/(const long double a){
     if(CompareDoubles::isEqual(a, 0.0L)){
-        throw new std::invalid_argument("Cannot divide by 0");
+        throw std::invalid_argument("Cannot divide by 0");
     }
     return Complex(this->real / a, this->imaginary / a);
 }

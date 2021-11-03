@@ -136,21 +136,26 @@ int main(int argc, char** argv)
     }
     b.write("test1");
     */
+    
+    /*
     unique_ptr<Fractal> frac = FractalBuilder(512, 512).setAlgorithm(FractalAlgorithmCreator::createMandelbrot()).
-                                                        setGradient(gradient).build();
+                                                        setGradient(gradient).setMaxIterations(4000).build();
     frac->write("bigtest");
+    
     int i = 0;
     while(true){
         char c; cin >> c;
         if(c == 'R'){
-            int x, y; cin >> x >> y;
-            frac->resize(x, y);
-            frac->write(to_string(++i));
+            long double a, b, c, d;
+            cin >> a >> b >> c >> d;
+            if(frac->setScale(a, b, c, d))
+                frac->write(to_string(++i));
         }
         else{
             break;
         }
     }
+    */
     /*
     app = Gtk::Application::create("org.gtkmm.example");
     app->signal_activate().connect([] () { on_app_activate(); });

@@ -18,20 +18,25 @@ const Dim DefaultNovaDim       = DefaultJuliaDim;
 Fractal::Fractal(int width, int height) : Image(width, height) { }
 
 
-void Fractal::resize(int width, int height){
-    if(width == m_width && height == m_height) return;
+bool Fractal::resize(int width, int height){
+    if(width == m_width && height == m_height) return true;
     if(width <= 0 or height <= 0){
         cerr << "Can't resize. Dimensions have to be positive integers. Size not changed" << endl;
-        return;
+        return false;
     }
+    // Trying to change scale, if we can't then restore previous state
+    int prev_width = m_width, prev_height = m_height;
+    m_width = width; m_height = height;
+    if(!setScale(scale->getMinReal(), scale->getMaxReal(), scale->getMinImag(), scale->getMaxImag(), true)){
+        m_width = prev_width; m_height = prev_height;
+        return false;
+    }
+    
+    // Initialize new pixel table
     isGenerated = false;
-    m_pixels.release();
-    m_width = width;
-    m_height = height;
-    cout << m_width << " " << m_height << endl;
     m_pixels = make_unique<uint8_t[]>(m_width * m_height * 3);
     memset(m_pixels.get(), 0, m_width * m_height * 3);
-    setScale(scale->getMinReal(), scale->getMaxReal(), scale->getMinImag(), scale->getMaxImag());
+    return true;
 }
 
 void Fractal::setIterations(int iters){
@@ -43,12 +48,12 @@ void Fractal::setAlgorithm(unique_ptr<FractalAlgorithm> alg){
     else    cerr << "Given algorithm is nullpointer. Not changed" << endl;
 }
 
-void Fractal::setScale(long double minR, long double maxR, long double minI, long double maxI){
+bool Fractal::setScale(long double minR, long double maxR, long double minI, long double maxI, bool baseChanged){
     bool sameScales = CompareDoubles::isEqual(minR, scale->getMinReal()) and 
                       CompareDoubles::isEqual(maxR, scale->getMaxReal()) and
                       CompareDoubles::isEqual(minI, scale->getMinImag()) and
                       CompareDoubles::isEqual(maxI, scale->getMaxImag());
-    if(!sameScales){
+    if(!sameScales || baseChanged){
         try{
             unique_ptr<Scale> ps = make_unique<Scale>(m_width, m_height, minR, maxR, minI, maxI);
             scale = move(ps);
@@ -56,20 +61,14 @@ void Fractal::setScale(long double minR, long double maxR, long double minI, lon
         }
         catch(const invalid_argument &invArgument){
             cerr << invArgument.what() << endl;
+            return false;
         }
     }
+    return true;
 }
 
 void Fractal::setGradientMapSize(int mapSize){
     isGenerated = !fcol->setColorMapSize(mapSize);
-}
-
-void Fractal::zoom(long long times){
-
-}
-
-void Fractal::unzoom(long long times){
-    
 }
 
 void Fractal::generate(){

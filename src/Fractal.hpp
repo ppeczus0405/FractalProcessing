@@ -11,18 +11,18 @@ class Fractal : public Image
 {
     friend class FractalBuilder;
     public:
-        void resize(int width, int height);
+        bool resize(int width, int height);
+        bool setRectangle(pair <int, int> topLeft, pair<int, int> bottomRight)
+
         void setIterations(int iters);
         void setAlgorithm(unique_ptr<FractalAlgorithm> alg);
-        void setScale(long double minR, long double maxR, long double minI, long double maxI);
         void setGradientMapSize(int mapSize);
-        void zoom(long long times);
-        void unzoom(long long times);
         bool write(const string &filename, const SaveFormat &format = SaveFormat::JPEG) override;
         
         template <typename T>
         void setGradient(T&& gradient){
-
+            isGenerated = false;
+            fcol->setGradient(make_unique<Gradient>(forward<T>(gradient)));
         }
 
     private:
@@ -33,6 +33,7 @@ class Fractal : public Image
         unique_ptr<Scale>            scale = nullptr;
 
         void generate();
+        bool setScale(long double minR, long double maxR, long double minI, long double maxI, bool baseChanged = false);
 };
 
 

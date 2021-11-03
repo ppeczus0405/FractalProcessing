@@ -78,7 +78,7 @@ RGB Gradient::getPointColor(const double x)
     // If point is inside then color will be returned else invalid argument exception is thrown
     auto wanted = getPointIter(x);
     if(wanted == grad_points.end()){
-        throw new invalid_argument("The point at the position does not belong to the gradient set of points");
+        throw invalid_argument("The point at the position does not belong to the gradient set of points");
     }
     return wanted->second;
 }

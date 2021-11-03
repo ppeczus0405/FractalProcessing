@@ -23,9 +23,7 @@ void Image::setPixel(int x, int y, const RGB &pixel)
 
 bool Image::write(const string &filename, const SaveFormat &format)
 {
-    if(!imgsaver){
-        imgsaver = make_unique<ImageSaver>(reinterpret_cast <const char *>(m_pixels.get()), m_width, m_height, format);
-    }
+    imgsaver = make_unique<ImageSaver>(reinterpret_cast <const char *>(m_pixels.get()), m_width, m_height, format);
     if(!imgsaver->changeFormat(format)){
         return false;
     }
