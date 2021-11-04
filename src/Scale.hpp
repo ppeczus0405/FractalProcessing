@@ -8,6 +8,7 @@ using namespace std;
 class Scale
 {
     private:
+        bool baseWidthOne = false, baseHeightOne = false;
         int baseWidth, baseHeight;
         long double widthMin, widthMax, wratio;
         long double heightMin, heightMax, hratio;
@@ -26,16 +27,16 @@ class Scale
             if(baseWidth < 1 || baseHeight < 1){
                 throw invalid_argument("One of the base dimensions is less or equal 0");
             } // Invalid image dimensions
-            if( (baseWidth == 1 && !CompareDoubles::isEqual(widthMin, widthMax)) ||
-                (baseHeight == 1 && !CompareDoubles::isEqual(heightMin, heightMax)) ){
-                throw invalid_argument("Can't scale one pixel into range [a, b] where a != b");
-            } // One pixel and scale range [a, b] where a != b
+            
+            // Special case handling - when baseWidth/Height = 1;
+            if(baseWidth != 1)  wratio = (widthMax - widthMin) / (baseWidth - 1);
+            else                baseWidthOne = true;
 
-            wratio = (widthMax - widthMin) / (baseWidth - 1);
-            hratio = (heightMax - heightMin) / (baseHeight - 1);
+            if(baseHeight != 1) hratio = (heightMax - heightMin) / (baseHeight - 1);
+            else                baseHeightOne = true;       
         }
 
-        pair <long double, long double> to_scale(int x, int y){
+        pair <long double, long double> getScaled(int x, int y){
             if(x < 1 || x > baseWidth){
                 string error_message = "Error: Can't scale pixel. Reason: " + to_string(x) + "is not in range [1, ";
                 error_message.append(to_string(baseWidth) + "]");
@@ -46,7 +47,12 @@ class Scale
                 error_message.append(to_string(baseHeight) + "]");
                 throw invalid_argument(error_message);
             }
-            return {widthMin + (x - 1) * wratio, heightMin + (y - 1) * hratio};
+            
+            long double scaledX = (widthMin + widthMax) / 2.0L;
+            long double scaledY = (heightMin + heightMax) / 2.0L;
+            if(!baseWidthOne)  scaledX = widthMin + (x - 1) * wratio;
+            if(!baseHeightOne) scaledY = heightMin + (y - 1) * hratio;
+            return {scaledX, scaledY};
         }
 
         inline long double getMinReal() {

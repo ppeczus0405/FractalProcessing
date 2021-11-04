@@ -55,7 +55,7 @@ class FractalColoring{
                 cerr << "Map size has to meet the condition: ";
                 cerr << MIN_MAP_SIZE << " <= size <= " << MAX_MAP_SIZE << endl;
                 if(map_size == -1){
-                    cerr << "Setted size to " << DEFAULT_COLOR_MAP_SIZE << endl;
+                    cerr << "Setted map size to " << DEFAULT_COLOR_MAP_SIZE << endl;
                     map_size = DEFAULT_COLOR_MAP_SIZE;
                     color_map = m_gradient->generateGradientMap(map_size);
                     return true;
@@ -65,6 +65,10 @@ class FractalColoring{
                     return false;
                 }
             }
+        }
+
+        void setMaxIterations(int iters){
+            max_iterations = iters;
         }
 
         virtual RGB getPixel(const pair <int, tuple <Complex, Complex, Complex> > &iterOrbit) = 0;

@@ -95,7 +95,7 @@ int main(int argc, char** argv)
         cout << "(" << p.first << ", " << p.second << ")" << endl;
     }
     auto colors = gradient.generateGradientMap(MAP_SIZE);
-    gradient.write("testujemy");
+    //gradient.write("testujemy");
 
     /*
     Bitmap b(MAP_SIZE, MAP_SIZE);
@@ -137,25 +137,32 @@ int main(int argc, char** argv)
     b.write("test1");
     */
     
-    /*
-    unique_ptr<Fractal> frac = FractalBuilder(512, 512).setAlgorithm(FractalAlgorithmCreator::createMandelbrot()).
-                                                        setGradient(gradient).setMaxIterations(4000).build();
-    frac->write("bigtest");
     
+    unique_ptr<Fractal> frac = FractalBuilder(400, 400).setAlgorithm(FractalAlgorithmCreator::createMandelbrot()).
+                                                        setGradient(gradient).build();
+    frac->write("0");
     int i = 0;
     while(true){
-        char c; cin >> c;
-        if(c == 'R'){
-            long double a, b, c, d;
+        char x; cin >> x;
+        if(x == 'R'){
+            int a, b, c, d;
             cin >> a >> b >> c >> d;
-            if(frac->setScale(a, b, c, d))
+            if(frac->setRectangle(pair<int, int>(a, b), pair<int, int>(c, d)))
                 frac->write(to_string(++i));
         }
-        else{
-            break;
+        else if(x == 'P'){
+            frac->setPreviousScale();
+            frac->write(to_string(++i));
+        }
+        else if(x == 'S'){
+            int iters; cin >> iters;
+            frac->setIterations(iters);
+        }
+        else if(x == 'D'){
+            frac->setDefaultScale();
+            frac->write(to_string(++i));
         }
     }
-    */
     /*
     app = Gtk::Application::create("org.gtkmm.example");
     app->signal_activate().connect([] () { on_app_activate(); });

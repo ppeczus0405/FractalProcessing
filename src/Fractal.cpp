@@ -1,21 +1,25 @@
 #include "Fractal.hpp"
 #include <cstring>
 
-// Abbreviation for better readability
-using FAT = FractalAlgorithmType;
-
-// Dimension of the fractal plane (minReal, maxReal, minImag, maxImag)
-using Dim = tuple <long double, long double, long double, long double>;
-
-const Dim DefaultMandelbrotDim = Dim(-2.2L, 1.0L, -1.2L, 1.2L);
-const Dim DefaultMultibrotDim  = Dim(-2.2L, 2.2L, -1.65L, 1.65L);
-const Dim DefaultJuliaDim      = Dim(-2.0L, 2.0L, -1.5L, 1.5L);
-const Dim DefaultNewtonDim     = Dim(-2.8L, 2.8L, -2.1L, 2.1L);
-const Dim DefaultPolyJuliaDim  = DefaultMultibrotDim;
-const Dim DefaultNovaDim       = DefaultJuliaDim;
+Dim Fractal::getDefaultDimension(const FAT algType) noexcept{
+    switch(algType){
+        case FAT::MANDELBROT:
+            return DefaultMandelbrotDim;
+        case FAT::MULTIBROT:
+            return DefaultMultibrotDim;
+        case FAT::JULIA:
+            return DefaultJuliaDim;
+        case FAT::NEWTON:
+            return DefaultNewtonDim;
+        case FAT::POLYJULIA:
+            return DefaultPolyJuliaDim;
+        default:
+            return DefaultNovaDim;
+    }
+}
 
 // Fractal
-Fractal::Fractal(int width, int height) : Image(width, height) { }
+Fractal::Fractal(int width, int height) : Image(width, height), scaleStack(1) { }
 
 
 bool Fractal::resize(int width, int height){
@@ -39,13 +43,50 @@ bool Fractal::resize(int width, int height){
     return true;
 }
 
-void Fractal::setIterations(int iters){
-    isGenerated = !falg->setMaxIterationsNumber(iters);
+// (0, 0) coordinate is top left corner
+bool Fractal::setRectangle(pair <int, int> v1, pair<int, int> v2){
+    // Degenerate rectangle
+    if(v1.first == v2.first or v1.second == v2.second){
+        cerr << "Given rectangle has surface area = 0" << endl;
+        return false;
+    }
+
+    if(v1.first > v2.first) swap(v1, v2);
+    auto [xa, ya] = v1;
+    auto [xb, yb] = v2;
+    bool notValid = xa < 1 or xa > m_width  or xb < 1 or xb > m_width;
+    notValid |=     ya < 1 or ya > m_height or yb < 1 or yb > m_height;
+
+    // Out of bounds
+    if(notValid){
+        cerr << "Given rectangle is not valid. There is at least one coordinate out of bounds image" << endl;
+        return false;
+    }
+
+    // Normalize to form when (xa, ya) - left bottom corner, (xb, yb) - right top corner
+    if(ya < yb) swap(ya, yb);
+    cout << "Corner Left (" << xa << ", " << ya << ")\n";
+    cout << "Corner Right (" << xb << ", " << yb << ")\n";
+    // bottomScaled.first = minReal, bottomScaled.second = maxImag
+    auto bottomScaled = scale->getScaled(xa, ya);
+    
+    // topScaled.first = maxReal, topScaled.second = minImag
+    auto topScaled =    scale->getScaled(xb, yb);
+
+    long double mr = bottomScaled.first,   Mr = topScaled.first;
+    long double mi = topScaled.second,  Mi = bottomScaled.second;
+
+    cout << mr << " " << Mr << " " << mi << " " << Mi << endl;
+
+    if(setScale(mr, Mr, mi, Mi)){
+        scaleStack.emplace_back(mr, Mr, mi, Mi);
+        return true;
+    }
+    return false;
 }
 
-void Fractal::setAlgorithm(unique_ptr<FractalAlgorithm> alg){
-    if(alg) falg = move(alg);
-    else    cerr << "Given algorithm is nullpointer. Not changed" << endl;
+bool Fractal::isPreviousScale(){
+    return (int)scaleStack.size() > 1;
 }
 
 bool Fractal::setScale(long double minR, long double maxR, long double minI, long double maxI, bool baseChanged){
@@ -67,25 +108,54 @@ bool Fractal::setScale(long double minR, long double maxR, long double minI, lon
     return true;
 }
 
+bool Fractal::write(const string &filename, const SaveFormat &format){
+    if(!isGenerated) generate();
+    Image::write(filename, format);
+}
+
+void Fractal::setPreviousScale(){
+    if(!isPreviousScale()) return;
+    scaleStack.pop_back();
+    auto [mr, Mr, mi, Mi] = scaleStack.back();
+    setScale(mr, Mr, mi, Mi);
+}
+
+void Fractal::setDefaultScale(){
+    scaleStack.clear();
+    Dim scale = getDefaultDimension(falg->getAlgorithmType());
+    scaleStack.push_back(getDefaultDimension(falg->getAlgorithmType()));
+    auto [mr, Mr, mi, Mi] = scale;
+    setScale(mr, Mr, mi, Mi);
+}
+
+void Fractal::setIterations(int iters){
+    if(falg->setMaxIterationsNumber(iters)){
+        fcol->setMaxIterations(iters);
+        isGenerated = false;
+    }
+}
+
+void Fractal::setAlgorithm(unique_ptr<FractalAlgorithm> alg){
+    if(alg) falg = move(alg);
+    else    cerr << "Given algorithm is nullpointer. Not changed" << endl;
+}
+
+
 void Fractal::setGradientMapSize(int mapSize){
-    isGenerated = !fcol->setColorMapSize(mapSize);
+    if(fcol->setColorMapSize(mapSize))
+        isGenerated = false;
 }
 
 void Fractal::generate(){
     if(isGenerated) return;
     for(int i = 1; i <= m_width; i++){
         for(int j = 1; j <= m_height; j++){
-            auto result = scale->to_scale(i, j);
+            auto result = scale->getScaled(i, j);
             Complex c(result.first, result.second);
             setPixel(i, j, fcol->getPixel(falg->getIterationsAndOrbit(c)));
         }
     }
     isGenerated = true;
-}
-
-bool Fractal::write(const string &filename, const SaveFormat &format){
-    if(!isGenerated) generate();
-    Image::write(filename, format);
 }
 
 // FractalBuilder
@@ -95,6 +165,7 @@ FractalBuilder & FractalBuilder::setScale(long double minR, long double maxR, lo
     try{
         unique_ptr<Scale> ps = make_unique<Scale>(fractal->m_width, fractal->m_height, minR, maxR, minI, maxI);
         fractal->scale = move(ps);
+        fractal->scaleStack.front() = Dim(minR, maxR, minI, maxI);
     }
     catch(const invalid_argument &invArgument){
         cerr << invArgument.what() << endl;
@@ -135,27 +206,9 @@ unique_ptr<Fractal> FractalBuilder::build(){
                             mapSize, move(gradient));
     }
     if(fractal->scale == nullptr){
-        long double mr, Mr, mi, Mi;
-        switch(algType){
-            case FAT::MANDELBROT:
-                tie(mr, Mr, mi, Mi) = DefaultMandelbrotDim;
-                break;
-            case FAT::MULTIBROT:
-                tie(mr, Mr, mi, Mi) = DefaultMultibrotDim;
-                break;
-            case FAT::JULIA:
-                tie(mr, Mr, mi, Mi) = DefaultJuliaDim;
-                break;
-            case FAT::NEWTON:
-                tie(mr, Mr, mi, Mi) = DefaultNewtonDim;
-                break;
-            case FAT::POLYJULIA:
-                tie(mr, Mr, mi, Mi) = DefaultPolyJuliaDim;
-                break;
-            default:
-                tie(mr, Mr, mi, Mi) = DefaultNovaDim;
-        }
+        auto [mr, Mr, mi, Mi] = Fractal::getDefaultDimension(algType);
         fractal->scale = make_unique<Scale>(fractal->m_width, fractal->m_height, mr, Mr, mi, Mi);
+        fractal->scaleStack.front() = Dim(mr, Mr, mi, Mi);
     }
     return move(fractal);
 }
