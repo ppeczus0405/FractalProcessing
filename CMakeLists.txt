@@ -8,7 +8,7 @@ project(FractalGenerator)
 find_package(ImageMagick COMPONENTS Magick++)
 
 
-set(HEADERS_DIR src)
+set(HEADERS_DIR include)
 set(SOURCE_DIR src)
 
 set(SOURCE ${SOURCE_DIR}/main.cpp ${SOURCE_DIR}/Complex.cpp ${SOURCE_DIR}/Mandelbrot.cpp 
@@ -17,12 +17,16 @@ set(SOURCE ${SOURCE_DIR}/main.cpp ${SOURCE_DIR}/Complex.cpp ${SOURCE_DIR}/Mandel
 
 set(HEADERS ${HEADERS_DIR}/Complex.hpp ${HEADERS_DIR}/CompareDoubles.hpp ${HEADERS_DIR}/Mandelbrot.hpp
             ${HEADERS_DIR}/Scale.hpp ${HEADERS_DIR}/spline.hpp ${HEADERS_DIR}/RGB.hpp ${HEADERS_DIR}/Gradient.hpp
-            ${HEADERS_DIR}/ImageSaver.hpp ${HEADERS_DIR}/Image.hpp ${SOURCE_DIR}/JuliaSet.hpp 
+            ${HEADERS_DIR}/ImageSaver.hpp ${HEADERS_DIR}/Image.hpp ${HEADERS_DIR}/JuliaSet.hpp 
             ${HEADERS_DIR}/FractalAlgorithm.hpp ${HEADERS_DIR}/FractalAlgorithmCreator.hpp ${HEADERS_DIR}/Newton.hpp
             ${HEADERS_DIR}/FractalColoring.hpp ${HEADERS_DIR}/FractalColoringCreator.hpp ${HEADERS_DIR}/SmoothConvergence.hpp
             ${HEADERS_DIR}/SmoothDivergence.hpp ${HEADERS_DIR}/Fractal.hpp)
 
 SET(PROJECT_SOURCES ${HEADERS} ${SOURCE})
+
+configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/cmake_in/config.hpp.in" 
+                "${CMAKE_CURRENT_SOURCE_DIR}/include/config.hpp")
+
 
 add_executable(fractalgen ${PROJECT_SOURCES})
 add_definitions( -DMAGICKCORE_QUANTUM_DEPTH=16 )

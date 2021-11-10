@@ -146,16 +146,14 @@ void Fractal::setAlgorithm(unique_ptr<FractalAlgorithm> alg){
                             fcol->getColorMapSize(), fcol->getGradient());
         };
 
-        bool isPrevConvergence = checkConvergence(falg->getAlgorithmType());        
         falg = move(alg);
         bool isCurrentConvergence = checkConvergence(falg->getAlgorithmType());
+        
+        if(isCurrentConvergence)
+            fcol = getColoring(FractalColoringCreator::createSmoothConvergence);
+        else
+            fcol = getColoring(FractalColoringCreator::createSmoothDivergence);
 
-        if(isPrevConvergence ^ isCurrentConvergence){
-            if(isCurrentConvergence)
-                fcol = getColoring(FractalColoringCreator::createSmoothConvergence);
-            else
-                fcol = getColoring(FractalColoringCreator::createSmoothDivergence);
-        }
         setDefaultScale();
         isGenerated = false;
     }
