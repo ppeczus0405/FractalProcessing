@@ -38,6 +38,10 @@ class FractalColoring{
             }
         }
 
+        unique_ptr<Gradient> getGradient() noexcept{
+            return move(m_gradient);
+        }
+
         int getColorMapSize() const noexcept{
             return map_size;
         }

@@ -110,7 +110,7 @@ bool Fractal::setScale(long double minR, long double maxR, long double minI, lon
 
 bool Fractal::write(const string &filename, const SaveFormat &format){
     if(!isGenerated) generate();
-    Image::write(filename, format);
+    return Image::write(filename, format);
 }
 
 void Fractal::setPreviousScale(){
@@ -122,9 +122,9 @@ void Fractal::setPreviousScale(){
 
 void Fractal::setDefaultScale(){
     scaleStack.clear();
-    Dim scale = getDefaultDimension(falg->getAlgorithmType());
-    scaleStack.push_back(getDefaultDimension(falg->getAlgorithmType()));
-    auto [mr, Mr, mi, Mi] = scale;
+    Dim defaultScale = getDefaultDimension(falg->getAlgorithmType());
+    scaleStack.push_back(defaultScale);
+    auto [mr, Mr, mi, Mi] = defaultScale;
     setScale(mr, Mr, mi, Mi);
 }
 
@@ -136,10 +136,32 @@ void Fractal::setIterations(int iters){
 }
 
 void Fractal::setAlgorithm(unique_ptr<FractalAlgorithm> alg){
-    if(alg) falg = move(alg);
-    else    cerr << "Given algorithm is nullpointer. Not changed" << endl;
-}
+    if(alg){
+        auto checkConvergence = [](auto algtype){
+            return algtype == FAT::NEWTON or algtype == FAT::NOVA;
+        };
 
+        auto getColoring = [this](auto &creator){
+            return creator(falg->getMaxIterationsNumber(), falg->getExponent(),
+                            fcol->getColorMapSize(), fcol->getGradient());
+        };
+
+        bool isPrevConvergence = checkConvergence(falg->getAlgorithmType());        
+        falg = move(alg);
+        bool isCurrentConvergence = checkConvergence(falg->getAlgorithmType());
+
+        if(isPrevConvergence ^ isCurrentConvergence){
+            if(isCurrentConvergence)
+                fcol = getColoring(FractalColoringCreator::createSmoothConvergence);
+            else
+                fcol = getColoring(FractalColoringCreator::createSmoothDivergence);
+        }
+        setDefaultScale();
+        isGenerated = false;
+    }
+    else
+        cerr << "Given algorithm is nullpointer. Not changed" << endl;
+}
 
 void Fractal::setGradientMapSize(int mapSize){
     if(fcol->setColorMapSize(mapSize))
@@ -195,16 +217,17 @@ unique_ptr<Fractal> FractalBuilder::build(){
     fractal->falg->setMaxIterationsNumber(maxIterations);
     FAT algType = fractal->falg->getAlgorithmType();
     bool isConvergence = (algType == FAT::NEWTON) or (algType == FAT::NOVA);
-    if(isConvergence){
-        fractal->fcol = FractalColoringCreator::createSmoothConvergence(
-                            fractal->falg->getMaxIterationsNumber(), fractal->falg->getExponent(),
-                            mapSize, move(gradient));
-    }
-    else{
-        fractal->fcol = FractalColoringCreator::createSmoothDivergence(
-                            fractal->falg->getMaxIterationsNumber(), fractal->falg->getExponent(),
-                            mapSize, move(gradient));
-    }
+    
+    auto getColoring = [this](auto &creator){
+        return creator(fractal->falg->getMaxIterationsNumber(), fractal->falg->getExponent(),
+                        mapSize, move(gradient));
+    };
+    
+    if(isConvergence)
+        fractal->fcol = getColoring(FractalColoringCreator::createSmoothConvergence);
+    else
+        fractal->fcol = getColoring(FractalColoringCreator::createSmoothDivergence);
+
     if(fractal->scale == nullptr){
         auto [mr, Mr, mi, Mi] = Fractal::getDefaultDimension(algType);
         fractal->scale = make_unique<Scale>(fractal->m_width, fractal->m_height, mr, Mr, mi, Mi);

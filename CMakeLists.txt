@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -Wshadow -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra -Wshadow -pedantic")
 
 project(FractalGenerator)
-
-INCLUDE(FindPkgConfig)
-pkg_check_modules(GTKMM gtkmm-4.0) # gtkmm module
 find_package(ImageMagick COMPONENTS Magick++)
 
 
@@ -24,10 +22,11 @@ set(HEADERS ${HEADERS_DIR}/Complex.hpp ${HEADERS_DIR}/CompareDoubles.hpp ${HEADE
             ${HEADERS_DIR}/FractalColoring.hpp ${HEADERS_DIR}/FractalColoringCreator.hpp ${HEADERS_DIR}/SmoothConvergence.hpp
             ${HEADERS_DIR}/SmoothDivergence.hpp ${HEADERS_DIR}/Fractal.hpp)
 
-add_executable(main ${SOURCE} ${HEADERS})
+SET(PROJECT_SOURCES ${HEADERS} ${SOURCE})
+
+add_executable(fractalgen ${PROJECT_SOURCES})
 add_definitions( -DMAGICKCORE_QUANTUM_DEPTH=16 )
 add_definitions( -DMAGICKCORE_HDRI_ENABLE=0 )
-target_link_directories(main PRIVATE ${GTKMM_LIBRARY_DIRS})
-target_include_directories(main PRIVATE ${HEADERS_DIR} ${GTKMM_INCLUDE_DIRS} ${ImageMagick_INCLUDE_DIRS} )
-target_link_libraries(main ${GTKMM_LIBRARIES} ${ImageMagick_LIBRARIES})
-set_target_properties(main PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}//bin")
+target_include_directories(fractalgen PRIVATE ${HEADERS_DIR} ${ImageMagick_INCLUDE_DIRS})
+target_link_libraries(fractalgen ${ImageMagick_LIBRARIES})
+set_target_properties(fractalgen PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}//bin")
