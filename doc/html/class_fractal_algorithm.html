@@ -101,6 +101,9 @@ $(document).ready(function(){initNavTree('class_fractal_algorithm.html',''); ini
 </div><!--header-->
 <div class="contents">
 
+<p>Abstract class used as a base of different algorithms classes.  
+ <a href="class_fractal_algorithm.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_fractal_algorithm_8hpp_source.html">FractalAlgorithm.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for FractalAlgorithm:</div>
@@ -117,24 +120,33 @@ Inheritance diagram for FractalAlgorithm:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a939fc3755a9d776e29cacbd968a07c6a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#a939fc3755a9d776e29cacbd968a07c6a">FractalAlgorithm</a> (<a class="el" href="_fractal_algorithm_8hpp.html#a9d7fe636c709cce2c637425065dae0c6">FractalAlgorithmType</a> falg)</td></tr>
+<tr class="memdesc:a939fc3755a9d776e29cacbd968a07c6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set algorithm type.  <a href="class_fractal_algorithm.html#a939fc3755a9d776e29cacbd968a07c6a">More...</a><br /></td></tr>
 <tr class="separator:a939fc3755a9d776e29cacbd968a07c6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a988c1dd48c10b729d373e7d71a5330"><td class="memItemLeft" align="right" valign="top">virtual pair&lt; int, tuple&lt; <a class="el" href="class_complex.html">Complex</a>, <a class="el" href="class_complex.html">Complex</a>, <a class="el" href="class_complex.html">Complex</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#a7a988c1dd48c10b729d373e7d71a5330">getIterationsAndOrbit</a> (const <a class="el" href="class_complex.html">Complex</a> &amp;c)=0</td></tr>
+<tr class="memdesc:a7a988c1dd48c10b729d373e7d71a5330"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of iterations and last 3 elements of orbit trap.  <a href="class_fractal_algorithm.html#a7a988c1dd48c10b729d373e7d71a5330">More...</a><br /></td></tr>
 <tr class="separator:a7a988c1dd48c10b729d373e7d71a5330"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3eacf8ae2e38e73b91c74045ba71e02"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#ac3eacf8ae2e38e73b91c74045ba71e02">getExponent</a> ()=0</td></tr>
+<tr class="memdesc:ac3eacf8ae2e38e73b91c74045ba71e02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get exponent of polynomial used to compute next iteration value.  <a href="class_fractal_algorithm.html#ac3eacf8ae2e38e73b91c74045ba71e02">More...</a><br /></td></tr>
 <tr class="separator:ac3eacf8ae2e38e73b91c74045ba71e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa912fbafc74d95cc5a1c5c122def46b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#aa912fbafc74d95cc5a1c5c122def46b6">setMaxIterationsNumber</a> (int n)</td></tr>
+<tr class="memdesc:aa912fbafc74d95cc5a1c5c122def46b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set maximum number of iterations that the algorithm can perform.  <a href="class_fractal_algorithm.html#aa912fbafc74d95cc5a1c5c122def46b6">More...</a><br /></td></tr>
 <tr class="separator:aa912fbafc74d95cc5a1c5c122def46b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc86fb204bb4bc02d1f2d7b7dc6a175e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_fractal_algorithm_8hpp.html#a9d7fe636c709cce2c637425065dae0c6">FractalAlgorithmType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#afc86fb204bb4bc02d1f2d7b7dc6a175e">getAlgorithmType</a> ()</td></tr>
+<tr class="memdesc:afc86fb204bb4bc02d1f2d7b7dc6a175e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the kind of the algoritm.  <a href="class_fractal_algorithm.html#afc86fb204bb4bc02d1f2d7b7dc6a175e">More...</a><br /></td></tr>
 <tr class="separator:afc86fb204bb4bc02d1f2d7b7dc6a175e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a276dd9be745fb3fc519400e277faa0d2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#a276dd9be745fb3fc519400e277faa0d2">getMaxIterationsNumber</a> () const</td></tr>
+<tr class="memdesc:a276dd9be745fb3fc519400e277faa0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get maximum number of iterations.  <a href="class_fractal_algorithm.html#a276dd9be745fb3fc519400e277faa0d2">More...</a><br /></td></tr>
 <tr class="separator:a276dd9be745fb3fc519400e277faa0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a33dda1aa5986a735a6a78ffd03ecb3d7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#a33dda1aa5986a735a6a78ffd03ecb3d7">max_iter</a> = <a class="el" href="_fractal_algorithm_8hpp.html#aaf6fd2ecabda7e4055d545d580ebebf2">DEFAULT_ITERATIONS</a></td></tr>
+<tr class="memdesc:a33dda1aa5986a735a6a78ffd03ecb3d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum number of iterations.  <a href="class_fractal_algorithm.html#a33dda1aa5986a735a6a78ffd03ecb3d7">More...</a><br /></td></tr>
 <tr class="separator:a33dda1aa5986a735a6a78ffd03ecb3d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Abstract class used as a base of different algorithms classes. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a939fc3755a9d776e29cacbd968a07c6a" name="a939fc3755a9d776e29cacbd968a07c6a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a939fc3755a9d776e29cacbd968a07c6a">&#9670;&nbsp;</a></span>FractalAlgorithm()</h2>
 
@@ -158,6 +170,14 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set algorithm type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">falg</td><td>- kind of the algorithm </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -185,6 +205,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the kind of the algoritm. </p>
+<dl class="section return"><dt>Returns</dt><dd>the algorithm type </dd></dl>
+
 </div>
 </div>
 <a id="ac3eacf8ae2e38e73b91c74045ba71e02" name="ac3eacf8ae2e38e73b91c74045ba71e02"></a>
@@ -209,6 +232,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get exponent of polynomial used to compute next iteration value. </p>
+<dl class="section return"><dt>Returns</dt><dd>exponent of polynomial </dd></dl>
 
 <p>Implemented in <a class="el" href="class_julia_set.html#ae65d0d2c1bd35ca432a82ab6c71b7497">JuliaSet</a>, <a class="el" href="class_mandelbrot.html#a2c955d5f0fe5c8462dda04f72203af17">Mandelbrot</a>, and <a class="el" href="class_newton.html#ae0d2d08cb888434df9eb904ae985c0b2">Newton</a>.</p>
 
@@ -238,6 +264,24 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get number of iterations and last 3 elements of orbit trap. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>- complex number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pair consist of number of iterations and 3 last elements of orbit trap where:<br  />
+<ul>
+<li>last element is first iteration value exceeding bailout value,<br  />
+</li>
+<li>second element is iteration value before last element,<br  />
+</li>
+<li>first element is iteration value before second element,<br  />
+ Number of iterations denote how many iterations needs algorithm perform to fall into the orbit trap. If the algorithm don't fall into the orbit trap and maximum number of iterations was reached then maximal number of iterations should be returned </li>
+</ul>
+</dd></dl>
+
 <p>Implemented in <a class="el" href="class_julia_set.html#acc2852b0db66b98419f03d505beb994f">JuliaSet</a>, <a class="el" href="class_mandelbrot.html#a5e48fdb7afc515ba30905d6e521bc4d5">Mandelbrot</a>, and <a class="el" href="class_newton.html#a1d909f4c29a21de64b1838dc3845f828">Newton</a>.</p>
 
 </div>
@@ -265,6 +309,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get maximum number of iterations. </p>
+<dl class="section return"><dt>Returns</dt><dd>maximum number of iterations </dd></dl>
+
 </div>
 </div>
 <a id="aa912fbafc74d95cc5a1c5c122def46b6" name="aa912fbafc74d95cc5a1c5c122def46b6"></a>
@@ -291,6 +338,17 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set maximum number of iterations that the algorithm can perform. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>- maximum number of iterations </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true when setted value successfully </dd>
+<dd>
+false when n &lt; <a class="el" href="_fractal_algorithm_8hpp.html#ad72946d49f0f8818c0a58a89c78b098a" title="Minimum possible number of iterations.">MIN_ITERATIONS</a> or n &gt; <a class="el" href="_fractal_algorithm_8hpp.html#ac3b5c3a983442159820f148bdc733d20" title="Maximum possible number of iterations - limited due the performance.">MAX_ITERATIONS</a> </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -313,6 +371,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>maximum number of iterations. </p>
+<p >It's upper bound of iterations that algorithm can perform. </p>
 
 </div>
 </div>

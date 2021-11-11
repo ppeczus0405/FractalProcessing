@@ -101,21 +101,29 @@ $(document).ready(function(){initNavTree('class_fractal_coloring_creator.html','
 </div><!--header-->
 <div class="contents">
 
+<p>Set of factory functions for creating fractal colorings.  
+ <a href="class_fractal_coloring_creator.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_fractal_coloring_creator_8hpp_source.html">FractalColoringCreator.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab442cfc39c15ae8fdb3327b8e8338a95"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring_creator.html#ab442cfc39c15ae8fdb3327b8e8338a95">FractalColoringCreator</a> ()=delete</td></tr>
+<tr class="memdesc:ab442cfc39c15ae8fdb3327b8e8338a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable possibility creating <a class="el" href="class_fractal_coloring_creator.html" title="Set of factory functions for creating fractal colorings.">FractalColoringCreator</a> objects.  <a href="class_fractal_coloring_creator.html#ab442cfc39c15ae8fdb3327b8e8338a95">More...</a><br /></td></tr>
 <tr class="separator:ab442cfc39c15ae8fdb3327b8e8338a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a3d4f8bc8b6130da99a54d45200141009"><td class="memItemLeft" align="right" valign="top">static unique_ptr&lt; <a class="el" href="class_fractal_coloring.html">FractalColoring</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring_creator.html#a3d4f8bc8b6130da99a54d45200141009">createSmoothDivergence</a> (int maxIterations, int exponent, int mapSize=<a class="el" href="_fractal_coloring_8hpp.html#aa16d94e86c4d964f3d30c8b4f708c655">DEFAULT_COLOR_MAP_SIZE</a>, unique_ptr&lt; <a class="el" href="class_peki_processing_1_1_gradient.html">Gradient</a> &gt; gradient=nullptr)</td></tr>
+<tr class="memdesc:a3d4f8bc8b6130da99a54d45200141009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for <a class="el" href="class_smooth_divergence.html">SmoothDivergence</a> instantiation.  <a href="class_fractal_coloring_creator.html#a3d4f8bc8b6130da99a54d45200141009">More...</a><br /></td></tr>
 <tr class="separator:a3d4f8bc8b6130da99a54d45200141009"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba3fa8f635f13b197e766d86f51227d1"><td class="memItemLeft" align="right" valign="top">static unique_ptr&lt; <a class="el" href="class_fractal_coloring.html">FractalColoring</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring_creator.html#aba3fa8f635f13b197e766d86f51227d1">createSmoothConvergence</a> (int maxIterations, int exponent, int mapSize=<a class="el" href="_fractal_coloring_8hpp.html#aa16d94e86c4d964f3d30c8b4f708c655">DEFAULT_COLOR_MAP_SIZE</a>, unique_ptr&lt; <a class="el" href="class_peki_processing_1_1_gradient.html">Gradient</a> &gt; gradient=nullptr)</td></tr>
+<tr class="memdesc:aba3fa8f635f13b197e766d86f51227d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for <a class="el" href="class_smooth_convergence.html">SmoothConvergence</a> instantiation.  <a href="class_fractal_coloring_creator.html#aba3fa8f635f13b197e766d86f51227d1">More...</a><br /></td></tr>
 <tr class="separator:aba3fa8f635f13b197e766d86f51227d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Set of factory functions for creating fractal colorings. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab442cfc39c15ae8fdb3327b8e8338a95" name="ab442cfc39c15ae8fdb3327b8e8338a95"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab442cfc39c15ae8fdb3327b8e8338a95">&#9670;&nbsp;</a></span>FractalColoringCreator()</h2>
 
@@ -138,6 +146,8 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Disable possibility creating <a class="el" href="class_fractal_coloring_creator.html" title="Set of factory functions for creating fractal colorings.">FractalColoringCreator</a> objects. </p>
 
 </div>
 </div>
@@ -188,6 +198,18 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Factory function for <a class="el" href="class_smooth_convergence.html">SmoothConvergence</a> instantiation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxIterations</td><td>- maximal number of iterations that fractal algorithm can perform </td></tr>
+    <tr><td class="paramname">exponent</td><td>- highest power of variable in polynomial used to generate fractal image </td></tr>
+    <tr><td class="paramname">mapSize</td><td>- size of the gradient color map </td></tr>
+    <tr><td class="paramname">gradient</td><td>- object used to color fractal image </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to the new instance of <a class="el" href="class_smooth_convergence.html">SmoothConvergence</a> class </dd></dl>
+
 </div>
 </div>
 <a id="a3d4f8bc8b6130da99a54d45200141009" name="a3d4f8bc8b6130da99a54d45200141009"></a>
@@ -235,6 +257,18 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Factory function for <a class="el" href="class_smooth_divergence.html">SmoothDivergence</a> instantiation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxIterations</td><td>- maximal number of iterations that fractal algorithm can perform </td></tr>
+    <tr><td class="paramname">exponent</td><td>- highest power of variable in polynomial used to generate fractal image </td></tr>
+    <tr><td class="paramname">mapSize</td><td>- size of the gradient color map </td></tr>
+    <tr><td class="paramname">gradient</td><td>- object used to color fractal image </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to the new instance of <a class="el" href="class_smooth_divergence.html">SmoothDivergence</a> class </dd></dl>
 
 </div>
 </div>

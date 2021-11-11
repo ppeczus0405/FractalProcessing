@@ -101,6 +101,9 @@ $(document).ready(function(){initNavTree('class_fractal.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 
+<p>Generating fractal images.  
+ <a href="class_fractal.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_fractal_8hpp_source.html">Fractal.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Fractal:</div>
@@ -115,27 +118,38 @@ Inheritance diagram for Fractal:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3dc312e7ea0926d84e28d18cb3cecda9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#a3dc312e7ea0926d84e28d18cb3cecda9">resize</a> (int width, int height)</td></tr>
+<tr class="memdesc:a3dc312e7ea0926d84e28d18cb3cecda9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizing fractal image.  <a href="class_fractal.html#a3dc312e7ea0926d84e28d18cb3cecda9">More...</a><br /></td></tr>
 <tr class="separator:a3dc312e7ea0926d84e28d18cb3cecda9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ae802a9882b3f61b9d86efac8067ef5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#a5ae802a9882b3f61b9d86efac8067ef5">setRectangle</a> (pair&lt; int, int &gt; v1, pair&lt; int, int &gt; v2)</td></tr>
+<tr class="memdesc:a5ae802a9882b3f61b9d86efac8067ef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zoom fractal into area(positive) defined by 2 vertices of rectangle lying on the same diagonal.  <a href="class_fractal.html#a5ae802a9882b3f61b9d86efac8067ef5">More...</a><br /></td></tr>
 <tr class="separator:a5ae802a9882b3f61b9d86efac8067ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acad8937fded38484c096b89c21976486"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#acad8937fded38484c096b89c21976486">setScale</a> (long double minR, long double maxR, long double minI, long double maxI, bool baseChanged=false)</td></tr>
+<tr class="memdesc:acad8937fded38484c096b89c21976486"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set real values range and imaginary values range.  <a href="class_fractal.html#acad8937fded38484c096b89c21976486">More...</a><br /></td></tr>
 <tr class="separator:acad8937fded38484c096b89c21976486"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4546ee68c9dfc0e2aa33d7bb5e2d183"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#aa4546ee68c9dfc0e2aa33d7bb5e2d183">isPreviousScale</a> ()</td></tr>
+<tr class="memdesc:aa4546ee68c9dfc0e2aa33d7bb5e2d183"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if there is previous scale on scale stack.  <a href="class_fractal.html#aa4546ee68c9dfc0e2aa33d7bb5e2d183">More...</a><br /></td></tr>
 <tr class="separator:aa4546ee68c9dfc0e2aa33d7bb5e2d183"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1d54eb1e0604b221136b1367ad0663c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#af1d54eb1e0604b221136b1367ad0663c">write</a> (const string &amp;filename, const <a class="el" href="_image_saver_8hpp.html#a8c0f08a5ac7e17f93297e82abe4b3292">SaveFormat</a> &amp;format=<a class="el" href="_image_saver_8hpp.html#a8c0f08a5ac7e17f93297e82abe4b3292a907e06a16862d82ca6907a28a68d0ad6">SaveFormat::JPEG</a>) override</td></tr>
+<tr class="memdesc:af1d54eb1e0604b221136b1367ad0663c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saving file.  <a href="class_fractal.html#af1d54eb1e0604b221136b1367ad0663c">More...</a><br /></td></tr>
 <tr class="separator:af1d54eb1e0604b221136b1367ad0663c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a522c5c3ff6b1e914743ee49de1b161e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#a522c5c3ff6b1e914743ee49de1b161e2">setPreviousScale</a> ()</td></tr>
+<tr class="memdesc:a522c5c3ff6b1e914743ee49de1b161e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set scale of fractal to previous in stack.  <a href="class_fractal.html#a522c5c3ff6b1e914743ee49de1b161e2">More...</a><br /></td></tr>
 <tr class="separator:a522c5c3ff6b1e914743ee49de1b161e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c888b7887420de49204771e89b7791b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#a4c888b7887420de49204771e89b7791b">setDefaultScale</a> ()</td></tr>
+<tr class="memdesc:a4c888b7887420de49204771e89b7791b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set scale of fractal to default.  <a href="class_fractal.html#a4c888b7887420de49204771e89b7791b">More...</a><br /></td></tr>
 <tr class="separator:a4c888b7887420de49204771e89b7791b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1485938e974844cfb5e5830ce5bf5d59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#a1485938e974844cfb5e5830ce5bf5d59">setIterations</a> (int iters)</td></tr>
+<tr class="memdesc:a1485938e974844cfb5e5830ce5bf5d59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum number of iterations can be done by fractal algorithm.  <a href="class_fractal.html#a1485938e974844cfb5e5830ce5bf5d59">More...</a><br /></td></tr>
 <tr class="separator:a1485938e974844cfb5e5830ce5bf5d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac30e213baef00809e040922e0014bf37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#ac30e213baef00809e040922e0014bf37">setAlgorithm</a> (unique_ptr&lt; <a class="el" href="class_fractal_algorithm.html">FractalAlgorithm</a> &gt; alg)</td></tr>
+<tr class="memdesc:ac30e213baef00809e040922e0014bf37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the algorithm using to generate fractal image.  <a href="class_fractal.html#ac30e213baef00809e040922e0014bf37">More...</a><br /></td></tr>
 <tr class="separator:ac30e213baef00809e040922e0014bf37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad904674fd8a17d609a367800771a1a4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal.html#ad904674fd8a17d609a367800771a1a4b">setGradientMapSize</a> (int mapSize)</td></tr>
+<tr class="memdesc:ad904674fd8a17d609a367800771a1a4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set gradient map size(gradient accuracy)  <a href="class_fractal.html#ad904674fd8a17d609a367800771a1a4b">More...</a><br /></td></tr>
 <tr class="separator:ad904674fd8a17d609a367800771a1a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade329a17f96049ba3dbf13e8b4d7d64f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ade329a17f96049ba3dbf13e8b4d7d64f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_fractal.html#ade329a17f96049ba3dbf13e8b4d7d64f">setGradient</a> (T &amp;&amp;gradient)</td></tr>
+<tr class="memdesc:ade329a17f96049ba3dbf13e8b4d7d64f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set gradient using to coloring image.  <a href="class_fractal.html#ade329a17f96049ba3dbf13e8b4d7d64f">More...</a><br /></td></tr>
 <tr class="separator:ade329a17f96049ba3dbf13e8b4d7d64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_peki_processing_1_1_image"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_peki_processing_1_1_image')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_peki_processing_1_1_image.html">PekiProcessing::Image</a></td></tr>
 <tr class="memitem:a2326d6c9f91dbb7e8bf3ba9e426f6448 inherit pub_methods_class_peki_processing_1_1_image"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_peki_processing_1_1_image.html#a2326d6c9f91dbb7e8bf3ba9e426f6448">Image</a> (int width, int height)</td></tr>
@@ -160,7 +174,9 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:aa048a2fefa41737d3034591c8cd76b48 inherit pro_attribs_class_peki_processing_1_1_image"><td class="memItemLeft" align="right" valign="top">unique_ptr&lt; <a class="el" href="class_image_saver.html">ImageSaver</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_peki_processing_1_1_image.html#aa048a2fefa41737d3034591c8cd76b48">imgsaver</a> = nullptr</td></tr>
 <tr class="separator:aa048a2fefa41737d3034591c8cd76b48 inherit pro_attribs_class_peki_processing_1_1_image"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Generating fractal images. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa4546ee68c9dfc0e2aa33d7bb5e2d183" name="aa4546ee68c9dfc0e2aa33d7bb5e2d183"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa4546ee68c9dfc0e2aa33d7bb5e2d183">&#9670;&nbsp;</a></span>isPreviousScale()</h2>
 
@@ -175,6 +191,11 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Checks if there is previous scale on scale stack. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if exist previous scale </dd>
+<dd>
+false otherwise </dd></dl>
 
 </div>
 </div>
@@ -204,6 +225,18 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Resizing fractal image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>- desired width of new fractal image </td></tr>
+    <tr><td class="paramname">height</td><td>- desired height of new fractal image </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true when successfully resized image </dd>
+<dd>
+false otherwise </dd></dl>
+
 </div>
 </div>
 <a id="ac30e213baef00809e040922e0014bf37" name="ac30e213baef00809e040922e0014bf37"></a>
@@ -222,6 +255,14 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set the algorithm using to generate fractal image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">alg</td><td>- pointer to fractal generation algorithm </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a4c888b7887420de49204771e89b7791b" name="a4c888b7887420de49204771e89b7791b"></a>
@@ -238,6 +279,8 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Set scale of fractal to default. </p>
 
 </div>
 </div>
@@ -267,6 +310,20 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Set gradient using to coloring image. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- the type of gradient, <a class="el" href="class_peki_processing_1_1_gradient.html">PekiProcessing::Gradient</a> class has to be constructible from object of this type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">gradient</td><td>- used to coloring of image </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ad904674fd8a17d609a367800771a1a4b" name="ad904674fd8a17d609a367800771a1a4b"></a>
@@ -284,6 +341,14 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Set gradient map size(gradient accuracy) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mapSize</td><td>- size of map </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -303,6 +368,14 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Set the maximum number of iterations can be done by fractal algorithm. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iters</td><td>- number of iterations </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a522c5c3ff6b1e914743ee49de1b161e2" name="a522c5c3ff6b1e914743ee49de1b161e2"></a>
@@ -319,6 +392,8 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Set scale of fractal to previous in stack. </p>
 
 </div>
 </div>
@@ -347,6 +422,18 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Zoom fractal into area(positive) defined by 2 vertices of rectangle lying on the same diagonal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v1</td><td>- first vertice of rectangle (x, y) where 1 &lt;= x &lt;= width and 1 &lt;= y &lt;= height </td></tr>
+    <tr><td class="paramname">v2</td><td>- second vertice of rectangle meeting the same conditions as first </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true when succesfully zoomed image </dd>
+<dd>
+false otherwise </dd></dl>
 
 </div>
 </div>
@@ -394,6 +481,21 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Set real values range and imaginary values range. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minR</td><td>- minimal real number </td></tr>
+    <tr><td class="paramname">maxR</td><td>- maximum real number </td></tr>
+    <tr><td class="paramname">minI</td><td>- minimum imaginary number </td></tr>
+    <tr><td class="paramname">maxI</td><td>- maximium imaginary number </td></tr>
+    <tr><td class="paramname">baseChanged</td><td>true when size of fractal was changed(width or height), default setted to false </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true when succsessfully setted scale </dd>
+<dd>
+false otherwise </dd></dl>
+
 </div>
 </div>
 <a id="af1d54eb1e0604b221136b1367ad0663c" name="af1d54eb1e0604b221136b1367ad0663c"></a>
@@ -429,6 +531,18 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Saving file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>- path where file is goint to save </td></tr>
+    <tr><td class="paramname">format</td><td>- save format(e.g. PNG, JPG, GIFF) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true when successfully saved the file </dd>
+<dd>
+false otherwise </dd></dl>
 
 <p>Reimplemented from <a class="el" href="class_peki_processing_1_1_image.html#a019541fbcf3b65f3e7a2f305071b2465">PekiProcessing::Image</a>.</p>
 

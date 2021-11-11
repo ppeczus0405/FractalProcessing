@@ -100,27 +100,39 @@ $(document).ready(function(){initNavTree('class_fractal_builder.html',''); initR
 </div><!--header-->
 <div class="contents">
 
+<p>Builder of <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> class.  
+ <a href="class_fractal_builder.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_fractal_8hpp_source.html">Fractal.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a22f9e4ec3db20b29c503b8a17c0345f1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_builder.html#a22f9e4ec3db20b29c503b8a17c0345f1">FractalBuilder</a> (int width, int height)</td></tr>
+<tr class="memdesc:a22f9e4ec3db20b29c503b8a17c0345f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_fractal_builder.html" title="Builder of Fractal class.">FractalBuilder</a> object.  <a href="class_fractal_builder.html#a22f9e4ec3db20b29c503b8a17c0345f1">More...</a><br /></td></tr>
 <tr class="separator:a22f9e4ec3db20b29c503b8a17c0345f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a913ce8fc2b837200a0b79aeca7283d66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fractal_builder.html">FractalBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_builder.html#a913ce8fc2b837200a0b79aeca7283d66">setScale</a> (long double minR, long double maxR, long double minI, long double maxI)</td></tr>
+<tr class="memdesc:a913ce8fc2b837200a0b79aeca7283d66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Real and imaginary values ranges used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance.  <a href="class_fractal_builder.html#a913ce8fc2b837200a0b79aeca7283d66">More...</a><br /></td></tr>
 <tr class="separator:a913ce8fc2b837200a0b79aeca7283d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8031f9289e688392e279613041951d60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fractal_builder.html">FractalBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_builder.html#a8031f9289e688392e279613041951d60">setAlgorithm</a> (unique_ptr&lt; <a class="el" href="class_fractal_algorithm.html">FractalAlgorithm</a> &gt; alg)</td></tr>
+<tr class="memdesc:a8031f9289e688392e279613041951d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the algorithm used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance.  <a href="class_fractal_builder.html#a8031f9289e688392e279613041951d60">More...</a><br /></td></tr>
 <tr class="separator:a8031f9289e688392e279613041951d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8cefc71b75167714dbee9b56dc0f236"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fractal_builder.html">FractalBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_builder.html#ae8cefc71b75167714dbee9b56dc0f236">setMaxIterations</a> (int mxIter)</td></tr>
+<tr class="memdesc:ae8cefc71b75167714dbee9b56dc0f236"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the max iterations number used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance.  <a href="class_fractal_builder.html#ae8cefc71b75167714dbee9b56dc0f236">More...</a><br /></td></tr>
 <tr class="separator:ae8cefc71b75167714dbee9b56dc0f236"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaaf7fd1c3bd10e0202e06af1dc59c34a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fractal_builder.html">FractalBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_builder.html#aaaf7fd1c3bd10e0202e06af1dc59c34a">setGradientMapSize</a> (int size)</td></tr>
+<tr class="memdesc:aaaf7fd1c3bd10e0202e06af1dc59c34a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the gradient map size used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance.  <a href="class_fractal_builder.html#aaaf7fd1c3bd10e0202e06af1dc59c34a">More...</a><br /></td></tr>
 <tr class="separator:aaaf7fd1c3bd10e0202e06af1dc59c34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84501982b699f6f81826cee9b6953017"><td class="memItemLeft" align="right" valign="top">unique_ptr&lt; <a class="el" href="class_fractal.html">Fractal</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_builder.html#a84501982b699f6f81826cee9b6953017">build</a> ()</td></tr>
+<tr class="memdesc:a84501982b699f6f81826cee9b6953017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create instance of <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> class.  <a href="class_fractal_builder.html#a84501982b699f6f81826cee9b6953017">More...</a><br /></td></tr>
 <tr class="separator:a84501982b699f6f81826cee9b6953017"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad64d6a733e49001bf474ac2604992531"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ad64d6a733e49001bf474ac2604992531"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_fractal_builder.html">FractalBuilder</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_fractal_builder.html#ad64d6a733e49001bf474ac2604992531">setGradient</a> (T &amp;&amp;g)</td></tr>
+<tr class="memdesc:ad64d6a733e49001bf474ac2604992531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set gradient used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance.  <a href="class_fractal_builder.html#ad64d6a733e49001bf474ac2604992531">More...</a><br /></td></tr>
 <tr class="separator:ad64d6a733e49001bf474ac2604992531"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Builder of <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> class. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a22f9e4ec3db20b29c503b8a17c0345f1" name="a22f9e4ec3db20b29c503b8a17c0345f1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a22f9e4ec3db20b29c503b8a17c0345f1">&#9670;&nbsp;</a></span>FractalBuilder()</h2>
 
@@ -147,6 +159,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Construct a new <a class="el" href="class_fractal_builder.html" title="Builder of Fractal class.">FractalBuilder</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>fractal width </td></tr>
+    <tr><td class="paramname">height</td><td>fractal height </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -165,6 +186,9 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Create instance of <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> class. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to new instance of <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> class </dd></dl>
+
 </div>
 </div>
 <a id="a8031f9289e688392e279613041951d60" name="a8031f9289e688392e279613041951d60"></a>
@@ -182,6 +206,15 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Set the algorithm used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">alg</td><td>- pointer to fractal generation algorithm</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>reference to itself </dd></dl>
 
 </div>
 </div>
@@ -211,6 +244,21 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Set gradient used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- the type of gradient, <a class="el" href="class_peki_processing_1_1_gradient.html">PekiProcessing::Gradient</a> class has to be constructible from object of this type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">gradient</td><td>- used to coloring of image </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>reference to itself </dd></dl>
+
 </div>
 </div>
 <a id="aaaf7fd1c3bd10e0202e06af1dc59c34a" name="aaaf7fd1c3bd10e0202e06af1dc59c34a"></a>
@@ -229,6 +277,15 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Set the gradient map size used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>- gradient map size(accuracy) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>reference to itself </dd></dl>
+
 </div>
 </div>
 <a id="ae8cefc71b75167714dbee9b56dc0f236" name="ae8cefc71b75167714dbee9b56dc0f236"></a>
@@ -246,6 +303,15 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Set the max iterations number used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mxIter</td><td>- max iterations number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>reference to itself </dd></dl>
 
 </div>
 </div>
@@ -286,6 +352,18 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Real and imaginary values ranges used to initialize <a class="el" href="class_fractal.html" title="Generating fractal images.">Fractal</a> instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minR</td><td>- minimal real number </td></tr>
+    <tr><td class="paramname">maxR</td><td>- maximum real number </td></tr>
+    <tr><td class="paramname">minI</td><td>- minimum imaginary number </td></tr>
+    <tr><td class="paramname">maxI</td><td>- maximium imaginary number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>reference to itself </dd></dl>
 
 </div>
 </div>

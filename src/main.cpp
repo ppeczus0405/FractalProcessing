@@ -45,9 +45,10 @@ void process_gradient(PekiProcessing::Gradient &g, const int i){
 
 int main(int argc, char** argv)
 {
-    filesystem::create_directory(Config::SAVE_PATH);
-    PekiProcessing::Gradient gradient1, gradient2, gradient3;
+    //filesystem::create_directory(Config::SAVE_PATH);
+    //PekiProcessing::Gradient gradient1, gradient2, gradient3;
     
+    /*
     // GRADIENT 1
     gradient1.insertPoint(0.0, {0, 7, 100});
     gradient1.insertPoint(0.16, {32, 107, 203});
@@ -72,5 +73,7 @@ int main(int argc, char** argv)
     process_gradient(gradient1, 1);
     process_gradient(gradient2, 2);
     process_gradient(gradient3, 3);
+    */
+    //cout << sizeof(vector<int> &) << " " << sizeof(vector<int>) << endl;
     return 0;
 }

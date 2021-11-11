@@ -8,13 +8,13 @@ JuliaSet::JuliaSet() : FractalAlgorithm(FAT::JULIA) {}
 JuliaSet::JuliaSet(const Complex &inc) : 
     FractalAlgorithm(FAT::JULIA), m_inc(inc), m_pixel_as_inc(false) { }
 
-JuliaSet::JuliaSet(const int &exponent) :
+JuliaSet::JuliaSet(const int exponent) :
     FractalAlgorithm(FAT::POLYJULIA), m_exponent(exponent)
 {
     assert(exponent >= 1);
 }
 
-JuliaSet::JuliaSet(const int &exponent, const Complex &inc) : 
+JuliaSet::JuliaSet(const int exponent, const Complex &inc) : 
     FractalAlgorithm(FAT::POLYJULIA), m_inc(inc), m_exponent(exponent), m_pixel_as_inc(false)
 {
     assert(exponent >= 1);

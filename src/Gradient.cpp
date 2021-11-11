@@ -179,7 +179,7 @@ void Gradient::generateMonotoneIntervals(){
         vector <tuple<tk::spline, int, int> > intervals;
 
         auto add_interval = [&intervals, &X, &Y](const int a, const int b){
-            const double correction = EPSILON;
+            const double correction = CompareDoubles::EPSILON;
             if((int)X.size() == 2){
                 X.emplace_back(X.back() + correction);
                 Y.emplace_back(Y.back());

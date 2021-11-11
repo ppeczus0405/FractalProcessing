@@ -29,7 +29,6 @@ var NAVTREE =
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
-        [ "Variables", "namespacemembers_vars.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ]
       ] ]
     ] ],
@@ -59,7 +58,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_compare_doubles_8hpp.html",
-"namespace_peki_processing.html"
+"namespacetk_1_1internal.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

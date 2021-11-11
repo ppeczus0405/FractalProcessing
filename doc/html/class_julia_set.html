@@ -107,7 +107,7 @@ Inheritance diagram for JuliaSet:</div>
  <div class="center">
   <img src="class_julia_set.png" usemap="#JuliaSet_map" alt=""/>
   <map id="JuliaSet_map" name="JuliaSet_map">
-<area href="class_fractal_algorithm.html" alt="FractalAlgorithm" shape="rect" coords="0,0,105,24"/>
+<area href="class_fractal_algorithm.html" title="Abstract class used as a base of different algorithms classes." alt="FractalAlgorithm" shape="rect" coords="0,0,105,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -117,28 +117,35 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abceab18ba1a2c82d116e72b591848fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc1ff09fb885fcb4523fa8683dfda236"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_julia_set.html#abc1ff09fb885fcb4523fa8683dfda236">JuliaSet</a> (const <a class="el" href="class_complex.html">Complex</a> &amp;inc)</td></tr>
 <tr class="separator:abc1ff09fb885fcb4523fa8683dfda236"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadfcf3c91952c33a1e221369392c134b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_julia_set.html#aadfcf3c91952c33a1e221369392c134b">JuliaSet</a> (const int &amp;exponent)</td></tr>
-<tr class="separator:aadfcf3c91952c33a1e221369392c134b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5e26250db28eaebb318d715e3f1f86d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_julia_set.html#af5e26250db28eaebb318d715e3f1f86d">JuliaSet</a> (const int &amp;exponent, const <a class="el" href="class_complex.html">Complex</a> &amp;inc)</td></tr>
-<tr class="separator:af5e26250db28eaebb318d715e3f1f86d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67d1df023d1adf0b1f2d6b8d65496006"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_julia_set.html#a67d1df023d1adf0b1f2d6b8d65496006">JuliaSet</a> (const int exponent)</td></tr>
+<tr class="separator:a67d1df023d1adf0b1f2d6b8d65496006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a058b9ddf7eeb3abaa905cd5596c3e910"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_julia_set.html#a058b9ddf7eeb3abaa905cd5596c3e910">JuliaSet</a> (const int exponent, const <a class="el" href="class_complex.html">Complex</a> &amp;inc)</td></tr>
+<tr class="separator:a058b9ddf7eeb3abaa905cd5596c3e910"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc2852b0db66b98419f03d505beb994f"><td class="memItemLeft" align="right" valign="top">pair&lt; int, tuple&lt; <a class="el" href="class_complex.html">Complex</a>, <a class="el" href="class_complex.html">Complex</a>, <a class="el" href="class_complex.html">Complex</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_julia_set.html#acc2852b0db66b98419f03d505beb994f">getIterationsAndOrbit</a> (const <a class="el" href="class_complex.html">Complex</a> &amp;c) override</td></tr>
+<tr class="memdesc:acc2852b0db66b98419f03d505beb994f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of iterations and last 3 elements of orbit trap.  <a href="class_julia_set.html#acc2852b0db66b98419f03d505beb994f">More...</a><br /></td></tr>
 <tr class="separator:acc2852b0db66b98419f03d505beb994f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae65d0d2c1bd35ca432a82ab6c71b7497"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_julia_set.html#ae65d0d2c1bd35ca432a82ab6c71b7497">getExponent</a> () override</td></tr>
+<tr class="memdesc:ae65d0d2c1bd35ca432a82ab6c71b7497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get exponent of polynomial used to compute next iteration value.  <a href="class_julia_set.html#ae65d0d2c1bd35ca432a82ab6c71b7497">More...</a><br /></td></tr>
 <tr class="separator:ae65d0d2c1bd35ca432a82ab6c71b7497"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_fractal_algorithm"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_fractal_algorithm')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_fractal_algorithm.html">FractalAlgorithm</a></td></tr>
 <tr class="memitem:a939fc3755a9d776e29cacbd968a07c6a inherit pub_methods_class_fractal_algorithm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#a939fc3755a9d776e29cacbd968a07c6a">FractalAlgorithm</a> (<a class="el" href="_fractal_algorithm_8hpp.html#a9d7fe636c709cce2c637425065dae0c6">FractalAlgorithmType</a> falg)</td></tr>
+<tr class="memdesc:a939fc3755a9d776e29cacbd968a07c6a inherit pub_methods_class_fractal_algorithm"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set algorithm type.  <a href="class_fractal_algorithm.html#a939fc3755a9d776e29cacbd968a07c6a">More...</a><br /></td></tr>
 <tr class="separator:a939fc3755a9d776e29cacbd968a07c6a inherit pub_methods_class_fractal_algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa912fbafc74d95cc5a1c5c122def46b6 inherit pub_methods_class_fractal_algorithm"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#aa912fbafc74d95cc5a1c5c122def46b6">setMaxIterationsNumber</a> (int n)</td></tr>
+<tr class="memdesc:aa912fbafc74d95cc5a1c5c122def46b6 inherit pub_methods_class_fractal_algorithm"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set maximum number of iterations that the algorithm can perform.  <a href="class_fractal_algorithm.html#aa912fbafc74d95cc5a1c5c122def46b6">More...</a><br /></td></tr>
 <tr class="separator:aa912fbafc74d95cc5a1c5c122def46b6 inherit pub_methods_class_fractal_algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc86fb204bb4bc02d1f2d7b7dc6a175e inherit pub_methods_class_fractal_algorithm"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_fractal_algorithm_8hpp.html#a9d7fe636c709cce2c637425065dae0c6">FractalAlgorithmType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#afc86fb204bb4bc02d1f2d7b7dc6a175e">getAlgorithmType</a> ()</td></tr>
+<tr class="memdesc:afc86fb204bb4bc02d1f2d7b7dc6a175e inherit pub_methods_class_fractal_algorithm"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the kind of the algoritm.  <a href="class_fractal_algorithm.html#afc86fb204bb4bc02d1f2d7b7dc6a175e">More...</a><br /></td></tr>
 <tr class="separator:afc86fb204bb4bc02d1f2d7b7dc6a175e inherit pub_methods_class_fractal_algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a276dd9be745fb3fc519400e277faa0d2 inherit pub_methods_class_fractal_algorithm"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#a276dd9be745fb3fc519400e277faa0d2">getMaxIterationsNumber</a> () const</td></tr>
+<tr class="memdesc:a276dd9be745fb3fc519400e277faa0d2 inherit pub_methods_class_fractal_algorithm"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get maximum number of iterations.  <a href="class_fractal_algorithm.html#a276dd9be745fb3fc519400e277faa0d2">More...</a><br /></td></tr>
 <tr class="separator:a276dd9be745fb3fc519400e277faa0d2 inherit pub_methods_class_fractal_algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_class_fractal_algorithm"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_fractal_algorithm')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_fractal_algorithm.html">FractalAlgorithm</a></td></tr>
 <tr class="memitem:a33dda1aa5986a735a6a78ffd03ecb3d7 inherit pro_attribs_class_fractal_algorithm"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_algorithm.html#a33dda1aa5986a735a6a78ffd03ecb3d7">max_iter</a> = <a class="el" href="_fractal_algorithm_8hpp.html#aaf6fd2ecabda7e4055d545d580ebebf2">DEFAULT_ITERATIONS</a></td></tr>
+<tr class="memdesc:a33dda1aa5986a735a6a78ffd03ecb3d7 inherit pro_attribs_class_fractal_algorithm"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum number of iterations.  <a href="class_fractal_algorithm.html#a33dda1aa5986a735a6a78ffd03ecb3d7">More...</a><br /></td></tr>
 <tr class="separator:a33dda1aa5986a735a6a78ffd03ecb3d7 inherit pro_attribs_class_fractal_algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -177,8 +184,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="aadfcf3c91952c33a1e221369392c134b" name="aadfcf3c91952c33a1e221369392c134b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadfcf3c91952c33a1e221369392c134b">&#9670;&nbsp;</a></span>JuliaSet() <span class="overload">[3/4]</span></h2>
+<a id="a67d1df023d1adf0b1f2d6b8d65496006" name="a67d1df023d1adf0b1f2d6b8d65496006"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67d1df023d1adf0b1f2d6b8d65496006">&#9670;&nbsp;</a></span>JuliaSet() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +193,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">JuliaSet::JuliaSet </td>
           <td>(</td>
-          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>exponent</em></td><td>)</td>
           <td></td>
         </tr>
@@ -195,8 +202,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="af5e26250db28eaebb318d715e3f1f86d" name="af5e26250db28eaebb318d715e3f1f86d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5e26250db28eaebb318d715e3f1f86d">&#9670;&nbsp;</a></span>JuliaSet() <span class="overload">[4/4]</span></h2>
+<a id="a058b9ddf7eeb3abaa905cd5596c3e910" name="a058b9ddf7eeb3abaa905cd5596c3e910"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a058b9ddf7eeb3abaa905cd5596c3e910">&#9670;&nbsp;</a></span>JuliaSet() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +211,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">JuliaSet::JuliaSet </td>
           <td>(</td>
-          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>exponent</em>, </td>
         </tr>
         <tr>
@@ -247,6 +254,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get exponent of polynomial used to compute next iteration value. </p>
+<dl class="section return"><dt>Returns</dt><dd>exponent of polynomial </dd></dl>
+
 <p>Implements <a class="el" href="class_fractal_algorithm.html#ac3eacf8ae2e38e73b91c74045ba71e02">FractalAlgorithm</a>.</p>
 
 </div>
@@ -274,6 +284,24 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get number of iterations and last 3 elements of orbit trap. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>- complex number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pair consist of number of iterations and 3 last elements of orbit trap where:<br  />
+<ul>
+<li>last element is first iteration value exceeding bailout value,<br  />
+</li>
+<li>second element is iteration value before last element,<br  />
+</li>
+<li>first element is iteration value before second element,<br  />
+ Number of iterations denote how many iterations needs algorithm perform to fall into the orbit trap. If the algorithm don't fall into the orbit trap and maximum number of iterations was reached then maximal number of iterations should be returned </li>
+</ul>
+</dd></dl>
 
 <p>Implements <a class="el" href="class_fractal_algorithm.html#a7a988c1dd48c10b729d373e7d71a5330">FractalAlgorithm</a>.</p>
 

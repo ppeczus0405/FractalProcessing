@@ -107,7 +107,7 @@ Inheritance diagram for SmoothConvergence:</div>
  <div class="center">
   <img src="class_smooth_convergence.png" usemap="#SmoothConvergence_map" alt=""/>
   <map id="SmoothConvergence_map" name="SmoothConvergence_map">
-<area href="class_fractal_coloring.html" alt="FractalColoring" shape="rect" coords="0,0,130,24"/>
+<area href="class_fractal_coloring.html" title="Abstract class used as a base of different fractal coloring classes." alt="FractalColoring" shape="rect" coords="0,0,130,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -116,35 +116,51 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a54832f5e448003510c8ee672d77c2321"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_smooth_convergence.html#a54832f5e448003510c8ee672d77c2321">SmoothConvergence</a> (int maxIterations, int exponent, int mapSize=<a class="el" href="_fractal_coloring_8hpp.html#aa16d94e86c4d964f3d30c8b4f708c655">DEFAULT_COLOR_MAP_SIZE</a>, unique_ptr&lt; <a class="el" href="class_peki_processing_1_1_gradient.html">Gradient</a> &gt; gradient=nullptr)</td></tr>
 <tr class="separator:a54832f5e448003510c8ee672d77c2321"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09c9c6089f3b268dca17111f1e6a336d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_r_g_b.html">RGB</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_smooth_convergence.html#a09c9c6089f3b268dca17111f1e6a336d">getPixel</a> (const pair&lt; int, tuple&lt; <a class="el" href="class_complex.html">Complex</a>, <a class="el" href="class_complex.html">Complex</a>, <a class="el" href="class_complex.html">Complex</a> &gt; &gt; &amp;iterOrbit) override</td></tr>
+<tr class="memdesc:a09c9c6089f3b268dca17111f1e6a336d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get final pixel used in the image.  <a href="class_smooth_convergence.html#a09c9c6089f3b268dca17111f1e6a336d">More...</a><br /></td></tr>
 <tr class="separator:a09c9c6089f3b268dca17111f1e6a336d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_fractal_coloring"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_fractal_coloring')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_fractal_coloring.html">FractalColoring</a></td></tr>
 <tr class="memitem:a4941fb8e0f4f9c19ce6f38011d08488c inherit pub_methods_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a4941fb8e0f4f9c19ce6f38011d08488c">FractalColoring</a> (int maxIterations, int exponent, long double bailout, int mapSize=<a class="el" href="_fractal_coloring_8hpp.html#aa16d94e86c4d964f3d30c8b4f708c655">DEFAULT_COLOR_MAP_SIZE</a>, unique_ptr&lt; <a class="el" href="class_peki_processing_1_1_gradient.html">Gradient</a> &gt; gradient=nullptr)</td></tr>
+<tr class="memdesc:a4941fb8e0f4f9c19ce6f38011d08488c inherit pub_methods_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main constructor used to initialize all members.  <a href="class_fractal_coloring.html#a4941fb8e0f4f9c19ce6f38011d08488c">More...</a><br /></td></tr>
 <tr class="separator:a4941fb8e0f4f9c19ce6f38011d08488c inherit pub_methods_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a5423944e57b1f11ebe8acbc576bc62 inherit pub_methods_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a6a5423944e57b1f11ebe8acbc576bc62">setGradient</a> (unique_ptr&lt; <a class="el" href="class_peki_processing_1_1_gradient.html">Gradient</a> &gt; gradient)</td></tr>
+<tr class="memdesc:a6a5423944e57b1f11ebe8acbc576bc62 inherit pub_methods_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the gradient if it's possible and generate new gradient map.  <a href="class_fractal_coloring.html#a6a5423944e57b1f11ebe8acbc576bc62">More...</a><br /></td></tr>
 <tr class="separator:a6a5423944e57b1f11ebe8acbc576bc62 inherit pub_methods_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c51da5928c65e0386fe616f5801e014 inherit pub_methods_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">unique_ptr&lt; <a class="el" href="class_peki_processing_1_1_gradient.html">Gradient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a5c51da5928c65e0386fe616f5801e014">getGradient</a> () noexcept</td></tr>
+<tr class="memdesc:a5c51da5928c65e0386fe616f5801e014 inherit pub_methods_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changing owner of gradient.  <a href="class_fractal_coloring.html#a5c51da5928c65e0386fe616f5801e014">More...</a><br /></td></tr>
 <tr class="separator:a5c51da5928c65e0386fe616f5801e014 inherit pub_methods_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30916619cc80927a84f05ba129ad6f37 inherit pub_methods_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a30916619cc80927a84f05ba129ad6f37">getColorMapSize</a> () const noexcept</td></tr>
+<tr class="memdesc:a30916619cc80927a84f05ba129ad6f37 inherit pub_methods_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getting size of gradient color map(accuracy of the gradient)  <a href="class_fractal_coloring.html#a30916619cc80927a84f05ba129ad6f37">More...</a><br /></td></tr>
 <tr class="separator:a30916619cc80927a84f05ba129ad6f37 inherit pub_methods_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe1b4f5c6050da6ae97de0b1be82b7c4 inherit pub_methods_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#afe1b4f5c6050da6ae97de0b1be82b7c4">setColorMapSize</a> (int mapSize)</td></tr>
+<tr class="memdesc:afe1b4f5c6050da6ae97de0b1be82b7c4 inherit pub_methods_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the gradient map size and generate gradient map with new size.  <a href="class_fractal_coloring.html#afe1b4f5c6050da6ae97de0b1be82b7c4">More...</a><br /></td></tr>
 <tr class="separator:afe1b4f5c6050da6ae97de0b1be82b7c4 inherit pub_methods_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac969426978f87db3dffda60871aa6d62 inherit pub_methods_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#ac969426978f87db3dffda60871aa6d62">setMaxIterations</a> (int iters)</td></tr>
+<tr class="memdesc:ac969426978f87db3dffda60871aa6d62 inherit pub_methods_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum iterations number.  <a href="class_fractal_coloring.html#ac969426978f87db3dffda60871aa6d62">More...</a><br /></td></tr>
 <tr class="separator:ac969426978f87db3dffda60871aa6d62 inherit pub_methods_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_class_fractal_coloring"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_fractal_coloring')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_fractal_coloring.html">FractalColoring</a></td></tr>
 <tr class="memitem:a4013d5f30ca5f38a776ca1b6141e685b inherit pro_attribs_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">long double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a4013d5f30ca5f38a776ca1b6141e685b">m_bailout</a></td></tr>
+<tr class="memdesc:a4013d5f30ca5f38a776ca1b6141e685b inherit pro_attribs_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">the bound of the orbit trap  <a href="class_fractal_coloring.html#a4013d5f30ca5f38a776ca1b6141e685b">More...</a><br /></td></tr>
 <tr class="separator:a4013d5f30ca5f38a776ca1b6141e685b inherit pro_attribs_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a611bb6f9418581d40c895250758b930d inherit pro_attribs_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a611bb6f9418581d40c895250758b930d">max_iterations</a></td></tr>
+<tr class="memdesc:a611bb6f9418581d40c895250758b930d inherit pro_attribs_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">It is <a class="el" href="class_fractal_algorithm.html#a33dda1aa5986a735a6a78ffd03ecb3d7" title="maximum number of iterations.">FractalAlgorithm::max_iter</a>.  <a href="class_fractal_coloring.html#a611bb6f9418581d40c895250758b930d">More...</a><br /></td></tr>
 <tr class="separator:a611bb6f9418581d40c895250758b930d inherit pro_attribs_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69bd1147c2963cf09a198e37486f7395 inherit pro_attribs_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a69bd1147c2963cf09a198e37486f7395">m_exponent</a></td></tr>
+<tr class="memdesc:a69bd1147c2963cf09a198e37486f7395 inherit pro_attribs_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">highest power of variable in polynomial used to generate fractal image  <a href="class_fractal_coloring.html#a69bd1147c2963cf09a198e37486f7395">More...</a><br /></td></tr>
 <tr class="separator:a69bd1147c2963cf09a198e37486f7395 inherit pro_attribs_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61a281f5f81018aaffa6311007da374d inherit pro_attribs_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a61a281f5f81018aaffa6311007da374d">map_size</a> = -1</td></tr>
+<tr class="memdesc:a61a281f5f81018aaffa6311007da374d inherit pro_attribs_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight"><ul>
+<li>size of the gradient color map </li>
+</ul>
+ <a href="class_fractal_coloring.html#a61a281f5f81018aaffa6311007da374d">More...</a><br /></td></tr>
 <tr class="separator:a61a281f5f81018aaffa6311007da374d inherit pro_attribs_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c50c1d0d6ccfcae33408d6f1ca82ba5 inherit pro_attribs_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">unique_ptr&lt; <a class="el" href="class_peki_processing_1_1_gradient.html">Gradient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#a9c50c1d0d6ccfcae33408d6f1ca82ba5">m_gradient</a> = nullptr</td></tr>
+<tr class="memdesc:a9c50c1d0d6ccfcae33408d6f1ca82ba5 inherit pro_attribs_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to the gradient object used to color fractal image  <a href="class_fractal_coloring.html#a9c50c1d0d6ccfcae33408d6f1ca82ba5">More...</a><br /></td></tr>
 <tr class="separator:a9c50c1d0d6ccfcae33408d6f1ca82ba5 inherit pro_attribs_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af433be265052a180dfd58ff4c1d38532 inherit pro_attribs_class_fractal_coloring"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="class_r_g_b.html">RGB</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fractal_coloring.html#af433be265052a180dfd58ff4c1d38532">color_map</a></td></tr>
+<tr class="memdesc:af433be265052a180dfd58ff4c1d38532 inherit pro_attribs_class_fractal_coloring"><td class="mdescLeft">&#160;</td><td class="mdescRight">gradient map - result of <a class="el" href="class_peki_processing_1_1_gradient.html#a4f8ce0070c8172fe59809a6bfc8d40db">PekiProcessing::Gradient::generateGradientMap(int)</a>  <a href="class_fractal_coloring.html#af433be265052a180dfd58ff4c1d38532">More...</a><br /></td></tr>
 <tr class="separator:af433be265052a180dfd58ff4c1d38532 inherit pro_attribs_class_fractal_coloring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -220,6 +236,15 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get final pixel used in the image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iterOrbit</td><td>- iterations number and orbit. It's exactly result of <a class="el" href="class_fractal_algorithm.html#a7a988c1dd48c10b729d373e7d71a5330" title="Get number of iterations and last 3 elements of orbit trap.">FractalAlgorithm::getIterationsAndOrbit(const Complex &amp;c)</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_r_g_b.html">RGB</a> object - final pixel in the fractal image </dd></dl>
 
 <p>Implements <a class="el" href="class_fractal_coloring.html#a4856c960f3e0970436bdff1d12302ac8">FractalColoring</a>.</p>
 

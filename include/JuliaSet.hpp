@@ -12,8 +12,8 @@ class JuliaSet : public FractalAlgorithm
     public:
         JuliaSet();
         JuliaSet(const Complex &inc);
-        JuliaSet(const int &exponent);
-        JuliaSet(const int &exponent, const Complex &inc);
+        JuliaSet(const int exponent);
+        JuliaSet(const int exponent, const Complex &inc);
 
         pair<int, tuple <Complex, Complex, Complex> > getIterationsAndOrbit(const Complex &c) override;
         int getExponent() override;

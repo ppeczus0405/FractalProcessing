@@ -11,6 +11,5 @@ var searchData=
   ['operator_2f_3d_8',['operator/=',['../class_complex.html#a865ff34743cb54a206f19ac2a0dd9325',1,'Complex::operator/=(const long double a)'],['../class_complex.html#a318c1193b3ba9f3e9e06d88f9c1ef2a3',1,'Complex::operator/=(const Complex &amp;c)']]],
   ['operator_3c_3c_9',['operator&lt;&lt;',['../class_complex.html#a98b22fd3addfe802a9bb28d9d5493034',1,'Complex::operator&lt;&lt;()'],['../class_r_g_b.html#acc3d4a9b831820e7874a8d595b6e5e6b',1,'RGB::operator&lt;&lt;()']]],
   ['operator_3d_10',['operator=',['../class_complex.html#ad63f572bf5b643c714e388cda5c6f5cb',1,'Complex::operator=(const Complex &amp;c)'],['../class_complex.html#a5453e439fbead3d3774398401727bcd5',1,'Complex::operator=(Complex &amp;&amp;c)']]],
-  ['operator_3d_3d_11',['operator==',['../class_complex.html#ababc2c3632a390648742a3f8fc6d562e',1,'Complex']]],
-  ['os_5fseparator_12',['OS_SEPARATOR',['../namespace_config.html#af9a6beacf414e653e38862c70f61d96c',1,'Config']]]
+  ['operator_3d_3d_11',['operator==',['../class_complex.html#ababc2c3632a390648742a3f8fc6d562e',1,'Complex']]]
 ];

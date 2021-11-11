@@ -1,10 +1,11 @@
 var dir_d44c64559bbebec7f509842c48db8b23 =
 [
-    [ "CompareDoubles.hpp", "_compare_doubles_8hpp.html", "_compare_doubles_8hpp" ],
+    [ "CompareDoubles.hpp", "_compare_doubles_8hpp.html", [
+      [ "CompareDoubles", "class_compare_doubles.html", "class_compare_doubles" ]
+    ] ],
     [ "Complex.hpp", "_complex_8hpp.html", [
       [ "Complex", "class_complex.html", "class_complex" ]
     ] ],
-    [ "config.hpp", "config_8hpp.html", "config_8hpp" ],
     [ "Fractal.hpp", "_fractal_8hpp.html", "_fractal_8hpp" ],
     [ "FractalAlgorithm.hpp", "_fractal_algorithm_8hpp.html", "_fractal_algorithm_8hpp" ],
     [ "FractalAlgorithmCreator.hpp", "_fractal_algorithm_creator_8hpp.html", [
