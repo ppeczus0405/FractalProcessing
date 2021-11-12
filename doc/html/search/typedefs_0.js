@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dim_0',['Dim',['../_fractal_8hpp.html#ac3d2aaf3f8e7a57242c9d467c40028b3',1,'Fractal.hpp']]]
+  ['dim_0',['Dim',['../namespace_peki_processing.html#ae223687a20e392585a5de4d8906362c9',1,'PekiProcessing']]]
 ];

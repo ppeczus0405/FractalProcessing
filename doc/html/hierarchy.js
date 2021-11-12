@@ -8,7 +8,7 @@ var hierarchy =
       [ "Newton", "class_newton.html", null ]
     ] ],
     [ "FractalAlgorithmCreator", "class_fractal_algorithm_creator.html", null ],
-    [ "FractalBuilder", "class_fractal_builder.html", null ],
+    [ "PekiProcessing::FractalBuilder", "class_peki_processing_1_1_fractal_builder.html", null ],
     [ "FractalColoring", "class_fractal_coloring.html", [
       [ "SmoothConvergence", "class_smooth_convergence.html", null ],
       [ "SmoothDivergence", "class_smooth_divergence.html", null ]
@@ -16,7 +16,7 @@ var hierarchy =
     [ "FractalColoringCreator", "class_fractal_coloring_creator.html", null ],
     [ "PekiProcessing::Gradient", "class_peki_processing_1_1_gradient.html", null ],
     [ "PekiProcessing::Image", "class_peki_processing_1_1_image.html", [
-      [ "Fractal", "class_fractal.html", null ]
+      [ "PekiProcessing::Fractal", "class_peki_processing_1_1_fractal.html", null ]
     ] ],
     [ "ImageSaver", "class_image_saver.html", null ],
     [ "RGB", "class_r_g_b.html", null ],

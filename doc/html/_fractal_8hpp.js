@@ -1,7 +1,7 @@
 var _fractal_8hpp =
 [
-    [ "Fractal", "class_fractal.html", "class_fractal" ],
-    [ "FractalBuilder", "class_fractal_builder.html", "class_fractal_builder" ],
-    [ "Dim", "_fractal_8hpp.html#ac3d2aaf3f8e7a57242c9d467c40028b3", null ],
-    [ "FAT", "_fractal_8hpp.html#a0bc77fee1a825efaad62b34cec368bb0", null ]
+    [ "PekiProcessing::Fractal", "class_peki_processing_1_1_fractal.html", "class_peki_processing_1_1_fractal" ],
+    [ "PekiProcessing::FractalBuilder", "class_peki_processing_1_1_fractal_builder.html", "class_peki_processing_1_1_fractal_builder" ],
+    [ "Dim", "_fractal_8hpp.html#ae223687a20e392585a5de4d8906362c9", null ],
+    [ "FAT", "_fractal_8hpp.html#a9de8b3de6d369242cdb85f32e6a895cd", null ]
 ];

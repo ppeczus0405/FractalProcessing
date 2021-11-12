@@ -4,6 +4,6 @@ var searchData=
   ['default_5fiterations_1',['DEFAULT_ITERATIONS',['../_fractal_algorithm_8hpp.html#aaf6fd2ecabda7e4055d545d580ebebf2',1,'FractalAlgorithm.hpp']]],
   ['default_5fsave_5fheight_2',['DEFAULT_SAVE_HEIGHT',['../_image_saver_8hpp.html#adb423f7b6d78875a872aa764d9336de6',1,'ImageSaver.hpp']]],
   ['default_5fsave_5fwidth_3',['DEFAULT_SAVE_WIDTH',['../_image_saver_8hpp.html#a44dd2373bb912c6e3552ae96048778d3',1,'ImageSaver.hpp']]],
-  ['dim_4',['Dim',['../_fractal_8hpp.html#ac3d2aaf3f8e7a57242c9d467c40028b3',1,'Fractal.hpp']]],
+  ['dim_4',['Dim',['../namespace_peki_processing.html#ae223687a20e392585a5de4d8906362c9',1,'PekiProcessing']]],
   ['divergence_5fbailout_5',['DIVERGENCE_BAILOUT',['../_fractal_algorithm_8hpp.html#a2a0b8f7fe8a6349f190f12622723062e',1,'FractalAlgorithm.hpp']]]
 ];

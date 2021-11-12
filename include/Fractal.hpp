@@ -5,6 +5,13 @@
 #include "FractalAlgorithmCreator.hpp"
 #include "Scale.hpp"
 
+/**
+ * @brief All stuff related with image processing
+ * 
+ */
+namespace PekiProcessing
+{
+
 class FractalBuilder;
 
 /**
@@ -295,4 +302,5 @@ class FractalBuilder
         unique_ptr<Fractal> fractal = nullptr;
 };
 
+} // Namespace end
 #endif // FRACTAL_HEADER

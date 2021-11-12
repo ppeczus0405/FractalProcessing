@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -Wshadow -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra -Wshadow -pedantic")
 
-project(FractalGenerator)
+project(FractalProcessing)
 find_package(ImageMagick COMPONENTS Magick++)
 
 
@@ -28,9 +28,9 @@ configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/cmake_in/config.hpp.in"
                 "${CMAKE_CURRENT_SOURCE_DIR}/include/config.hpp")
 
 
-add_executable(fractalgen ${PROJECT_SOURCES})
+add_executable(fractalproc ${PROJECT_SOURCES})
 add_definitions( -DMAGICKCORE_QUANTUM_DEPTH=16 )
 add_definitions( -DMAGICKCORE_HDRI_ENABLE=0 )
-target_include_directories(fractalgen PRIVATE ${HEADERS_DIR} ${ImageMagick_INCLUDE_DIRS})
-target_link_libraries(fractalgen ${ImageMagick_LIBRARIES})
-set_target_properties(fractalgen PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}//bin")
+target_include_directories(fractalproc PRIVATE ${HEADERS_DIR} ${ImageMagick_INCLUDE_DIRS})
+target_link_libraries(fractalproc ${ImageMagick_LIBRARIES})
+set_target_properties(fractalproc PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}//bin")

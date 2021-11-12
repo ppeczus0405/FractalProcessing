@@ -7,5 +7,5 @@ var searchData=
   ['isgreater_4',['isGreater',['../class_compare_doubles.html#ad3f09d4490705fa73db2f05fd4076a84',1,'CompareDoubles::isGreater(const double a, const double b)'],['../class_compare_doubles.html#a91b7077aa464162d833024ca2885dd2d',1,'CompareDoubles::isGreater(const long double a, const long double b)']]],
   ['islesser_5',['isLesser',['../class_compare_doubles.html#ae20b3ca8573a6ff0526cb93519d1941b',1,'CompareDoubles::isLesser(const double a, const double b)'],['../class_compare_doubles.html#addaa39bb56d6e8577b2847e533b57dbe',1,'CompareDoubles::isLesser(const long double a, const long double b)']]],
   ['ispointinside_6',['isPointInside',['../class_peki_processing_1_1_gradient.html#a61132cee1b9cd1deb1e5dd7927c84fbd',1,'PekiProcessing::Gradient']]],
-  ['ispreviousscale_7',['isPreviousScale',['../class_fractal.html#aa4546ee68c9dfc0e2aa33d7bb5e2d183',1,'Fractal']]]
+  ['ispreviousscale_7',['isPreviousScale',['../class_peki_processing_1_1_fractal.html#a0b2f34d2d88c904c5f947fb9ccc8e101',1,'PekiProcessing::Fractal']]]
 ];
