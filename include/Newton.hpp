@@ -5,15 +5,39 @@
 #include "FractalAlgorithm.hpp"
 using namespace std;
 
+/**
+ * @brief Implementation of Newton and Nova algorithm
+ * 
+ */
 class Newton : public FractalAlgorithm
 {
     public:
-        // These constructors can create 2 kinds of fractals - Nova and Newton
-        // It is recommended to use fabric functions in Fractal Algorithm Creator
-        // where you have separate functions to create proper kind of fractal
-        Newton(bool nova = false, bool pixstart = true);
+        /**
+         * @brief Construct a new Newton object
+         * @see FractalAlgorithmCreator::createNewton()\n 
+         *      FractalAlgorithmCreator::createNova()
+         */
+        Newton(bool nova = false, bool pixstart = true);\
+
+        /**
+         * @brief Construct a new Newton object
+         * @see FractalAlgorithmCreator::createNewton(T&&)\n
+         *      FractalAlgorithmCreator::createNova(T&&)
+         */
         Newton(const vector <Complex> &polynomial, bool nova = false, bool pixstart = true);
+
+        /**
+         * @brief Construct a new Newton object
+         * @see FractalAlgorithmCreator::createNewton(T&&, const Complex &)\n
+         *      FractalAlgorithmCreator::createNova(T&&, const Complex &)\n
+         *      FractalAlgorithmCreator::createNova(T&&, const Complex &, const bool)
+         */
         Newton(const vector <Complex> &polynomial, const Complex &relaxation, bool nova = false, bool pixstart = true);
+
+        /**
+         * @brief Construct a new Newton object
+         * @see FractalAlgorithmCreator::createNova(T&&, const Complex &, const Complex &)
+         */
         Newton(const vector <Complex> &polynomial, const Complex &relaxation, const Complex &incrementation);
 
         pair <int, tuple <Complex, Complex, Complex> > getIterationsAndOrbit(const Complex &c) override;

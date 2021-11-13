@@ -4,8 +4,21 @@
 #include "FractalColoring.hpp"
 #include "FractalAlgorithm.hpp"
 
+/**
+ * @brief Implementation of SmoothConvergence coloring.
+ * @details SmoothConvergence coloring should be used to algorithms where the iteration value converges to a certain number. 
+ */
 class SmoothConvergence : public FractalColoring{
     public:
+        /**
+         * @brief Construct a new Smooth Convergence object
+         * 
+         * @param maxIterations - maximal number of iterations that fractal algorithm can perform
+         * @param exponent - highest power of variable in polynomial used to generate fractal image
+         * @param mapSize - size of the gradient color map
+         * @param gradient - object used to color fractal image
+         * @note In case where gradient = nullptr, initializing with #PekiProcessing::Gradient::WHITE_BLACK
+         */
         SmoothConvergence(int maxIterations, int exponent, 
                           int mapSize = DEFAULT_COLOR_MAP_SIZE, unique_ptr<Gradient> gradient = nullptr) 
                              : FractalColoring(maxIterations, exponent, CONVERGENCE_BAILOUT, mapSize, move(gradient)) 

@@ -34,7 +34,7 @@ class FractalAlgorithmCreator
          * @param exponent - multibrot polynomial exponent
          * @return pointer to the new instance of #Mandelbrot class with Mulitbrot mode
          */
-        static unique_ptr<FractalAlgorithm> createMultibrot(int exponent){
+        static unique_ptr<FractalAlgorithm> createMultibrot(const int exponent){
             return make_unique<Mandelbrot>(exponent);
         }
 

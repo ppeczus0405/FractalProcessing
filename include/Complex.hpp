@@ -3,7 +3,7 @@
 #include <iostream>
 
 /**
- * @brief Handling of complex numbers
+ * @brief Handles complex numbers
  * 
  */
 class Complex

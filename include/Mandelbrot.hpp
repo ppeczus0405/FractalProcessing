@@ -7,11 +7,25 @@
 #include <utility>
 using namespace std;
 
+
+/**
+ * @brief Implementation of Mandelbrot and Multibrot algorithm
+ * 
+ */
 class Mandelbrot : public FractalAlgorithm
 {
     public:
+        /**
+         * @brief Construct a new Mandelbrot object
+         * @see FractalAlgorithmCreator::createMandelbrot()
+         */
         Mandelbrot();
-        Mandelbrot(const int &exponent); // For Multibrot
+
+        /**
+         * @brief Construct a new Mandelbrot object
+         * @see FractalAlgorithmCreator::createMultibrot(const int)
+         */
+        Mandelbrot(const int exponent);
         pair<int, tuple<Complex, Complex, Complex> > getIterationsAndOrbit(const Complex &c) override;
         int getExponent() override;
     private:

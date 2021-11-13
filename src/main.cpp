@@ -9,7 +9,7 @@ void process_gradient(PekiProcessing::Gradient &g, const int i){
     filesystem::create_directories(path);
     g.write(path + "gradient");
 
-    const int resolution = 512;
+    const int resolution = 1024;
     unique_ptr<Fractal> frac = FractalBuilder(resolution, resolution).setGradient(g).setGradientMapSize(1024).build();
     
     // Mandelbrot

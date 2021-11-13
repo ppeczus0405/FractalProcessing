@@ -27,7 +27,7 @@ using FAT = FractalAlgorithmType;
 using Dim = tuple <long double, long double, long double, long double>;
 
 /**
- * @brief Generating fractal images
+ * @brief Generates fractal images
  * 
  */
 class Fractal : public Image
@@ -77,9 +77,9 @@ class Fractal : public Image
         bool isPreviousScale();
 
         /**
-         * @brief Saving file
+         * @brief Save fractal image to file
          * 
-         * @param filename - path where file is goint to save
+         * @param filename - path where file is going to save
          * @param format - save format(e.g. PNG, JPG, GIFF)
          * @return true when successfully saved the file
          * @return false otherwise
@@ -239,7 +239,7 @@ class FractalBuilder
         FractalBuilder(int width, int height);
 
         /**
-         * @brief Real and imaginary values ranges used to initialize #Fractal instance
+         * @brief Real and imaginary values ranges used to initialize Fractal instance
          * 
          * @param minR - minimal real number 
          * @param maxR - maximum real number
@@ -250,7 +250,7 @@ class FractalBuilder
         FractalBuilder & setScale(long double minR, long double maxR, long double minI, long double maxI);
         
         /**
-         * @brief Set the algorithm used to initialize #Fractal instance
+         * @brief Set the algorithm used to initialize Fractal instance
          * 
          * @param alg - pointer to fractal generation algorithm
          * 
@@ -259,7 +259,7 @@ class FractalBuilder
         FractalBuilder & setAlgorithm(unique_ptr<FractalAlgorithm> alg);
         
         /**
-         * @brief Set the max iterations number used to initialize #Fractal instance
+         * @brief Set the max iterations number used to initialize Fractal instance
          * 
          * @param mxIter - max iterations number 
          * @return reference to itself
@@ -267,7 +267,7 @@ class FractalBuilder
         FractalBuilder & setMaxIterations(int mxIter);
 
         /**
-         * @brief Set the gradient map size used to initialize #Fractal instance
+         * @brief Set the gradient map size used to initialize Fractal instance
          * 
          * @param size - gradient map size(accuracy)
          * @return reference to itself
@@ -275,14 +275,14 @@ class FractalBuilder
         FractalBuilder & setGradientMapSize(int size);
 
         /**
-         * @brief Create instance of #Fractal class
+         * @brief Create instance of Fractal class
          * 
-         * @return pointer to new instance of #Fractal class
+         * @return pointer to new instance of Fractal class
          */
         unique_ptr<Fractal> build();
 
         /**
-         * @brief Set gradient used to initialize #Fractal instance
+         * @brief Set gradient used to initialize Fractal instance
          * 
          * @tparam T - the type of gradient, #PekiProcessing::Gradient class has to be constructible from object of this type
          * @param gradient - used to coloring of image

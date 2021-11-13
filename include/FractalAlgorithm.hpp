@@ -66,21 +66,23 @@ class FractalAlgorithm
         /**
          * @brief Get number of iterations and last 3 elements of orbit trap
          * 
+         * 
          * @param c - complex number
          * @return pair consist of number of iterations and 3 last elements of orbit trap where:\n
-         *              - last element is first iteration value exceeding bailout value,\n
-         *              - second element is iteration value before last element,\n
-         *              - first element is iteration value before second element,\n
-         *         Number of iterations denote how many iterations needs algorithm perform to fall into the orbit trap.
-         *         If the algorithm don't fall into the orbit trap and maximum number of iterations was reached then maximal
-         *         number of iterations should be returned
+         *         - last element is orbit trapped value,
+         *         - second element is iteration value preceding orbit trapped value,
+         *         - first element is iteration value before second element.
+         * 
+         * @return Initialy all elements are equal to c. Number of iterations denote how many iterations needs algorithm\n
+         *         perform to fall into the orbit trap. If the algorithm don't fall into the orbit trap and maximum number\n
+         *         of iterations was reached then maximal number of iterations is returned. 
          */
         virtual pair<int, tuple<Complex, Complex, Complex> > getIterationsAndOrbit(const Complex &c) = 0;
         
         /**
-         * @brief Get exponent of polynomial used to compute next iteration value
+         * @brief Get exponent
          * 
-         * @return exponent of polynomial
+         * @return maximum exponent of variable in polynomial used to compute next iteration value
          */
         virtual int getExponent() = 0;
 

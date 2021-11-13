@@ -5,7 +5,7 @@ using FAT = FractalAlgorithmType;
 
 Mandelbrot::Mandelbrot() : FractalAlgorithm(FAT::MANDELBROT) {}
 
-Mandelbrot::Mandelbrot(const int &exponent) : 
+Mandelbrot::Mandelbrot(const int exponent) : 
     FractalAlgorithm(FAT::MULTIBROT), m_exponent(exponent)
 {
     assert(exponent >= 1);

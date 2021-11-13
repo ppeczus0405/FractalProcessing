@@ -4,7 +4,7 @@
 #include <cmath>
 
 /**
- * @brief Comparing floating points numbers with defined precision 
+ * @brief Compares floating points numbers with defined precision 
  * 
  * @details Designed as set of static functions without instantiating possibility.
  */

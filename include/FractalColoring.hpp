@@ -179,7 +179,7 @@ class FractalColoring{
         int m_exponent;
 
         /**
-         * @brief - size of the gradient color map
+         * @brief size of the gradient color map
          * 
          */
         int map_size = -1;
