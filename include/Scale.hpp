@@ -5,27 +5,9 @@
 #include "CompareDoubles.hpp"
 using namespace std;
 
-/**
- * @brief Scales pixels coordinates into complex plane coordinates
- * 
- */
 class Scale
 {
     public:
-        /**
-         * @brief Construct a new Scale object
-         * 
-         * @param baseW - width of the image 
-         * @param baseH - height of the image
-         * @param widthm - minimum real part value
-         * @param widthM - maximum real part value
-         * @param heightm - minimum imaginary part value
-         * @param heightM - maximum imaginary part value
-         * @throw invalid_argument in cases when:\n
-         *        - widthm > widhtM
-         *        - heightm > heightM
-         *        - baseWidth < 1 or baseHeight < 1
-         */
         Scale(int baseW, int baseH, long double widthm, long double widthM, long double heightm, long double heightM)
              : baseWidth(baseW), baseHeight(baseH),
                widthMin(widthm), widthMax(widthM),
@@ -49,16 +31,6 @@ class Scale
             else                baseHeightOne = true;       
         }
 
-        /**
-         * @brief Get the scaled point on the complex plane
-         * 
-         * @param x - pixel coordinate on the OX axis
-         * @param y - pixel coordiante on the OY axis
-         * @throw invalid_argument in cases when:
-         *        - x < 1 or x > baseWidth
-         *        - y < 1 or y > baseHeight
-         * @return point on the complex plane
-         */
         pair <long double, long double> getScaled(int x, int y){
             if(x < 1 || x > baseWidth){
                 string error_message = "Error: Can't scale pixel. Reason: " + to_string(x) + "is not in range [1, ";
@@ -78,38 +50,18 @@ class Scale
             return {scaledX, scaledY};
         }
 
-        /**
-         * @brief Get the minimum real part value
-         * 
-         * @return minimum real part value
-         */
         inline long double getMinReal() {
             return widthMin;
         }
         
-        /**
-         * @brief Get the maximum real part value
-         * 
-         * @return maximum real part value
-         */
         inline long double getMaxReal() {
             return widthMax;
         }
 
-        /**
-         * @brief Get the minimum imaginary part value
-         * 
-         * @return minimum imaginary part value
-         */
         inline long double getMinImag() {
             return heightMin;
         }
         
-        /**
-         * @brief Get the maximum imaginary part value
-         * 
-         * @return maximum imaginary part value
-         */
         inline long double getMaxImag() {
             return heightMax;
         }

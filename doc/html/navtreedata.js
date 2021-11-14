@@ -26,6 +26,9 @@ var NAVTREE =
 [
   [ "Fractal Processing", "index.html", [
     [ "Namespaces", "namespaces.html", [
+      [ "Instalation", "index.html#autotoc_md0", null ],
+      [ "Examples", "index.html#autotoc_md1", null ],
+      [ "Extras", "index.html#autotoc_md2", null ],
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
@@ -58,7 +61,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_compare_doubles_8hpp.html",
-"dir_d44c64559bbebec7f509842c48db8b23.html"
+"dir_188bbacea542b159d95bd1548b64be86.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

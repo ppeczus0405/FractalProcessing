@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['mandelbrot_2ehpp_0',['Mandelbrot.hpp',['../_mandelbrot_8hpp.html',1,'']]]
+  ['mainpage_2emd_0',['mainpage.md',['../mainpage_8md.html',1,'']]],
+  ['mandelbrot_2ehpp_1',['Mandelbrot.hpp',['../_mandelbrot_8hpp.html',1,'']]]
 ];

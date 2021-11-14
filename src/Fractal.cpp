@@ -65,8 +65,7 @@ bool Fractal::setRectangle(pair <int, int> v1, pair<int, int> v2){
 
     // Normalize to form when (xa, ya) - left bottom corner, (xb, yb) - right top corner
     if(ya < yb) swap(ya, yb);
-    cout << "Corner Left (" << xa << ", " << ya << ")\n";
-    cout << "Corner Right (" << xb << ", " << yb << ")\n";
+
     // bottomScaled.first = minReal, bottomScaled.second = maxImag
     auto bottomScaled = scale->getScaled(xa, ya);
     
@@ -75,8 +74,6 @@ bool Fractal::setRectangle(pair <int, int> v1, pair<int, int> v2){
 
     long double mr = bottomScaled.first,   Mr = topScaled.first;
     long double mi = topScaled.second,  Mi = bottomScaled.second;
-
-    cout << mr << " " << Mr << " " << mi << " " << Mi << endl;
 
     if(setScale(mr, Mr, mi, Mi)){
         scaleStack.emplace_back(mr, Mr, mi, Mi);

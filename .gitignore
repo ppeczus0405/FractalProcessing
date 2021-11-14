@@ -663,3 +663,6 @@ fabric.properties
 
 # vscode
 .vscode
+
+# lib
+lib
