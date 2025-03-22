@@ -1,23 +1,26 @@
-#ifndef MANDELBROT_HEADER
-#define MANDELBROT_HEADER
+#ifndef PEKI_MANDELBROT_HPP
+#define PEKI_MANDELBROT_HPP
+
+#include <utility>
 
 #include "Complex.hpp"
-#include "CompareDoubles.hpp"
 #include "FractalAlgorithm.hpp"
-#include <utility>
-using namespace std;
 
-class Mandelbrot : public FractalAlgorithm
-{
-    public:
-        Mandelbrot();
-        Mandelbrot(const int exponent);
-        
-        pair<int, tuple<Complex, Complex, Complex> > getIterationsAndOrbit(const Complex &c) override;
-        int getExponent() override;
+namespace PekiProc {
 
-    private:
-        int m_exponent = 2; 
+class Mandelbrot : public FractalAlgorithm {
+ public:
+  Mandelbrot();
+  Mandelbrot(const int exponent);
+
+  std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
+      const Complex& c) override;
+  int getExponent() override;
+
+ private:
+  int m_exponent = 2;
 };
 
-#endif // MANDELBROT HEADER
+}  // namespace PekiProc
+
+#endif  // PEKI_MANDELBROT_HPP

@@ -1,27 +1,30 @@
-#ifndef JULIA_SET_HEADER
-#define JULIA_SET_HEADER
+#ifndef PEKI_JULIA_SET_HPP
+#define PEKI_JULIA_SET_HPP
+
+#include <utility>
 
 #include "Complex.hpp"
-#include "CompareDoubles.hpp"
 #include "FractalAlgorithm.hpp"
-#include <utility>
-using namespace std;
 
-class JuliaSet : public FractalAlgorithm
-{
-    public:
-        JuliaSet();
-        JuliaSet(const Complex &inc);
-        JuliaSet(const int exponent);
-        JuliaSet(const int exponent, const Complex &inc);
+namespace PekiProc {
 
-        pair<int, tuple <Complex, Complex, Complex> > getIterationsAndOrbit(const Complex &c) override;
-        int getExponent() override;
-        
-    private:
-        Complex m_inc;
-        int m_exponent = 2;
-        bool m_pixel_as_inc = true;
+class JuliaSet : public FractalAlgorithm {
+ public:
+  JuliaSet();
+  JuliaSet(const Complex& inc);
+  JuliaSet(const int exponent);
+  JuliaSet(const int exponent, const Complex& inc);
+
+  std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
+      const Complex& c) override;
+  int getExponent() override;
+
+ private:
+  Complex m_inc;
+  int m_exponent = 2;
+  bool m_pixel_as_inc = true;
 };
 
-#endif // JULIA_SET HEADER
+}  // namespace PekiProc
+
+#endif  // PEKI_JULIA_SET_HPP
