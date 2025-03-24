@@ -666,3 +666,6 @@ fabric.properties
 
 # lib
 lib
+
+# Build dirs
+BUILD

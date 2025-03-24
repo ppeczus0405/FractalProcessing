@@ -11,5 +11,5 @@ rm -rf BUILD
 rm -rf compile_commands.json
 mkdir BUILD
 
-CXX="clang++ -stdlib=libc++" cmake -B BUILD -S . -DCMAKE_BUILD_TYPE=Release
-CXX="clang++ -stdlib=libc++" bear -- cmake --build BUILD --parallel --config Release
+CC="clang" CXX="clang++ -stdlib=libc++" cmake -B BUILD -S . -G "Ninja Multi-Config" -DQT6_INSTALL_DIR="/home/p3ki/.local/lib/Qt6.8/"
+CC="clang" CXX="clang++ -stdlib=libc++" bear -- cmake --build BUILD --parallel --config Release
