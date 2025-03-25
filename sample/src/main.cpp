@@ -1,78 +1,68 @@
 #include <QApplication>
+#include <QHBoxLayout>
 #include <QWidget>
 #include <QImage>
 #include <QPainter>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QRadioButton>
-#include <QButtonGroup>
 #include <QLabel>
 
-class ImageCanvas : public QWidget {
-public:
-    ImageCanvas(QWidget *parent = nullptr)
-        : QWidget(parent), image(1080, 720, QImage::Format_RGB32)
-    {
-        setFixedSize(1080, 720);
-        fillPixels();
-    }
-
-protected:
-    void paintEvent(QPaintEvent *) override {
-        QPainter painter(this);
-        painter.drawImage(0, 0, image);
-    }
-
-private:
-    QImage image;
-
-    void fillPixels() {
-        for (int y = 0; y < image.height(); ++y) {
-            for (int x = 0; x < image.width(); ++x) {
-                image.setPixel(x, y, qRgb(0, 0, (x + y) % 256)); // Blue gradient
-            }
-        }
-    }
-};
+#include "ImageCanvas.hpp"
+#include "FractalParameterPanel.hpp"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    // Main window
     QWidget window;
-    window.setFixedSize(1230, 720); // 1080 + 150
-    window.setWindowTitle("RGB Plane + UI Panel");
+    window.setFixedSize(1230, 720);
+    window.setWindowTitle("Fractal Generator");
 
     QHBoxLayout *mainLayout = new QHBoxLayout(&window);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(0);
 
-    // Side panel (150px)
+    // === Side Panel (150px) ===
     QWidget *sidePanel = new QWidget;
-    sidePanel->setFixedWidth(150);
-    sidePanel->setStyleSheet("background-color: #eee;");
+    sidePanel->setFixedWidth(300);
+    sidePanel->setStyleSheet(R"(
+        background-color: #1e1e1e;
+        color: #f0f0f0;
+        font-size: 13px;
+        QLineEdit, QSpinBox, QDoubleSpinBox, QListWidget {
+            background-color: #2e2e2e;
+            color: #f0f0f0;
+            border: 1px solid #555;
+        }
+        QLabel {
+            color: #cccccc;
+        }
+        QCheckBox, QComboBox, QPushButton {
+            background-color: #333;
+            color: #f0f0f0;
+            border: 1px solid #444;
+        }
+        QPushButton:hover {
+            background-color: #444;
+        }
+    )");
+
     QVBoxLayout *sideLayout = new QVBoxLayout(sidePanel);
+    FractalParameterPanel *parameterPanel = new FractalParameterPanel;
 
-    QRadioButton *cpuRadio = new QRadioButton("CPU");
-    QRadioButton *gpuRadio = new QRadioButton("GPU");
+    sideLayout->addWidget(parameterPanel);
 
-    QButtonGroup *modeGroup = new QButtonGroup(sidePanel);
-    modeGroup->addButton(cpuRadio);
-    modeGroup->addButton(gpuRadio);
-    cpuRadio->setChecked(true);
-
-    sideLayout->addStretch();
-    sideLayout->addWidget(cpuRadio, 0, Qt::AlignHCenter);
-    sideLayout->addWidget(gpuRadio, 0, Qt::AlignHCenter);
-    sideLayout->addStretch();
-
-    // Image canvas (1080px)
+    // === Image Canvas ===
     ImageCanvas *canvas = new ImageCanvas;
 
-    // Add to layout
+    // === Layout Composition ===
     mainLayout->addWidget(sidePanel);
     mainLayout->addWidget(canvas);
+
+    // === Signal connection (placeholder) ===
+    QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal, [&]() {
+        // Placeholder for fractal generation logic using parameterPanel->get*() methods
+        qDebug("Generate button clicked!");
+    });
 
     window.show();
     return app.exec();
 }
+

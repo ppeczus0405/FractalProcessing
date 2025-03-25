@@ -21,6 +21,14 @@ void Image::setPixel(int x, int y, const RGB& pixel) {
   m_pixels[ind + 2] = pixel.getB();
 }
 
+RGB Image::getPixel(int x, int y) {
+  assert(x >= 1 && x <= m_width && y >= 1 && y <= m_height);
+  x--;
+  y--;
+  int ind = y * m_width * 3 + x * 3;
+  return RGB(m_pixels[ind], m_pixels[ind + 1], m_pixels[ind + 2]);
+}
+
 bool Image::write(const std::string& filename, const SaveFormat& format) {
   imgsaver = std::make_unique<ImageSaver>(
       reinterpret_cast<const char*>(m_pixels.get()), m_width, m_height, format);
