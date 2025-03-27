@@ -4,6 +4,7 @@
 #include "FractalAlgorithmCreator.hpp"
 #include "FractalColoringCreator.hpp"
 #include "Image.hpp"
+#include "Magick++/Image.h"
 
 namespace PekiProc {
 

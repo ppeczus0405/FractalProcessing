@@ -1,29 +1,29 @@
 #include <QApplication>
 #include <QHBoxLayout>
-#include <QMessageBox>
-#include <QWidget>
 #include <QImage>
-#include <QPainter>
 #include <QLabel>
+#include <QMessageBox>
+#include <QPainter>
+#include <QWidget>
 
-#include "ImageCanvas.hpp"
 #include "FractalParameterPanel.hpp"
+#include "ImageCanvas.hpp"
 
-int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+int main(int argc, char* argv[]) {
+  QApplication app(argc, argv);
 
-    QWidget window;
-    window.setFixedSize(1230, 720);
-    window.setWindowTitle("Fractal Generator");
+  QWidget window;
+  window.setFixedSize(1230, 720);
+  window.setWindowTitle("Fractal Generator");
 
-    QHBoxLayout *mainLayout = new QHBoxLayout(&window);
-    mainLayout->setContentsMargins(0, 0, 0, 0);
-    mainLayout->setSpacing(0);
+  QHBoxLayout* mainLayout = new QHBoxLayout(&window);
+  mainLayout->setContentsMargins(0, 0, 0, 0);
+  mainLayout->setSpacing(0);
 
-    // === Side Panel (150px) ===
-    QWidget *sidePanel = new QWidget;
-    sidePanel->setFixedWidth(300);
-    sidePanel->setStyleSheet(R"(
+  // === Side Panel (150px) ===
+  QWidget* sidePanel = new QWidget;
+  sidePanel->setFixedWidth(300);
+  sidePanel->setStyleSheet(R"(
         background-color: #1e1e1e;
         color: #f0f0f0;
         font-size: 13px;
@@ -45,33 +45,34 @@ int main(int argc, char *argv[]) {
         }
     )");
 
-    QVBoxLayout *sideLayout = new QVBoxLayout(sidePanel);
-    FractalParameterPanel *parameterPanel = new FractalParameterPanel;
+  QVBoxLayout* sideLayout = new QVBoxLayout(sidePanel);
+  FractalParameterPanel* parameterPanel = new FractalParameterPanel;
 
-    sideLayout->addWidget(parameterPanel);
+  sideLayout->addWidget(parameterPanel);
 
-    // === Image Canvas ===
-    ImageCanvas *canvas = new ImageCanvas;
+  // === Image Canvas ===
+  ImageCanvas* canvas = new ImageCanvas;
 
-    // === Layout Composition ===
-    mainLayout->addWidget(sidePanel);
-    mainLayout->addWidget(canvas);
+  // === Layout Composition ===
+  mainLayout->addWidget(sidePanel);
+  mainLayout->addWidget(canvas);
 
-    // === Signal connection (placeholder) ===
-    QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal, [&]() {
-        // Placeholder for fractal generation logic using parameterPanel->get*() methods
-    });
+  // === Signal connection (placeholder) ===
+  QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal,
+                   [&]() {
+                     // Placeholder for fractal generation logic using parameterPanel->get*() methods
+                   });
 
-QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal, [&]() {
-    if (!parameterPanel->validateInputs()) {
-        QMessageBox::warning(nullptr, "Invalid Input", "There are missing fields to fill");
-        return;
-    }
+  QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal,
+                   [&]() {
+                     if (!parameterPanel->validateInputs()) {
+                       QMessageBox::warning(nullptr, "Invalid Input",
+                                            "There are missing fields to fill");
+                       return;
+                     }
+                     Configuration config = parameterPanel->collectParameters();
+                   });
 
-    qDebug("Successfully parsed!");
-});
-
-    window.show();
-    return app.exec();
+  window.show();
+  return app.exec();
 }
-

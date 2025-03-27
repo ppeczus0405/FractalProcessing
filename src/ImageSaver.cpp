@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ImageSaver.hpp"
+#include "Magick++/Image.h"
 
 namespace PekiProc {
 
@@ -46,5 +47,7 @@ bool ImageSaver::changeFormat(const SaveFormat& format) {
   }
   return true;
 }
+
+ImageSaver::~ImageSaver() {}
 
 }  // namespace PekiProc

@@ -53,4 +53,4 @@ file(GLOB_RECURSE QT_SAMPLE_APP_SOURCES "src/*.cpp" "include/*.hpp")
 add_executable(ImagePlaneWithPanel ${QT_SAMPLE_APP_SOURCES})
 target_include_directories(ImagePlaneWithPanel PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(ImagePlaneWithPanel PRIVATE Qt6::Core Qt6::Widgets)
+target_link_libraries(ImagePlaneWithPanel PRIVATE Qt6::Core Qt6::Widgets fractalproc)

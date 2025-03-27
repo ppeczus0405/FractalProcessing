@@ -1,6 +1,8 @@
 #ifndef PEKI_FRACTAL_ALGORITHM_CREATOR_HPP
 #define PEKI_FRACTAL_ALGORITHM_CREATOR_HPP
 
+#include <memory>
+
 #include "FractalAlgorithm.hpp"
 #include "JuliaSet.hpp"
 #include "Mandelbrot.hpp"

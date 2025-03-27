@@ -4,6 +4,7 @@
 #include "CompareDoubles.hpp"
 #include "Gradient.hpp"
 #include "Image.hpp"
+#include "Magick++/Image.h"
 
 namespace PekiProc {
 

@@ -25,7 +25,7 @@ set(SOURCE ${SOURCE_DIR}/Complex.cpp ${SOURCE_DIR}/Mandelbrot.cpp
 add_library(fractalproc ${SOURCE})
 add_definitions( -DMAGICKCORE_QUANTUM_DEPTH=16 )
 add_definitions( -DMAGICKCORE_HDRI_ENABLE=0 )
-target_include_directories(fractalproc PRIVATE ${HEADERS_DIR} ${ImageMagick_INCLUDE_DIRS})
+target_include_directories(fractalproc PUBLIC ${HEADERS_DIR} PRIVATE ${ImageMagick_INCLUDE_DIRS})
 
 if(BUILD_SAMPLE_APP)
     add_subdirectory(sample)

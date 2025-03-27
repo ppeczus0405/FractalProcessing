@@ -2,6 +2,7 @@
 #include <cstring>
 
 #include "Image.hpp"
+#include "Magick++/Image.h"
 
 namespace PekiProc {
 

@@ -1,22 +1,21 @@
 #ifndef IMAGECANVAS_HPP
 #define IMAGECANVAS_HPP
 
-#include <QWidget>
 #include <QImage>
+#include <QWidget>
 
 class ImageCanvas : public QWidget {
-    Q_OBJECT
+  Q_OBJECT
 
-public:
-    explicit ImageCanvas(QWidget *parent = nullptr);
-    void updateImage(const uint8_t *data);
+ public:
+  explicit ImageCanvas(QWidget* parent = nullptr);
+  void updateImage(const uint8_t* data);
 
-protected:
-    void paintEvent(QPaintEvent *) override;
+ protected:
+  void paintEvent(QPaintEvent*) override;
 
-private:
-    QImage image;
+ private:
+  QImage image;
 };
 
-#endif // IMAGECANVAS_HPP
-
+#endif  // IMAGECANVAS_HPP

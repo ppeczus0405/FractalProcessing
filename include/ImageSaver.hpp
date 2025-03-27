@@ -4,7 +4,10 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "Magick++/Image.h"
+
+namespace Magick {
+class Image;
+}
 
 namespace PekiProc {
 
@@ -21,6 +24,8 @@ class ImageSaver {
 
   static constexpr int DEFAULT_SAVE_WIDTH = 600;
   static constexpr int DEFAULT_SAVE_HEIGHT = 600;
+
+  ~ImageSaver();
 
  private:
   SaveFormat m_format = SaveFormat::NONE;
