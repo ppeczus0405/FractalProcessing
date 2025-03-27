@@ -1,6 +1,8 @@
 #include "FractalParameterPanel.hpp"
+#include <qvalidator.h>
 #include <QMenu>
 #include <QRegularExpression>
+#include <QIntValidator>
 
 FractalParameterPanel::FractalParameterPanel(QWidget *parent)
     : QWidget(parent)
@@ -64,22 +66,19 @@ void FractalParameterPanel::onFractalTypeChanged(const QString &type) {
 
     if (type == "Multibrot" || type == "PolyJulia") {
         exponentInput = new QLineEdit;
+        exponentInput->setValidator(new QIntValidator(exponentInput));
         parameterLayout->addWidget(new QLabel("Exponent:"));
         parameterLayout->addWidget(exponentInput);
     }
 
     if (type == "Julia" || type == "PolyJulia") {
-        addComplexField("Increment", incReal, incImag);
+        addComplexField(*(new QLabel("Increment")), incReal, incImag);
     }
 
     if (type == "Newton" || type == "Nova") {
-        addComplexField("Relaxation", relaxReal, relaxImag);
+        addComplexField(*(new QLabel("Relaxation")), relaxReal, relaxImag);
 
-        parameterLayout->addWidget(new QLabel("Polynomial Term (Re/Im):"));
-        polyReal = new QLineEdit;
-        polyImag = new QLineEdit;
-        parameterLayout->addWidget(polyReal);
-        parameterLayout->addWidget(polyImag);
+        addComplexField(*(new QLabel("Polynomial Term (Re/Im):")), polyReal, polyImag);
 
         addPolyBtn = new QPushButton("Add Term");
         connect(addPolyBtn, &QPushButton::clicked, this, &FractalParameterPanel::onAddPolyClicked);
@@ -106,37 +105,14 @@ void FractalParameterPanel::onFractalTypeChanged(const QString &type) {
         connect(pixStartCheck, &QCheckBox::toggled, this, &FractalParameterPanel::onPixStartChanged);
         parameterLayout->addWidget(pixStartCheck);
 
-        QLabel *startLabel = new QLabel("Start Value:");
-        startLabel->setObjectName("startValLabel");
-        parameterLayout->addWidget(startLabel);
-
+        QLabel *startLabel = new QLabel("Start Value");
+        startLabel->setObjectName("startValGroup");
         startReal = new QLineEdit;
         startImag = new QLineEdit;
-        startReal->setObjectName("startValWidget");
-        startImag->setObjectName("startValWidget");
-        parameterLayout->addWidget(startReal);
-        parameterLayout->addWidget(startImag);
+        startReal->setObjectName("startValGroup");
+        startImag->setObjectName("startValGroup");
+        addComplexField(*startLabel, startReal, startImag);
     }
-}
-
-void FractalParameterPanel::addComplexField(const QString &label, QLineEdit *&realOut, QLineEdit *&imagOut) {
-    parameterLayout->addWidget(new QLabel(label + ":"));
-
-    // Row for Re:
-    QHBoxLayout *reLayout = new QHBoxLayout;
-    QLabel *reLabel = new QLabel("Re:");
-    realOut = new QLineEdit;
-    reLayout->addWidget(reLabel);
-    reLayout->addWidget(realOut);
-    parameterLayout->addLayout(reLayout);
-
-    // Row for Im:
-    QHBoxLayout *imLayout = new QHBoxLayout;
-    QLabel *imLabel = new QLabel("Im:");
-    imagOut = new QLineEdit;
-    imLayout->addWidget(imLabel);
-    imLayout->addWidget(imagOut);
-    parameterLayout->addLayout(imLayout);
 }
 
 void FractalParameterPanel::onAddPolyClicked() {
@@ -178,10 +154,33 @@ QString FractalParameterPanel::formatPolyTerm(int exponent, const QString &re, c
 void FractalParameterPanel::onPixStartChanged(bool checked) {
     for (int i = 0; i < parameterLayout->count(); ++i) {
         QWidget *widget = parameterLayout->itemAt(i)->widget();
-        if (widget && widget->objectName() == "startValWidget") {
+        if (widget && widget->objectName() == "startValGroup") {
             widget->setVisible(!checked);
         }
+        QLayout *inner_layout = parameterLayout->itemAt(i)->layout();
+        if(inner_layout != nullptr) {
+            for (int j = 0; j < inner_layout->count(); ++j) {
+                QWidget *inner_widget = inner_layout->itemAt(j)->widget();
+                if (inner_widget && inner_widget->objectName() == "startValGroup") {
+                    inner_widget->setVisible(!checked);
+                }
+            }
+        }
     }
+}
+
+bool FractalParameterPanel::validateInputs() const {
+    auto isValid = [](QLineEdit *field) {
+        if(!field) return true;
+        return field->hasAcceptableInput();
+    };
+
+    bool startValid = pixStartCheck && !pixStartCheck->isChecked() ? isValid(startReal) && isValid(startImag) : true;
+    bool polynomialValid = polyList ? getPolynomial().size() > 0 : true;
+
+    return isValid(incReal) && isValid(incImag) &&
+           isValid(relaxReal) && isValid(relaxImag) &&
+           isValid(exponentInput) && startValid && polynomialValid;
 }
 
 int FractalParameterPanel::getExponent() const {

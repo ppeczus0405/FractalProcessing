@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QLabel>
+#include <type_traits>
 #include <vector>
 #include <utility>
 
@@ -25,6 +26,7 @@ public:
     bool isPixStartEnabled() const;
     std::vector<std::pair<QString, QString>> getPolynomial() const;
     QString getSelectedFractalType() const;
+    bool validateInputs() const;
 
 signals:
     void generateFractal();
@@ -39,7 +41,37 @@ private slots:
 private:
     void clearParameterLayout();
     void showParametersFor(const QString &type);
-    void addComplexField(const QString &label, QLineEdit *&realOut, QLineEdit *&imagOut);
+
+    template <typename LabelT>
+    requires std::is_same_v<std::remove_reference_t<LabelT>, QLabel>
+    void addComplexField(LabelT &&label, QLineEdit *&realOut, QLineEdit *&imagOut) {
+        label.setText(label.text() + ":");
+        parameterLayout->addWidget(&label);
+
+        // Row for Re:
+        QHBoxLayout *reLayout = new QHBoxLayout;
+        QLabel *reLabel = new QLabel("Re:");
+        if(realOut == nullptr) {
+            realOut = new QLineEdit;
+        }
+        realOut->setValidator(new QDoubleValidator(realOut));
+        reLabel->setObjectName(realOut->objectName());
+        reLayout->addWidget(reLabel);
+        reLayout->addWidget(realOut);
+        parameterLayout->addLayout(reLayout);
+
+        // Row for Im:
+        QHBoxLayout *imLayout = new QHBoxLayout;
+        QLabel *imLabel = new QLabel("Im:");
+        if(imagOut == nullptr) {
+            imagOut = new QLineEdit;
+        }
+        imagOut->setValidator(new QDoubleValidator(imagOut));
+        imLabel->setObjectName(imagOut->objectName());
+        imLayout->addWidget(imLabel);
+        imLayout->addWidget(imagOut);
+        parameterLayout->addLayout(imLayout);
+    }
     QString formatPolyTerm(int exponent, const QString &re, const QString &im);
 
     QComboBox *fractalSelector;

@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QMessageBox>
 #include <QWidget>
 #include <QImage>
 #include <QPainter>
@@ -59,8 +60,16 @@ int main(int argc, char *argv[]) {
     // === Signal connection (placeholder) ===
     QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal, [&]() {
         // Placeholder for fractal generation logic using parameterPanel->get*() methods
-        qDebug("Generate button clicked!");
     });
+
+QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal, [&]() {
+    if (!parameterPanel->validateInputs()) {
+        QMessageBox::warning(nullptr, "Invalid Input", "There are missing fields to fill");
+        return;
+    }
+
+    qDebug("Successfully parsed!");
+});
 
     window.show();
     return app.exec();

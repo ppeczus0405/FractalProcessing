@@ -25,10 +25,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 # Prioritize 6.8.2 <= version < 7 due to tested compatibility. 
-find_package(Qt6 6.8.2 COMPONENTS Widgets Gui QUIET)
+find_package(Qt6 6.8.2 REQUIRED COMPONENTS Core Widgets Gui QUIET)
 
 if (NOT Qt6_FOUND)
-  find_package(Qt6 COMPONENTS Widgets Gui QUIET)
+    find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui QUIET)
 endif()
 
 if (NOT Qt6_FOUND)
@@ -53,4 +53,4 @@ file(GLOB_RECURSE QT_SAMPLE_APP_SOURCES "src/*.cpp" "include/*.hpp")
 add_executable(ImagePlaneWithPanel ${QT_SAMPLE_APP_SOURCES})
 target_include_directories(ImagePlaneWithPanel PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(ImagePlaneWithPanel PRIVATE Qt6::Widgets)
+target_link_libraries(ImagePlaneWithPanel PRIVATE Qt6::Core Qt6::Widgets)
