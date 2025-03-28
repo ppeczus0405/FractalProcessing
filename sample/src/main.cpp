@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
   QApplication app(argc, argv);
 
   QWidget window;
-  window.setFixedSize(1230, 720);
+  window.setFixedSize(1380, 720);
   window.setWindowTitle("Fractal Generator");
 
   QHBoxLayout* mainLayout = new QHBoxLayout(&window);
@@ -58,11 +58,7 @@ int main(int argc, char* argv[]) {
   mainLayout->addWidget(canvas);
 
   // === Signal connection (placeholder) ===
-  QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal,
-                   [&]() {
-                     // Placeholder for fractal generation logic using parameterPanel->get*() methods
-                   });
-
+  FractalGenerator fractalGenerator;
   QObject::connect(parameterPanel, &FractalParameterPanel::generateFractal,
                    [&]() {
                      if (!parameterPanel->validateInputs()) {
@@ -70,7 +66,8 @@ int main(int argc, char* argv[]) {
                                             "There are missing fields to fill");
                        return;
                      }
-                     Configuration config = parameterPanel->collectParameters();
+                     fractalGenerator.update(parameterPanel->collectParameters());
+                     canvas->updateImage(fractalGenerator.imageData());
                    });
 
   window.show();

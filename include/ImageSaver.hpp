@@ -19,6 +19,8 @@ class ImageSaver {
              int height = DEFAULT_SAVE_HEIGHT,
              SaveFormat format = SaveFormat::JPEG);
 
+  ImageSaver(const ImageSaver&);
+
   bool save(const std::string& filename);
   bool changeFormat(const SaveFormat& format);
 
@@ -29,7 +31,7 @@ class ImageSaver {
 
  private:
   SaveFormat m_format = SaveFormat::NONE;
-  std::unique_ptr<Magick::Image> saveImage = nullptr;
+  std::unique_ptr<Magick::Image> saveImage;
   std::map<SaveFormat, std::pair<std::string, std::string>> extMap;
 };
 

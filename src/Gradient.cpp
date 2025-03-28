@@ -4,7 +4,6 @@
 #include "CompareDoubles.hpp"
 #include "Gradient.hpp"
 #include "Image.hpp"
-#include "Magick++/Image.h"
 
 namespace PekiProc {
 
@@ -18,6 +17,8 @@ const RGB RGB::BLUE(0, 0, 255);
 const Gradient Gradient::WHITE_BLACK({{0.0, RGB::WHITE},
                                       {0.5, RGB::GRAY},
                                       {1.0, RGB::BLACK}});
+
+Gradient::Gradient() = default;
 
 Gradient::Gradient(const double x, const RGB& color)
     : grad_points(1, {x, color}) {}

@@ -22,10 +22,11 @@ set(SOURCE ${SOURCE_DIR}/Complex.cpp ${SOURCE_DIR}/Mandelbrot.cpp
            ${SOURCE_DIR}/Gradient.cpp ${SOURCE_DIR}/ImageSaver.cpp ${SOURCE_DIR}/Image.cpp
            ${SOURCE_DIR}/JuliaSet.cpp ${SOURCE_DIR}/Newton.cpp ${SOURCE_DIR}/Fractal.cpp)
 
-add_library(fractalproc ${SOURCE})
+add_library(fractalproc SHARED ${SOURCE})
 add_definitions( -DMAGICKCORE_QUANTUM_DEPTH=16 )
 add_definitions( -DMAGICKCORE_HDRI_ENABLE=0 )
 target_include_directories(fractalproc PUBLIC ${HEADERS_DIR} PRIVATE ${ImageMagick_INCLUDE_DIRS})
+target_link_libraries(fractalproc PUBLIC ${ImageMagick_LIBRARIES})
 
 if(BUILD_SAMPLE_APP)
     add_subdirectory(sample)

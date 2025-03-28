@@ -4,7 +4,6 @@
 #include "FractalAlgorithmCreator.hpp"
 #include "FractalColoringCreator.hpp"
 #include "Image.hpp"
-#include "Magick++/Image.h"
 
 namespace PekiProc {
 
@@ -129,6 +128,18 @@ bool Fractal::write(const std::string& filename, const SaveFormat& format) {
   if (!isGenerated)
     generate();
   return Image::write(filename, format);
+}
+
+RGB Fractal::getPixel(int x, int y) {
+  if (!isGenerated)
+    generate();
+  return Image::getPixel(x, y);
+}
+
+const uint8_t* Fractal::getData() {
+  if (!isGenerated)
+    generate();
+  return Image::getData();
 }
 
 void Fractal::setPreviousScale() {

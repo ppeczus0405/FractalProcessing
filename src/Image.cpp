@@ -2,7 +2,6 @@
 #include <cstring>
 
 #include "Image.hpp"
-#include "Magick++/Image.h"
 
 namespace PekiProc {
 
@@ -28,6 +27,10 @@ RGB Image::getPixel(int x, int y) {
   y--;
   int ind = y * m_width * 3 + x * 3;
   return RGB(m_pixels[ind], m_pixels[ind + 1], m_pixels[ind + 2]);
+}
+
+const uint8_t* Image::getData() {
+  return m_pixels.get();
 }
 
 bool Image::write(const std::string& filename, const SaveFormat& format) {

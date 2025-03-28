@@ -25,6 +25,10 @@ class Fractal : public Image {
   bool write(const std::string& filename,
              const SaveFormat& format = SaveFormat::JPEG) override;
 
+  RGB getPixel(int x, int y) override;
+  const uint8_t* getData() override;
+
+
   void setPreviousScale();
   void setDefaultScale();
   void setIterations(int iters);

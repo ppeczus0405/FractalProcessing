@@ -13,17 +13,7 @@
 #include <utility>
 #include <vector>
 
-#include "FractalAlgorithm.hpp"
-
-struct Configuration {
-  PekiProc::FractalAlgorithmType fractalType;
-  int exponent;
-  PekiProc::Complex increment;
-  PekiProc::Complex relaxation;
-  PekiProc::Complex startValue;
-  bool usePixelStart;
-  std::vector<PekiProc::Complex> polynomialTerms;
-};
+#include "FractalGenerator.hpp"
 
 class FractalParameterPanel : public QWidget {
   Q_OBJECT

@@ -11,7 +11,7 @@ enum class InterpolationTarget : uint8_t { RED, GREEN, BLUE };
 
 class Gradient {
  public:
-  Gradient() = default;
+  Gradient();
   Gradient(const double x, const RGB& color);
   Gradient(const std::vector<std::pair<double, RGB>>& gradient_points);
 
