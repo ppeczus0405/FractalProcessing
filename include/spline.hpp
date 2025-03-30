@@ -44,11 +44,6 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
 
-// unnamed namespace only because the implementation is in this
-// header file and we don't want to export symbols to the obj files
-namespace
-{
-
 namespace tk
 {
 
@@ -80,8 +75,8 @@ protected:
     bd_type m_left, m_right;
     double  m_left_value, m_right_value;
     bool m_made_monotonic;
-    void set_coeffs_from_b();               // calculate c_i, d_i from b_i
-    size_t find_closest(double x) const;    // closest idx so that m_x[idx]<=x
+    inline void set_coeffs_from_b();               // calculate c_i, d_i from b_i
+    inline size_t find_closest(double x) const;    // closest idx so that m_x[idx]<=x
 
 public:
     // default constructor: set boundary condition to be zero curvature
@@ -111,11 +106,11 @@ public:
 
 
     // modify boundary conditions: if called it must be before set_points()
-    void set_boundary(bd_type left, double left_value,
+    inline void set_boundary(bd_type left, double left_value,
                       bd_type right, double right_value);
 
     // set all data points (cubic_spline=false means linear interpolation)
-    void set_points(const std::vector<double>& x,
+    inline void set_points(const std::vector<double>& x,
                     const std::vector<double>& y,
                     spline_type type=cspline);
 
@@ -126,11 +121,11 @@ public:
     //   this can also break boundary conditions if adjustments need to
     //   be made at the boundary points
     // returns false if no adjustments have been made, true otherwise
-    bool make_monotonic();
+    inline bool make_monotonic();
 
     // evaluates the spline at point x
-    double operator() (double x) const;
-    double deriv(int order, double x) const;
+    inline double operator() (double x) const;
+    inline double deriv(int order, double x) const;
 
     // returns the input data points
     std::vector<double> get_x() const { return m_x; }
@@ -140,7 +135,7 @@ public:
 
 #ifdef HAVE_SSTREAM
     // spline info string, i.e. spline type, boundary conditions etc.
-    std::string info() const;
+    inline std::string info() const;
 #endif // HAVE_SSTREAM
 
 };
@@ -158,10 +153,10 @@ private:
     std::vector< std::vector<double> > m_lower;  // lower band
 public:
     band_matrix() {};                             // constructor
-    band_matrix(int dim, int n_u, int n_l);       // constructor
+    inline band_matrix(int dim, int n_u, int n_l);       // constructor
     ~band_matrix() {};                            // destructor
-    void resize(int dim, int n_u, int n_l);      // init with dim,n_u,n_l
-    int dim() const;                             // matrix dimension
+    inline void resize(int dim, int n_u, int n_l);      // init with dim,n_u,n_l
+    inline int dim() const;                             // matrix dimension
     int num_upper() const
     {
         return (int)m_upper.size()-1;
@@ -171,15 +166,15 @@ public:
         return (int)m_lower.size()-1;
     }
     // access operator
-    double & operator () (int i, int j);            // write
-    double   operator () (int i, int j) const;      // read
+    inline double & operator () (int i, int j);            // write
+    inline double   operator () (int i, int j) const;      // read
     // we can store an additional diagonal (in m_lower)
-    double& saved_diag(int i);
-    double  saved_diag(int i) const;
-    void lu_decompose();
-    std::vector<double> r_solve(const std::vector<double>& b) const;
-    std::vector<double> l_solve(const std::vector<double>& b) const;
-    std::vector<double> lu_solve(const std::vector<double>& b,
+    inline double& saved_diag(int i);
+    inline double  saved_diag(int i) const;
+    inline void lu_decompose();
+    inline std::vector<double> r_solve(const std::vector<double>& b) const;
+    inline std::vector<double> l_solve(const std::vector<double>& b) const;
+    inline std::vector<double> lu_solve(const std::vector<double>& b,
                                  bool is_lu_decomposed=false);
 
 };
@@ -675,8 +670,6 @@ std::vector<double> band_matrix::lu_solve(const std::vector<double>& b,
 
 } // namespace tk
 
-
-} // namespace
 
 #pragma GCC diagnostic pop
 
