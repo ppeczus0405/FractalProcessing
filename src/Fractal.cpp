@@ -55,7 +55,7 @@ bool Fractal::resize(int width, int height) {
   return true;
 }
 
-// (0, 0) coordinate is top left corner
+// (1, 1) coordinate is top left corner
 bool Fractal::setRectangle(std::pair<int, int> v1, std::pair<int, int> v2) {
   // Degenerate rectangle
   if (v1.first == v2.first or v1.second == v2.second) {

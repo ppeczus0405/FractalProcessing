@@ -76,5 +76,22 @@ const uint8_t* FractalGenerator::imageData() {
   return m_fractal->getData();
 }
 
-void FractalGenerator::zoom([[maybe_unused]] std::pair<int, int> v1,
-                            [[maybe_unused]] std::pair<int, int> v2) {}
+
+bool FractalGenerator::isPreviousScale() const {
+    if (!m_fractal) return false;
+    return m_fractal->isPreviousScale();
+}
+
+void FractalGenerator::setPreviousScale() {
+    if (m_fractal) {
+        m_fractal->setPreviousScale();
+    }
+}
+
+bool FractalGenerator::zoom(std::pair<int, int> v1,
+                            std::pair<int, int> v2) {
+    // If the fractal pointer is valid, pass the rectangle in:
+    if (!m_fractal) return false;
+    bool ok = m_fractal->setRectangle(std::move(v1), std::move(v2));
+    return ok;
+}

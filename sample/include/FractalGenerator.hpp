@@ -20,9 +20,12 @@ struct Configuration {
 
 class FractalGenerator {
  public:
-  void zoom(std::pair<int, int> v1, std::pair<int, int> v2);
+  bool zoom(std::pair<int, int> v1, std::pair<int, int> v2);
   void update(const Configuration& config);
   const uint8_t* imageData();
+
+  bool isPreviousScale() const;
+  void setPreviousScale();
 
   static PekiProc::FractalAlgorithmType fractalStringToType(const std::string& fractal_type);
 
