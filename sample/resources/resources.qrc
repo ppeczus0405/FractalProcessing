@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <!-- For each icon, specify the path in your source tree -->
+        <file>icons/zoomout.svg</file>
+    </qresource>
+</RCC>

@@ -100,8 +100,6 @@ class FractalParameterPanel : public QWidget {
   QLineEdit* maxRField = nullptr;
   QLineEdit* minIField = nullptr;
   QLineEdit* maxIField = nullptr;
-
-  QPushButton* generateButton;
 };
 
 #endif  // FRACTALPARAMETERPANEL_HPP

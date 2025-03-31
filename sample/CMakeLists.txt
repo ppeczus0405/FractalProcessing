@@ -50,7 +50,7 @@ if (Qt6_VERSION VERSION_LESS "6.8.2")
 endif()
 
 file(GLOB_RECURSE QT_SAMPLE_APP_SOURCES "src/*.cpp" "include/*.hpp")
-add_executable(ImagePlaneWithPanel ${QT_SAMPLE_APP_SOURCES})
+add_executable(ImagePlaneWithPanel ${QT_SAMPLE_APP_SOURCES} ${QT_SAMPLE_APP_RESOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.qrc")
 target_include_directories(ImagePlaneWithPanel PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(ImagePlaneWithPanel PRIVATE Qt6::Core Qt6::Widgets fractalproc)

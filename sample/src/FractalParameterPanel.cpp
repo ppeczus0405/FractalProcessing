@@ -84,13 +84,8 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
     mainLayout->addLayout(yRangeLayout);
   }
 
-  generateButton = new QPushButton("Generate");
-  mainLayout->addWidget(generateButton);
-
   connect(fractalSelector, &QComboBox::currentTextChanged, this,
           &FractalParameterPanel::onFractalTypeChanged);
-  connect(generateButton, &QPushButton::clicked, this,
-          &FractalParameterPanel::generateFractal);
 
   onFractalTypeChanged(fractalSelector->currentText());
 }
