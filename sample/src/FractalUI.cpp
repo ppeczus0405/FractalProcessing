@@ -15,7 +15,7 @@ FractalUI::FractalUI(QWidget* parent)
     setStyleSheet(R"(
         /* Base widget styling */
         QWidget {
-            background-color: #1e1e1e;
+            background-color: #2e2e2e;
             color: #f0f0f0;
             font-size: 13px;
         }
@@ -29,8 +29,8 @@ FractalUI::FractalUI(QWidget* parent)
         }
         /* Generic label styling */
         QLabel {
-            background-color: #5e5e5e;
-            color: #f0f0f0;
+            color: #cccccc;
+            background-color: #2e2e2e;
         }
         /* The special label with objectName="infoLabel" -> distinct background */
         #infoLabel {
@@ -78,11 +78,11 @@ FractalUI::FractalUI(QWidget* parent)
     m_parameterPanel = new FractalParameterPanel(this);
     layout->addWidget(m_parameterPanel);
 
+    layout->addStretch(1);
+
     // 2) The action panel (Generate, Info label, Zoom out)
     m_actionPanel = new FractalActionPanel(this);
     layout->addWidget(m_actionPanel);
-
-    layout->addStretch(1);
 }
 
 FractalParameterPanel* FractalUI::parameterPanel() const

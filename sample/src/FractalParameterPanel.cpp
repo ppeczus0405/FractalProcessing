@@ -47,9 +47,6 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
   parameterLayout->setSpacing(6);
   mainLayout->addLayout(parameterLayout);
   mainLayout->addWidget(paramContainer);
-
-  mainLayout->addStretch();
-
   {
     // Create two horizontal layouts: one for the X range, one for the Y range
     QHBoxLayout* xRangeLayout = new QHBoxLayout;

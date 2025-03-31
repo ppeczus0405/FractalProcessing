@@ -17,6 +17,12 @@ int main(int argc, char* argv[]) {
   QWidget window;
   window.setFixedSize(1380, 720);
   window.setWindowTitle("Fractal Generator");
+  window.setObjectName("mainWindow"); // Give it a unique name
+  window.setStyleSheet(R"(
+    #mainWindow {
+        background-color: #2e2e2e;  /* Your desired color */
+    }
+  )");
 
   QHBoxLayout* mainLayout = new QHBoxLayout(&window);
   mainLayout->setContentsMargins(0, 0, 0, 0);
