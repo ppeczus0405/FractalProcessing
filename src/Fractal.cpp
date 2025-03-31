@@ -214,7 +214,12 @@ FractalBuilder::FractalBuilder(int width, int height)
 
 FractalBuilder& FractalBuilder::setScale(long double minR, long double maxR,
                                          long double minI, long double maxI) {
+  return setScale(Dim{minR, maxR, minI, maxI});
+}
+
+FractalBuilder& FractalBuilder::setScale(const Dim& scale) {
   try {
+    auto [minR, maxR, minI, maxI] = scale;
     std::unique_ptr<Scale> ps = std::make_unique<Scale>(
         fractal->m_width, fractal->m_height, minR, maxR, minI, maxI);
     fractal->scale = std::move(ps);

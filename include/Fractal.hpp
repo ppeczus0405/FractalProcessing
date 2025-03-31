@@ -43,6 +43,8 @@ class Fractal : public Image {
     fcol->setGradient(make_unique<Gradient>(forward<T>(gradient)));
   }
 
+  static Dim getDefaultDimension(const FAT alg) noexcept;
+
  private:
   Fractal(int width, int height);
 
@@ -60,7 +62,6 @@ class Fractal : public Image {
   static constexpr Dim DefaultNewtonDim = Dim(-2.8L, 2.8L, -2.1L, 2.1L);
   static constexpr Dim DefaultPolyJuliaDim = DefaultMultibrotDim;
   static constexpr Dim DefaultNovaDim = DefaultJuliaDim;
-  static Dim getDefaultDimension(const FAT alg) noexcept;
 };
 
 class FractalBuilder {
@@ -69,6 +70,7 @@ class FractalBuilder {
 
   FractalBuilder& setScale(long double minR, long double maxR, long double minI,
                            long double maxI);
+  FractalBuilder& setScale(const Dim& scale);
   FractalBuilder& setAlgorithm(std::unique_ptr<FractalAlgorithm> alg);
   FractalBuilder& setMaxIterations(int mxIter);
   FractalBuilder& setGradientMapSize(int size);

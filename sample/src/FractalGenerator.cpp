@@ -1,6 +1,18 @@
 #include "FractalGenerator.hpp"
 #include "FractalAlgorithmCreator.hpp"
 
+
+PekiProc::FractalAlgorithmType FractalGenerator::fractalStringToType(const std::string& fractal_type) {
+  if (fractal_type == "Mandelbrot") return PekiProc::FractalAlgorithmType::MANDELBROT;
+  if (fractal_type == "Multibrot") return PekiProc::FractalAlgorithmType::MULTIBROT;
+  if (fractal_type == "Julia") return PekiProc::FractalAlgorithmType::JULIA;
+  if (fractal_type == "PolyJulia") return PekiProc::FractalAlgorithmType::POLYJULIA;
+  if (fractal_type == "Newton") return PekiProc::FractalAlgorithmType::NEWTON;
+  if (fractal_type == "Nova") return PekiProc::FractalAlgorithmType::NOVA;
+  assert(!"Invalid fractal type");
+  return {}; // Supress warning.
+}
+
 std::unique_ptr<PekiProc::FractalAlgorithm>
 FractalGenerator::createAlgorithm() {
   using namespace PekiProc;
@@ -56,6 +68,7 @@ void FractalGenerator::update(const Configuration& config) {
                   .setGradient(getDefaultGradient())
                   .setGradientMapSize(1024)
                   .setAlgorithm(createAlgorithm())
+                  .setScale(config.scaleParams)
                   .build();
 }
 

@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "FractalAlgorithm.hpp"
 #include "FractalGenerator.hpp"
 
 class FractalParameterPanel : public QWidget {
@@ -94,6 +95,11 @@ class FractalParameterPanel : public QWidget {
   QLineEdit *polyReal = nullptr, *polyImag = nullptr;
   QPushButton* addPolyBtn = nullptr;
   QPushButton* clearPolyBtn = nullptr;
+
+  QLineEdit* minRField = nullptr;
+  QLineEdit* maxRField = nullptr;
+  QLineEdit* minIField = nullptr;
+  QLineEdit* maxIField = nullptr;
 
   QPushButton* generateButton;
 };

@@ -1,10 +1,29 @@
+#include <qcontainerfwd.h>
 #include <qvalidator.h>
 #include <QIntValidator>
 #include <QMenu>
 #include <QRegularExpression>
 
+#include "Fractal.hpp"
 #include "FractalAlgorithm.hpp"
+#include "FractalGenerator.hpp"
 #include "FractalParameterPanel.hpp"
+
+namespace {
+  long double toLongDouble(const QString& qStr) {
+    long double value;
+    std::string numText = qStr.toStdString();
+    std::for_each(numText.begin(), numText.end(), [](char &c) {
+      if(c == ',') c = '.';
+    });
+    auto [ptr, ec] = std::from_chars(numText.data(), numText.data() + numText.size(), value);
+    if (ec != std::errc() || ptr != numText.data() + numText.size()) {
+      std::cerr << "Conversion for " << numText << " failed. " << std::endl;
+      assert(!"Dobule conversion error");
+    }
+    return value;
+  }
+}
 
 FractalParameterPanel::FractalParameterPanel(QWidget* parent)
     : QWidget(parent) {
@@ -28,7 +47,42 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
   parameterLayout->setSpacing(6);
   mainLayout->addLayout(parameterLayout);
   mainLayout->addWidget(paramContainer);
+
   mainLayout->addStretch();
+
+  {
+    // Create two horizontal layouts: one for the X range, one for the Y range
+    QHBoxLayout* xRangeLayout = new QHBoxLayout;
+    QLabel* xLabel = new QLabel("X:");
+    minRField = new QLineEdit;
+    maxRField = new QLineEdit;
+
+    // You can optionally add a QDoubleValidator to each field
+    // so only double values are accepted
+    QDoubleValidator* doubleValidator = new QDoubleValidator(this);
+    minRField->setValidator(doubleValidator);
+    maxRField->setValidator(doubleValidator);
+
+    xRangeLayout->addWidget(xLabel);
+    xRangeLayout->addWidget(minRField);
+    xRangeLayout->addWidget(maxRField);
+
+    QHBoxLayout* yRangeLayout = new QHBoxLayout;
+    QLabel* yLabel = new QLabel("Y:");
+    minIField = new QLineEdit;
+    maxIField = new QLineEdit;
+
+    minIField->setValidator(doubleValidator);
+    maxIField->setValidator(doubleValidator);
+
+    yRangeLayout->addWidget(yLabel);
+    yRangeLayout->addWidget(minIField);
+    yRangeLayout->addWidget(maxIField);
+
+    // Put them in a small container or directly into mainLayout
+    mainLayout->addLayout(xRangeLayout);
+    mainLayout->addLayout(yRangeLayout);
+  }
 
   generateButton = new QPushButton("Generate");
   mainLayout->addWidget(generateButton);
@@ -44,43 +98,34 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
 Configuration FractalParameterPanel::collectParameters() const {
   Configuration config;
 
-  auto fractal_type = getSelectedFractalType();
-  if (fractal_type == "Mandelbrot") {
-    config.fractalType = PekiProc::FractalAlgorithmType::MANDELBROT;
-  } else if (fractal_type == "Multibrot") {
-    config.fractalType = PekiProc::FractalAlgorithmType::MULTIBROT;
-  } else if (fractal_type == "Julia") {
-    config.fractalType = PekiProc::FractalAlgorithmType::JULIA;
-  } else if (fractal_type == "PolyJulia") {
-    config.fractalType = PekiProc::FractalAlgorithmType::POLYJULIA;
-  } else if (fractal_type == "Newton") {
-    config.fractalType = PekiProc::FractalAlgorithmType::NEWTON;
-  } else if (fractal_type == "Nova") {
-    config.fractalType = PekiProc::FractalAlgorithmType::NOVA;
-  } else {
-    assert(!"Invalid fractal type");
-  }
+  config.fractalType = FractalGenerator::fractalStringToType(getSelectedFractalType().toStdString());
+
+  config.scaleParams = PekiProc::Dim{toLongDouble(minRField->text()),
+                                     toLongDouble(maxRField->text()),
+                                     toLongDouble(minIField->text()),
+                                     toLongDouble(maxIField->text())
+  };
 
   config.exponent = getExponent();
 
   auto increment = getIncrement();
-  config.increment = {increment.first.toDouble(), increment.second.toDouble()};
+  config.increment = {toLongDouble(increment.first), toLongDouble(increment.second)};
 
   auto relaxation = getRelaxation();
-  config.relaxation = {relaxation.first.toDouble(),
-                       relaxation.second.toDouble()};
+  config.relaxation = {toLongDouble(relaxation.first),
+                       toLongDouble(relaxation.second)};
 
   auto startValue = getStartValue();
-  config.startValue = {startValue.first.toDouble(),
-                       startValue.second.toDouble()};
+  config.startValue = {toLongDouble(startValue.first),
+                       toLongDouble(startValue.second)};
 
   config.usePixelStart = isPixStartEnabled();
 
   // Handle polynomial terms if applicable
   auto polynomialStrTerms = getPolynomial();
   for (const auto& term : polynomialStrTerms) {
-    double realPart = term.first.toDouble();
-    double imagPart = term.second.toDouble();
+    double realPart = toLongDouble(term.first);
+    double imagPart = toLongDouble(term.second);
     config.polynomialTerms.emplace_back(realPart, imagPart);
   }
 
@@ -143,7 +188,17 @@ void FractalParameterPanel::onFractalTypeChanged(const QString& type) {
     startReal->setObjectName("startValGroup");
     startImag->setObjectName("startValGroup");
     addComplexField(*startLabel, startReal, startImag);
+
+    // Trigger default - checked.
+    pixStartCheck->setChecked(false);
+    pixStartCheck->toggle();
   }
+
+  const auto [minR, maxR, minI, maxI] = PekiProc::Fractal::getDefaultDimension(FractalGenerator::fractalStringToType(type.toStdString()));
+  minRField->setText(QString(std::to_string(minR).data()));
+  maxRField->setText(QString(std::to_string(maxR).data()));
+  minIField->setText(QString(std::to_string(minI).data()));
+  maxIField->setText(QString(std::to_string(maxI).data()));
 }
 
 void FractalParameterPanel::onAddPolyClicked() {
@@ -216,9 +271,14 @@ bool FractalParameterPanel::validateInputs() const {
                         : true;
   bool polynomialValid = polyList ? getPolynomial().size() > 0 : true;
 
+  bool scaleValid = minRField && !minRField->text().isEmpty() &&
+                    maxRField && !maxRField->text().isEmpty() &&
+                    minIField && !minIField->text().isEmpty() &&
+                    maxIField && !maxIField->text().isEmpty();
+
   return isValid(incReal) && isValid(incImag) && isValid(relaxReal) &&
          isValid(relaxImag) && isValid(exponentInput) && startValid &&
-         polynomialValid;
+         polynomialValid && scaleValid;
 }
 
 int FractalParameterPanel::getExponent() const {

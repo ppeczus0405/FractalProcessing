@@ -8,9 +8,9 @@ ImageCanvas::ImageCanvas(QWidget* parent)
   setFixedSize(1080, 720);
 }
 
-void ImageCanvas::updateImage(const uint8_t* data) {
+void ImageCanvas::updateImage(const uint8_t* imageData) {
   for (int y = 0; y < image.height(); ++y) {
-    memcpy(image.scanLine(y), data + y * image.width() * 3, image.width() * 3);
+    memcpy(image.scanLine(y), imageData + y * image.width() * 3, image.width() * 3);
   }
   update();
 }

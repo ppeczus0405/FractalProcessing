@@ -15,14 +15,16 @@ struct Configuration {
   PekiProc::Complex startValue;
   bool usePixelStart;
   std::vector<PekiProc::Complex> polynomialTerms;
+  PekiProc::Dim scaleParams;
 };
 
 class FractalGenerator {
  public:
   void zoom(std::pair<int, int> v1, std::pair<int, int> v2);
   void update(const Configuration& config);
+  const uint8_t* imageData();
 
- const uint8_t* imageData();
+  static PekiProc::FractalAlgorithmType fractalStringToType(const std::string& fractal_type);
 
  private:
   std::unique_ptr<PekiProc::FractalAlgorithm> createAlgorithm();

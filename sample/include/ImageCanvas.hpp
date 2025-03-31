@@ -9,7 +9,7 @@ class ImageCanvas : public QWidget {
 
  public:
   explicit ImageCanvas(QWidget* parent = nullptr);
-  void updateImage(const uint8_t* data);
+  void updateImage(const uint8_t* imageData);
 
  protected:
   void paintEvent(QPaintEvent*) override;
