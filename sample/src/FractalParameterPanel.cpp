@@ -192,6 +192,90 @@ void FractalParameterPanel::onFractalTypeChanged(const QString& type) {
     pixStartCheck->toggle();
   }
 
+    // =====================
+    //  SET DEFAULT VALUES
+    // =====================
+    if (type == "Mandelbrot") {
+        // No exponent or increment to set
+        // Typically nothing extra to set for the classic Mandelbrot
+    }
+    else if (type == "Multibrot") {
+        // Classic exponent = 3 (z^3 + c).  Feel free to change as you like.
+        if (exponentInput) exponentInput->setText("3");
+    }
+    else if (type == "Julia") {
+        // A common “classic” Julia is c = -0.7 + 0.27015i
+        if (incReal) incReal->setText("-0,7");
+        if (incImag) incImag->setText("0,27015");
+    }
+    else if (type == "PolyJulia") {
+        // Custom one
+        if (exponentInput) exponentInput->setText("5");
+        if (incReal) incReal->setText("-0,70176");
+        if (incImag) incImag->setText("-0,3842");
+    }
+    else if (type == "Newton") {
+        // A classic polynomial is z^3 - 1
+        // That means 4 polynomial terms: [1,0,0,-1]
+        // Use onAddPolyClicked() to add them to polyList.
+        // Relaxation often set to 1
+        if (relaxReal) relaxReal->setText("1");
+        if (relaxImag) relaxImag->setText("0");
+
+        // Start by clearing any leftover list items
+        onClearPolyClicked();
+
+        // Add the polynomial terms for z^3 - 1
+        // (lowest exponent => first item we add)
+        polyReal->setText("1");
+        polyImag->setText("0");
+        onAddPolyClicked(); // => z^0 coefficient
+
+        polyReal->setText("0");
+        polyImag->setText("0");
+        onAddPolyClicked(); // => z^1 coefficient
+
+        polyReal->setText("0");
+        polyImag->setText("0");
+        onAddPolyClicked(); // => z^2 coefficient
+
+        polyReal->setText("-1");
+        polyImag->setText("0");
+        onAddPolyClicked(); // => z^3 coefficient
+    }
+    else if (type == "Nova") {
+        // Similar polynomial for Nova: z^3 - 1
+        // Relaxation=1, StartValue=1+0i, or any typical values
+        if (relaxReal) relaxReal->setText("1");
+        if (relaxImag) relaxImag->setText("0");
+
+        // Usually we do not rely on pixel start:
+        if (pixStartCheck) pixStartCheck->setChecked(false);
+
+        if (startReal) startReal->setText("1");
+        if (startImag) startImag->setText("0");
+
+        // Clear and add polynomial z^3 - 1
+        onClearPolyClicked();
+
+        polyReal->setText("1");
+        polyImag->setText("0");
+        onAddPolyClicked();
+
+        polyReal->setText("0");
+        polyImag->setText("0");
+        onAddPolyClicked();
+
+        polyReal->setText("0");
+        polyImag->setText("0");
+        onAddPolyClicked();
+
+        polyReal->setText("-1");
+        polyImag->setText("0");
+        onAddPolyClicked();
+    }
+
+
   const auto [minR, maxR, minI, maxI] = PekiProc::Fractal::getDefaultDimension(FractalGenerator::fractalStringToType(type.toStdString()));
   minRField->setText(QString(std::to_string(minR).data()));
   maxRField->setText(QString(std::to_string(maxR).data()));
