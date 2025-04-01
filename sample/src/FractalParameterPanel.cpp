@@ -315,6 +315,7 @@ std::vector<std::pair<QString, QString>> FractalParameterPanel::getPolynomial()
       result.emplace_back(match.captured(1), match.captured(2));
     }
   }
+  std::reverse(result.begin(), result.end());
   return result;
 }
 
