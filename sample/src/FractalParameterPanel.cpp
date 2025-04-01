@@ -30,6 +30,7 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
   fractalSelector = new QComboBox;
   fractalSelector->addItems(
       {"Mandelbrot", "Multibrot", "Julia", "PolyJulia", "Newton", "Nova"});
+  // fractalSelector->setEditable(true);
 
   mainLayout = new QVBoxLayout(this);
   mainLayout->setContentsMargins(6, 6, 6, 6);
@@ -51,6 +52,7 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
     // Create two horizontal layouts: one for the X range, one for the Y range
     QHBoxLayout* xRangeLayout = new QHBoxLayout;
     QLabel* xLabel = new QLabel("X:");
+    xLabel->setFixedWidth(15);
     minRField = new QLineEdit;
     maxRField = new QLineEdit;
 
@@ -62,10 +64,12 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
 
     xRangeLayout->addWidget(xLabel);
     xRangeLayout->addWidget(minRField);
+    xRangeLayout->addSpacing(5);
     xRangeLayout->addWidget(maxRField);
 
     QHBoxLayout* yRangeLayout = new QHBoxLayout;
     QLabel* yLabel = new QLabel("Y:");
+    yLabel->setFixedWidth(15);
     minIField = new QLineEdit;
     maxIField = new QLineEdit;
 
@@ -74,9 +78,11 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
 
     yRangeLayout->addWidget(yLabel);
     yRangeLayout->addWidget(minIField);
+    yRangeLayout->addSpacing(5);
     yRangeLayout->addWidget(maxIField);
 
     // Put them in a small container or directly into mainLayout
+    mainLayout->addSpacing(5);
     mainLayout->addLayout(xRangeLayout);
     mainLayout->addLayout(yRangeLayout);
   }

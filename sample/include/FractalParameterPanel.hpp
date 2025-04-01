@@ -57,6 +57,8 @@ class FractalParameterPanel : public QWidget {
     // Row for Re:
     QHBoxLayout* reLayout = new QHBoxLayout;
     QLabel* reLabel = new QLabel("Re:");
+    reLabel->setFixedWidth(30);
+
     if (realOut == nullptr) {
       realOut = new QLineEdit;
     }
@@ -69,6 +71,8 @@ class FractalParameterPanel : public QWidget {
     // Row for Im:
     QHBoxLayout* imLayout = new QHBoxLayout;
     QLabel* imLabel = new QLabel("Im:");
+    imLabel->setFixedWidth(30);
+
     if (imagOut == nullptr) {
       imagOut = new QLineEdit;
     }

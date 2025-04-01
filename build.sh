@@ -13,4 +13,4 @@ mkdir BUILD
 # Commands Json
 rm -rf compile_commands.json
 CC="gcc" CXX="g++" cmake -B BUILD -S . -G "Ninja Multi-Config" -DQT6_INSTALL_DIR="/home/p3ki/.local/lib/Qt6.8/"
-CC="gcc" CXX="g++" bear -- cmake --build BUILD --parallel --config Debug
+CC="gcc" CXX="g++" bear -- cmake --build BUILD --parallel --config Release

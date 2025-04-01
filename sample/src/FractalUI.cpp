@@ -41,13 +41,30 @@ FractalUI::FractalUI(QWidget* parent)
             padding: 6px;
             margin-top: 4px;
         }
-        /* CheckBox, ComboBox, PushButton normal states */
-        QCheckBox, QComboBox, QPushButton {
+        /* CheckBox, PushButton normal states */
+        QCheckBox, QPushButton {
             background-color: #333;
             color: #f0f0f0;
             border: 1px solid #444;
             border-radius: 4px;
             padding: 4px 6px;
+        }
+        QComboBox {
+            background-color: #2e2e2e;
+            border: 1px solid #444;
+            min-height: 25px;
+            border-radius: 4px;
+            color: #f0f0f0;
+            padding-left: 5px;
+        }
+        /* Styles the popup list itself */
+        QComboBox QAbstractItemView {
+            background-color: #2e2e2e;
+            border: 1px solid #444;
+            margin: 0;                /* remove any margin */
+            padding: 0;               /* remove any padding */
+            selection-background-color: #444;
+            selection-color: #f0f0f0;
         }
         /* Button hover & press */
         QPushButton:hover {
