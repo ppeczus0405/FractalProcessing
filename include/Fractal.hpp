@@ -11,7 +11,7 @@ namespace PekiProc {
 
 class FractalBuilder;
 using FAT = FractalAlgorithmType;
-using Dim = std::tuple<long double, long double, long double, long double>;
+using Dim = std::tuple<double, double, double, double>;
 
 class Fractal : public Image {
   friend class FractalBuilder;
@@ -19,8 +19,8 @@ class Fractal : public Image {
  public:
   bool resize(int width, int height);
   bool setRectangle(std::pair<int, int> v1, std::pair<int, int> v2);
-  bool setScale(long double minR, long double maxR, long double minI,
-                long double maxI, bool baseChanged = false);
+  bool setScale(double minR, double maxR, double minI,
+                double maxI, bool baseChanged = false);
   bool isPreviousScale();
   bool write(const std::string& filename,
              const SaveFormat& format = SaveFormat::JPEG) override;
@@ -56,10 +56,10 @@ class Fractal : public Image {
 
   void generate();
 
-  static constexpr Dim DefaultMandelbrotDim = Dim(-2.2L, 1.0L, -1.2L, 1.2L);
-  static constexpr Dim DefaultMultibrotDim = Dim(-2.2L, 2.2L, -1.65L, 1.65L);
-  static constexpr Dim DefaultJuliaDim = Dim(-2.0L, 2.0L, -1.5L, 1.5L);
-  static constexpr Dim DefaultNewtonDim = Dim(-2.8L, 2.8L, -2.1L, 2.1L);
+  static constexpr Dim DefaultMandelbrotDim = Dim(-2.2, 1.0, -1.2, 1.2);
+  static constexpr Dim DefaultMultibrotDim = Dim(-2.2, 2.2, -1.65, 1.65);
+  static constexpr Dim DefaultJuliaDim = Dim(-2.0, 2.0, -1.5, 1.5);
+  static constexpr Dim DefaultNewtonDim = Dim(-2.8, 2.8, -2.1, 2.1);
   static constexpr Dim DefaultPolyJuliaDim = DefaultMultibrotDim;
   static constexpr Dim DefaultNovaDim = DefaultJuliaDim;
 };
@@ -68,8 +68,8 @@ class FractalBuilder {
  public:
   FractalBuilder(int width, int height);
 
-  FractalBuilder& setScale(long double minR, long double maxR, long double minI,
-                           long double maxI);
+  FractalBuilder& setScale(double minR, double maxR, double minI,
+                           double maxI);
   FractalBuilder& setScale(const Dim& scale);
   FractalBuilder& setAlgorithm(std::unique_ptr<FractalAlgorithm> alg);
   FractalBuilder& setMaxIterations(int mxIter);

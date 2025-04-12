@@ -14,7 +14,7 @@ namespace PekiProc {
 class Complex {
  public:
   Complex() = default;
-  Complex(long double real_v, long double imaginary_v);
+  Complex(double real_v, double imaginary_v);
   Complex(const Complex& toCopy);
   Complex(Complex&& toMove);
 
@@ -23,14 +23,14 @@ class Complex {
 
   static Complex power(const Complex& c, int exponent);
   static Complex conjugate(const Complex& c);
-  static long double absolute(const Complex& c);
-  static long double absolute_square(const Complex& c);
+  static double absolute(const Complex& c);
+  static double absolute_square(const Complex& c);
 
-  long double getReal() const noexcept;
-  long double getImaginary() const noexcept;
+  double getReal() const noexcept;
+  double getImaginary() const noexcept;
 
-  void setReal(long double value);
-  void setImaginary(long double value);
+  void setReal(double value);
+  void setImaginary(double value);
 
   // Overloaded operators
   bool operator==(const Complex& c);
@@ -51,21 +51,21 @@ class Complex {
 
   // Multiplication
   Complex operator*(const Complex& c);
-  Complex operator*(const long double a);    // Scalar
-  Complex& operator*=(const long double a);  // Scalar
+  Complex operator*(const double a);    // Scalar
+  Complex& operator*=(const double a);  // Scalar
   Complex& operator*=(const Complex& c);
 
   // Division
   Complex operator/(const Complex& c);
-  Complex operator/(const long double a);    // Scalar
-  Complex& operator/=(const long double a);  // Scalar
+  Complex operator/(const double a);    // Scalar
+  Complex& operator/=(const double a);  // Scalar
   Complex& operator/=(const Complex& c);
 
   friend std::ostream& ::operator<<(std::ostream& stream, const Complex& c);
 
  private:
-  long double real = 0.0L;
-  long double imaginary = 0.0L;
+  double real = 0.0;
+  double imaginary = 0.0;
 };
 
 }  // namespace PekiProc

@@ -90,8 +90,8 @@ bool Fractal::setRectangle(std::pair<int, int> v1, std::pair<int, int> v2) {
   // topScaled.first = maxReal, topScaled.second = minImag
   auto topScaled = scale->getScaled(xb, yb);
 
-  long double mr = bottomScaled.first, Mr = topScaled.first;
-  long double mi = topScaled.second, Mi = bottomScaled.second;
+  double mr = bottomScaled.first, Mr = topScaled.first;
+  double mi = topScaled.second, Mi = bottomScaled.second;
 
   if (setScale(mr, Mr, mi, Mi)) {
     scaleStack.emplace_back(mr, Mr, mi, Mi);
@@ -104,8 +104,8 @@ bool Fractal::isPreviousScale() {
   return (int)scaleStack.size() > 1;
 }
 
-bool Fractal::setScale(long double minR, long double maxR, long double minI,
-                       long double maxI, bool baseChanged) {
+bool Fractal::setScale(double minR, double maxR, double minI,
+                       double maxI, bool baseChanged) {
   bool sameScales = CompareDoubles::isEqual(minR, scale->getMinReal()) and
                     CompareDoubles::isEqual(maxR, scale->getMaxReal()) and
                     CompareDoubles::isEqual(minI, scale->getMinImag()) and
@@ -212,8 +212,8 @@ void Fractal::generate() {
 FractalBuilder::FractalBuilder(int width, int height)
     : fractal(new Fractal(width, height)) {}
 
-FractalBuilder& FractalBuilder::setScale(long double minR, long double maxR,
-                                         long double minI, long double maxI) {
+FractalBuilder& FractalBuilder::setScale(double minR, double maxR,
+                                         double minI, double maxI) {
   return setScale(Dim{minR, maxR, minI, maxI});
 }
 

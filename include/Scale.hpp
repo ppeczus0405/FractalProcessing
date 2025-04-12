@@ -11,8 +11,8 @@ namespace PekiProc {
 
 class Scale {
  public:
-  Scale(int baseW, int baseH, long double widthm, long double widthM,
-        long double heightm, long double heightM)
+  Scale(int baseW, int baseH, double widthm, double widthM,
+        double heightm, double heightM)
       : baseWidth(baseW),
         baseHeight(baseH),
         widthMin(widthm),
@@ -44,7 +44,7 @@ class Scale {
       baseHeightOne = true;
   }
 
-  std::pair<long double, long double> getScaled(int x, int y) {
+  std::pair<double, double> getScaled(int x, int y) {
     if (x < 1 || x > baseWidth) {
       std::string error_message =
           "Error: Can't scale pixel. Reason: " + std::to_string(x) +
@@ -60,8 +60,8 @@ class Scale {
       throw std::invalid_argument(error_message);
     }
 
-    long double scaledX = (widthMin + widthMax) / 2.0L;
-    long double scaledY = (heightMin + heightMax) / 2.0L;
+    double scaledX = (widthMin + widthMax) / 2.0;
+    double scaledY = (heightMin + heightMax) / 2.0;
     if (!baseWidthOne)
       scaledX = widthMin + (x - 1) * wratio;
     if (!baseHeightOne)
@@ -69,19 +69,19 @@ class Scale {
     return {scaledX, scaledY};
   }
 
-  long double getMinReal() { return widthMin; }
+  double getMinReal() { return widthMin; }
 
-  long double getMaxReal() { return widthMax; }
+  double getMaxReal() { return widthMax; }
 
-  long double getMinImag() { return heightMin; }
+  double getMinImag() { return heightMin; }
 
-  long double getMaxImag() { return heightMax; }
+  double getMaxImag() { return heightMax; }
 
  private:
   bool baseWidthOne = false, baseHeightOne = false;
   int baseWidth, baseHeight;
-  long double widthMin, widthMax, wratio;
-  long double heightMin, heightMax, hratio;
+  double widthMin, widthMax, wratio;
+  double heightMin, heightMax, hratio;
 };
 
 }  // namespace PekiProc

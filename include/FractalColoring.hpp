@@ -9,7 +9,7 @@ namespace PekiProc {
 
 class FractalColoring {
  public:
-  FractalColoring(int maxIterations, int exponent, long double bailout,
+  FractalColoring(int maxIterations, int exponent, double bailout,
                   int mapSize = DEFAULT_COLOR_MAP_SIZE,
                   std::unique_ptr<Gradient> gradient = nullptr)
       : FractalColoring(exponent, bailout) {
@@ -72,7 +72,7 @@ class FractalColoring {
   virtual ~FractalColoring() = default;
 
  protected:
-  long double m_bailout;
+  double m_bailout;
 
   int max_iterations;
   int m_exponent;
@@ -84,7 +84,7 @@ class FractalColoring {
  private:
   FractalColoring(int exponent) : m_exponent(exponent) {}
 
-  FractalColoring(int exponent, long double bailout)
+  FractalColoring(int exponent, double bailout)
       : FractalColoring(exponent) {
     m_bailout = bailout;
   }

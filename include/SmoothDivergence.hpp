@@ -21,21 +21,21 @@ class SmoothDivergence : public FractalColoring {
       override {
     auto iterations = iterOrbit.first;
     auto threeOrbit = iterOrbit.second;
-    long double R = Complex::absolute_square(std::get<1>(threeOrbit));
+    double R = Complex::absolute_square(std::get<1>(threeOrbit));
 
     // Special case when reached max iterations number or logarithm is undefined
-    if (iterations == max_iterations || CompareDoubles::isEqual(R, 1.0L)) {
+    if (iterations == max_iterations || CompareDoubles::isEqual(R, 1.0)) {
       return color_map[map_size - 1];
     }
 
     // Smooth factor
-    long double smooth = log2(log2(m_bailout) / log2(R)) / log2(m_exponent);
-    smooth = std::max(0.0L, std::min(1.0L, smooth));
+    double smooth = log2(log2(m_bailout) / log2(R)) / log2(m_exponent);
+    smooth = std::max(0.0, std::min(1.0, smooth));
 
-    long double ratio = (map_size - 1) / (long double)(max_iterations);
-    long double value = ratio * iterations;
-    long double prev_value = ratio * (iterations - 1);
-    int index = smooth * value + (1.0L - smooth) * prev_value;
+    double ratio = (map_size - 1) / (double)(max_iterations);
+    double value = ratio * iterations;
+    double prev_value = ratio * (iterations - 1);
+    int index = smooth * value + (1.0 - smooth) * prev_value;
     index = std::max(0, std::min(map_size - 1, index));
     return color_map[index];
   }

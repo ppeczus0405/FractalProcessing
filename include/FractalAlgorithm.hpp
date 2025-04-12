@@ -46,8 +46,8 @@ class FractalAlgorithm {
   static constexpr int MIN_ITERATIONS = 1;
   static constexpr int DEFAULT_ITERATIONS = 35;
 
-  static constexpr long double DIVERGENCE_BAILOUT = 1e8;
-  static constexpr long double CONVERGENCE_BAILOUT = 1e-14;
+  static constexpr double DIVERGENCE_BAILOUT = 1e8;
+  static constexpr double CONVERGENCE_BAILOUT = 1e-14;
 
   virtual ~FractalAlgorithm() = default;
 

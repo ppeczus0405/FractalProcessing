@@ -87,7 +87,7 @@ Newton::getIterationsAndOrbit(const Complex& c) {
   };
   auto checkEndPoint = [](Complex a, Complex b) {
     return Complex::absolute_square(b - a) /
-               std::max(1.0L, Complex::absolute_square(b)) <=
+               std::max(1.0, Complex::absolute_square(b)) <=
            CONVERGENCE_BAILOUT;
   };
 

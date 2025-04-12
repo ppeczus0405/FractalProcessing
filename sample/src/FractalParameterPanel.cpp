@@ -11,8 +11,8 @@
 #include "FractalParameterPanel.hpp"
 
 namespace {
-  long double toLongDouble(const QString& qStr) {
-    long double value;
+  double toDouble(const QString& qStr) {
+    double value;
     std::string numText = qStr.toStdString();
     std::for_each(numText.begin(), numText.end(), [](char &c) {
       if(c == ',') c = '.';
@@ -99,32 +99,32 @@ Configuration FractalParameterPanel::collectParameters() const {
 
   config.fractalType = FractalGenerator::fractalStringToType(getSelectedFractalType().toStdString());
 
-  config.scaleParams = PekiProc::Dim{toLongDouble(minRField->text()),
-                                     toLongDouble(maxRField->text()),
-                                     toLongDouble(minIField->text()),
-                                     toLongDouble(maxIField->text())
+  config.scaleParams = PekiProc::Dim{toDouble(minRField->text()),
+                                     toDouble(maxRField->text()),
+                                     toDouble(minIField->text()),
+                                     toDouble(maxIField->text())
   };
 
   config.exponent = getExponent();
 
   auto increment = getIncrement();
-  config.increment = {toLongDouble(increment.first), toLongDouble(increment.second)};
+  config.increment = {toDouble(increment.first), toDouble(increment.second)};
 
   auto relaxation = getRelaxation();
-  config.relaxation = {toLongDouble(relaxation.first),
-                       toLongDouble(relaxation.second)};
+  config.relaxation = {toDouble(relaxation.first),
+                       toDouble(relaxation.second)};
 
   auto startValue = getStartValue();
-  config.startValue = {toLongDouble(startValue.first),
-                       toLongDouble(startValue.second)};
+  config.startValue = {toDouble(startValue.first),
+                       toDouble(startValue.second)};
 
   config.usePixelStart = isPixStartEnabled();
 
   // Handle polynomial terms if applicable
   auto polynomialStrTerms = getPolynomial();
   for (const auto& term : polynomialStrTerms) {
-    double realPart = toLongDouble(term.first);
-    double imagPart = toLongDouble(term.second);
+    double realPart = toDouble(term.first);
+    double imagPart = toDouble(term.second);
     config.polynomialTerms.emplace_back(realPart, imagPart);
   }
 
