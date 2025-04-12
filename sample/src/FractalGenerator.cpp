@@ -69,6 +69,7 @@ void FractalGenerator::update(const Configuration& config) {
                   .setGradientMapSize(1024)
                   .setAlgorithm(createAlgorithm())
                   .setScale(config.scaleParams)
+                  .setGpuAcceleration()
                   .build();
 }
 

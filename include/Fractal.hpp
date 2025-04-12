@@ -34,6 +34,7 @@ class Fractal : public Image {
   void setIterations(int iters);
   void setAlgorithm(std::unique_ptr<FractalAlgorithm> alg);
   void setGradientMapSize(int mapSize);
+  void setGpuAcceleration(bool enabled);
 
   template <typename T>
   void setGradient(T&& gradient) {
@@ -49,6 +50,7 @@ class Fractal : public Image {
   Fractal(int width, int height);
 
   bool isGenerated = false;
+  bool useGpu = false;
   std::vector<Dim> scaleStack;
   std::unique_ptr<FractalAlgorithm> falg = nullptr;
   std::unique_ptr<FractalColoring> fcol = nullptr;
@@ -74,6 +76,7 @@ class FractalBuilder {
   FractalBuilder& setAlgorithm(std::unique_ptr<FractalAlgorithm> alg);
   FractalBuilder& setMaxIterations(int mxIter);
   FractalBuilder& setGradientMapSize(int size);
+  FractalBuilder& setGpuAcceleration();
 
   std::unique_ptr<Fractal> build();
 
@@ -86,6 +89,7 @@ class FractalBuilder {
   }
 
  private:
+  bool useGpu = false;
   int maxIterations = -1;
   int mapSize = -1;
   std::unique_ptr<Gradient> gradient = nullptr;

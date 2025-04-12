@@ -4,6 +4,7 @@
 #include "FractalAlgorithmCreator.hpp"
 #include "FractalColoringCreator.hpp"
 #include "Image.hpp"
+#include "GpuAccelerator.hpp"
 
 namespace PekiProc {
 
@@ -195,14 +196,24 @@ void Fractal::setGradientMapSize(int mapSize) {
     isGenerated = false;
 }
 
+void Fractal::setGpuAcceleration(bool enabled) {
+  useGpu = enabled;
+}
+
 void Fractal::generate() {
   if (isGenerated)
     return;
-  for (int i = 1; i <= m_width; i++) {
-    for (int j = 1; j <= m_height; j++) {
-      auto result = scale->getScaled(i, j);
-      Complex c(result.first, result.second);
-      setPixel(i, j, fcol->getPixel(falg->getIterationsAndOrbit(c)));
+  if(useGpu) {
+    GpuAccelerator gpuAcc;
+    gpuAcc.generateFractal();
+  }
+  else{
+    for (int i = 1; i <= m_width; i++) {
+      for (int j = 1; j <= m_height; j++) {
+        auto result = scale->getScaled(i, j);
+        Complex c(result.first, result.second);
+        setPixel(i, j, fcol->getPixel(falg->getIterationsAndOrbit(c)));
+      }
     }
   }
   isGenerated = true;
@@ -246,6 +257,11 @@ FractalBuilder& FractalBuilder::setGradientMapSize(int size) {
   return *this;
 }
 
+FractalBuilder& FractalBuilder::setGpuAcceleration() {
+  useGpu = true;
+  return *this;
+}
+
 std::unique_ptr<Fractal> FractalBuilder::build() {
   if (fractal->falg == nullptr) {
     fractal->falg = FractalAlgorithmCreator::createMandelbrot();
@@ -271,6 +287,11 @@ std::unique_ptr<Fractal> FractalBuilder::build() {
                                              fractal->m_height, mr, Mr, mi, Mi);
     fractal->scaleStack.front() = Dim(mr, Mr, mi, Mi);
   }
+
+  if (useGpu) {
+    fractal->setGpuAcceleration(true);
+  }
+
   return std::move(fractal);
 }
 

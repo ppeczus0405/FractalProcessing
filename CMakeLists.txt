@@ -20,7 +20,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/out/$<CONFIG>/lib")
 
 set(SOURCE ${SOURCE_DIR}/Complex.cpp ${SOURCE_DIR}/Mandelbrot.cpp 
            ${SOURCE_DIR}/Gradient.cpp ${SOURCE_DIR}/ImageSaver.cpp ${SOURCE_DIR}/Image.cpp
-           ${SOURCE_DIR}/JuliaSet.cpp ${SOURCE_DIR}/Newton.cpp ${SOURCE_DIR}/Fractal.cpp)
+           ${SOURCE_DIR}/JuliaSet.cpp ${SOURCE_DIR}/Newton.cpp ${SOURCE_DIR}/Fractal.cpp
+           ${SOURCE_DIR}/GpuAccelerator.cpp
+)
 
 add_library(fractalproc SHARED ${SOURCE})
 target_compile_features(fractalproc PUBLIC cxx_std_17)
