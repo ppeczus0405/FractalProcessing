@@ -51,6 +51,9 @@ endif()
 
 file(GLOB_RECURSE QT_SAMPLE_APP_SOURCES "src/*.cpp" "include/*.hpp")
 add_executable(ImagePlaneWithPanel ${QT_SAMPLE_APP_SOURCES} ${QT_SAMPLE_APP_RESOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.qrc")
-target_include_directories(ImagePlaneWithPanel PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+target_compile_features(ImagePlaneWithPanel PUBLIC cxx_std_17)
+set_target_properties(ImagePlaneWithPanel PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+
+target_include_directories(ImagePlaneWithPanel PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(ImagePlaneWithPanel PRIVATE Qt6::Core Qt6::Widgets fractalproc)
