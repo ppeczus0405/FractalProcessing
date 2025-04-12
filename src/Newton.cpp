@@ -58,8 +58,8 @@ void Newton::computeDerivative() {
     return;
   m_derivative.pop_back();
   int exponent = 1;
-  for (auto& element : m_derivative | std::views::reverse)
-    element *= exponent++;
+  for(auto it = m_derivative.rbegin(); it != m_derivative.rend(); it++)
+    *it *= exponent++;
 }
 
 std::function<Complex(Complex)> Newton::createPolynomialFunction(
@@ -67,8 +67,8 @@ std::function<Complex(Complex)> Newton::createPolynomialFunction(
   std::function<Complex(Complex)> func = [&polynomial](Complex c) {
     Complex ans = Complex::ZERO;
     Complex z = Complex::ONE;
-    for (const auto& element : polynomial | std::views::reverse) {
-      ans += z * element;
+    for(auto it = polynomial.rbegin(); it != polynomial.rend(); it++) {
+      ans += z * (*it);
       z *= c;
     }
     return ans;
@@ -97,14 +97,14 @@ Newton::getIterationsAndOrbit(const Complex& c) {
   std::tuple<Complex, Complex, Complex> three_orbit(z0, z0, z0);
 
   while (notEnd && iters < max_iter) {
-    auto next = nextIter(get<2>(three_orbit));
+    auto next = nextIter(std::get<2>(three_orbit));
     // Encounter case when derivative is equal to zero
     if (!next.first)
       return make_pair(-1, three_orbit);
-    get<0>(three_orbit) = get<1>(three_orbit);
-    get<1>(three_orbit) = get<2>(three_orbit);
-    get<2>(three_orbit) = next.second;
-    notEnd = !checkEndPoint(get<1>(three_orbit), get<2>(three_orbit));
+    std::get<0>(three_orbit) = std::get<1>(three_orbit);
+    std::get<1>(three_orbit) = std::get<2>(three_orbit);
+    std::get<2>(three_orbit) = next.second;
+    notEnd = !checkEndPoint(std::get<1>(three_orbit), std::get<2>(three_orbit));
     iters++;
   }
   return {iters, three_orbit};

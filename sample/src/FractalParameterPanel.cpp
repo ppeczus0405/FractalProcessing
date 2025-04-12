@@ -3,6 +3,7 @@
 #include <QIntValidator>
 #include <QMenu>
 #include <QRegularExpression>
+#include <charconv>
 
 #include "Fractal.hpp"
 #include "FractalAlgorithm.hpp"

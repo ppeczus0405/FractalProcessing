@@ -21,7 +21,7 @@ class SmoothDivergence : public FractalColoring {
       override {
     auto iterations = iterOrbit.first;
     auto threeOrbit = iterOrbit.second;
-    long double R = Complex::absolute_square(get<1>(threeOrbit));
+    long double R = Complex::absolute_square(std::get<1>(threeOrbit));
 
     // Special case when reached max iterations number or logarithm is undefined
     if (iterations == max_iterations || CompareDoubles::isEqual(R, 1.0L)) {

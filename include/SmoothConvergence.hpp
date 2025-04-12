@@ -20,9 +20,9 @@ class SmoothConvergence : public FractalColoring {
       override {
     auto iterations = iterOrbit.first;
     auto threeOrbit = iterOrbit.second;
-    auto z = get<2>(threeOrbit);
-    auto z1 = get<1>(threeOrbit);
-    auto z2 = get<0>(threeOrbit);
+    auto z = std::get<2>(threeOrbit);
+    auto z1 = std::get<1>(threeOrbit);
+    auto z2 = std::get<0>(threeOrbit);
 
     // Special case when reached max iterations number or something goes
     // wrong(e.g dx(complex) = 0 in Newton method)

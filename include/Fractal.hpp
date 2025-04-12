@@ -40,7 +40,7 @@ class Fractal : public Image {
     static_assert(std::is_constructible<Gradient, T>::value,
                   "Cannot construct Gradient object from this type");
     isGenerated = false;
-    fcol->setGradient(make_unique<Gradient>(forward<T>(gradient)));
+    fcol->setGradient(std::make_unique<Gradient>(std::forward<T>(gradient)));
   }
 
   static Dim getDefaultDimension(const FAT alg) noexcept;
@@ -81,7 +81,7 @@ class FractalBuilder {
   FractalBuilder& setGradient(T&& g) {
     static_assert(std::is_constructible<Gradient, T>::value,
                   "Cannot construct Gradient object from this type");
-    gradient = make_unique<Gradient>(forward<T>(g));
+    gradient = std::make_unique<Gradient>(std::forward<T>(g));
     return *this;
   }
 

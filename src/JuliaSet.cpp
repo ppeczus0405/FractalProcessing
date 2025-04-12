@@ -30,11 +30,11 @@ JuliaSet::getIterationsAndOrbit(const Complex& c) {
   int iterations = 0;
   std::tuple<Complex, Complex, Complex> three_orbit(c, c, c);
   while (iterations < max_iter &&
-         CompareDoubles::isLesser(Complex::absolute_square(get<2>(three_orbit)),
+         CompareDoubles::isLesser(Complex::absolute_square(std::get<2>(three_orbit)),
                                   DIVERGENCE_BAILOUT)) {
-    get<0>(three_orbit) = get<1>(three_orbit);
-    get<1>(three_orbit) = get<2>(three_orbit);
-    get<2>(three_orbit) = Complex::power(get<2>(three_orbit), m_exponent) +
+    std::get<0>(three_orbit) = std::get<1>(three_orbit);
+    std::get<1>(three_orbit) = std::get<2>(three_orbit);
+    std::get<2>(three_orbit) = Complex::power(std::get<2>(three_orbit), m_exponent) +
                           (m_pixel_as_inc ? c : m_inc);
     iterations++;
   }
