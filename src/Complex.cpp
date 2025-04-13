@@ -1,161 +1,119 @@
 #include <cmath>
-#include <utility>
-
-#include "CompareDoubles.hpp"
 #include "Complex.hpp"
 
 namespace PekiProc {
 
-const Complex Complex::ZERO(0.0, 0.0);
-const Complex Complex::ONE(1.0, 0.0);
 
-Complex::Complex(double real_v, double imaginary_v)
+CUDA_HD Complex::Complex() { }
+
+CUDA_HD Complex::Complex(double real_v, double imaginary_v)
     : real(real_v), imaginary(imaginary_v) {}
 
-Complex::Complex(const Complex& toCopy) {
-  *this = toCopy;
-}
-
-Complex::Complex(Complex&& toMove) {
-  *this = std::move(toMove);
-}
-
-Complex Complex::power(const Complex& c, int exponent) {
-  if (exponent == 0) {
-    return Complex::ONE;
+  // --- Math functions ---
+  CUDA_HD double Complex::absolute(const Complex& c) {
+    return sqrt(c.real * c.real + c.imaginary * c.imaginary);
   }
-  bool neg_exp = exponent < 0;
-  exponent = abs(exponent);
-  Complex to_multiply(c);
-  Complex result = Complex::ONE;
-  while (exponent > 0) {
-    if (exponent & 1) {
-      result *= to_multiply;
+
+  CUDA_HD double Complex::absolute_square(const Complex& c) {
+    return c.real * c.real + c.imaginary * c.imaginary;
+  }
+
+  CUDA_HD Complex Complex::conjugate(const Complex& c) {
+    return Complex(c.real, -c.imaginary);
+  }
+
+  CUDA_HD Complex Complex::power(const Complex& c, int exponent) {
+    Complex result = Complex::ONE();
+    Complex base = c;
+    bool negative = exponent < 0;
+    exponent = abs(exponent);
+
+    while (exponent) {
+      if (exponent & 1) result *= base;
+      base *= base;
+      exponent >>= 1;
     }
-    exponent >>= 1;
-    to_multiply *= to_multiply;
+
+    if (negative) {
+      double abs_sq = absolute_square(result);
+      result = conjugate(result) / abs_sq;
+    }
+    return result;
   }
-  if (neg_exp) {
-    result = Complex::conjugate(result) / Complex::absolute_square(result);
+
+  // --- Operators ---
+  CUDA_HD Complex Complex::operator+(const Complex& other) const {
+    return Complex(real + other.real, imaginary + other.imaginary);
   }
-  return result;
-}
 
-Complex Complex::conjugate(const Complex& c) {
-  return Complex(c.real, -c.imaginary);
-}
-
-double Complex::absolute(const Complex& c) {
-  return sqrt(Complex::absolute_square(c));
-}
-
-double Complex::absolute_square(const Complex& c) {
-  return c.real * c.real + c.imaginary * c.imaginary;
-}
-
-double Complex::getReal() const noexcept {
-  return real;
-}
-
-double Complex::getImaginary() const noexcept {
-  return imaginary;
-}
-
-void Complex::setReal(double value) {
-  real = value;
-}
-
-void Complex::setImaginary(double value) {
-  imaginary = value;
-}
-
-Complex Complex::operator-() {
-  return Complex(-this->real, -this->imaginary);
-}
-
-const Complex Complex::operator-() const {
-  return Complex(-this->real, -this->imaginary);
-}
-
-bool Complex::operator==(const Complex& c) {
-  return CompareDoubles::isEqual(this->real, c.real) &&
-         CompareDoubles::isEqual(this->imaginary, c.imaginary);
-}
-
-Complex& Complex::operator=(const Complex& c) {
-  this->real = c.real;
-  this->imaginary = c.imaginary;
-  return *this;
-}
-
-Complex& Complex::operator=(Complex&& c) {
-  return *this = c;
-}
-
-Complex Complex::operator+(const Complex& c) {
-  return Complex(this->real + c.real, this->imaginary + c.imaginary);
-}
-
-Complex& Complex::operator+=(const Complex& c) {
-  return *this = *this + c;
-}
-
-Complex Complex::operator-(const Complex& c) {
-  return Complex(this->real - c.real, this->imaginary - c.imaginary);
-}
-
-Complex& Complex::operator-=(const Complex& c) {
-  return *this = *this - c;
-}
-
-Complex Complex::operator*(const Complex& c) {
-  double real_result = this->real * c.real - this->imaginary * c.imaginary;
-  double imaginary_result = this->real * c.imaginary + this->imaginary * c.real;
-  return Complex(real_result, imaginary_result);
-}
-
-Complex Complex::operator*(const double a) {
-  return Complex(a * this->real, a * this->imaginary);
-}
-
-Complex& Complex::operator*=(const double a) {
-  return *this = *this * a;
-}
-
-Complex& Complex::operator*=(const Complex& c) {
-  return *this = *this * c;
-}
-
-Complex Complex::operator/(const Complex& c) {
-  bool realCompare = CompareDoubles::isEqual(c.real, 0.0);
-  bool imagCompare = CompareDoubles::isEqual(c.imaginary, 0.0);
-  if (realCompare && imagCompare) {
-    throw std::invalid_argument("Cannot divide by 0");
-  } else if (realCompare && !imagCompare) {
-    return Complex(this->imaginary / c.imaginary, -this->real / c.imaginary);
-  } else if (!realCompare && imagCompare) {
-    return *this / c.real;
+  CUDA_HD Complex& Complex::operator+=(const Complex& other) {
+    real += other.real;
+    imaginary += other.imaginary;
+    return *this;
   }
-  double real_result = this->real * c.real + this->imaginary * c.imaginary;
-  double imag_result = this->imaginary * c.real - this->real * c.imaginary;
-  double abs_square = Complex::absolute_square(c);
-  return Complex(real_result / abs_square, imag_result / abs_square);
-}
 
-Complex Complex::operator/(const double a) {
-  if (CompareDoubles::isEqual(a, 0.0)) {
-    throw std::invalid_argument("Cannot divide by 0");
+  CUDA_HD Complex Complex::operator-(const Complex& other) const {
+    return Complex(real - other.real, imaginary - other.imaginary);
   }
-  return Complex(this->real / a, this->imaginary / a);
-}
 
-Complex& Complex::operator/=(const double a) {
-  return *this = *this / a;
-}
+  CUDA_HD Complex& Complex::operator-=(const Complex& other) {
+    real -= other.real;
+    imaginary -= other.imaginary;
+    return *this;
+  }
 
-Complex& Complex::operator/=(const Complex& c) {
-  return *this = *this / c;
-}
+  CUDA_HD Complex Complex::operator*(const Complex& other) const {
+    return Complex(
+      real * other.real - imaginary * other.imaginary,
+      real * other.imaginary + imaginary * other.real
+    );
+  }
+
+  CUDA_HD Complex& Complex::operator*=(const Complex& other) {
+    *this = *this * other;
+    return *this;
+  }
+
+  CUDA_HD Complex Complex::operator*(double scalar) const {
+    return Complex(real * scalar, imaginary * scalar);
+  }
+
+  CUDA_HD Complex& Complex::operator*=(double scalar) {
+    real *= scalar;
+    imaginary *= scalar;
+    return *this;
+  }
+
+  CUDA_HD Complex Complex::operator/(const Complex& other) const {
+    double denom = other.real * other.real + other.imaginary * other.imaginary;
+    return Complex(
+      (real * other.real + imaginary * other.imaginary) / denom,
+      (imaginary * other.real - real * other.imaginary) / denom
+    );
+  }
+
+  CUDA_HD Complex Complex::operator/(double scalar) const {
+    return Complex(real / scalar, imaginary / scalar);
+  }
+
+  CUDA_HD Complex& Complex::operator/=(const Complex& other) {
+    *this = *this / other;
+    return *this;
+  }
+
+  CUDA_HD Complex& Complex::operator/=(double scalar) {
+    real /= scalar;
+    imaginary /= scalar;
+    return *this;
+  }
+
+  CUDA_HD bool Complex::operator==(const Complex& other) const {
+    return (real == other.real && imaginary == other.imaginary);
+  }
+
+  CUDA_HD Complex Complex::operator-() const {
+    return Complex(-real, -imaginary);
+  }
 
 }  // namespace PekiProc
 
