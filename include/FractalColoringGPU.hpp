@@ -24,7 +24,7 @@ class FractalColoringGPU {
           iterOrbit) = 0;
   
   CUDA_DEVICE
-  virtual ~FractalColoringGPU() = default;
+  virtual ~FractalColoringGPU() { };
 
  protected:
   double m_bailout;

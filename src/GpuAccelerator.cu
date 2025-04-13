@@ -72,6 +72,10 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
              cudaMemcpyHostToDevice);
 }
 
+void GpuAccelerator::generateFractal() {
+  std::cout << "Not implemented yet." << std::endl;
+}
+
 GpuAccelerator::~GpuAccelerator() {
   if (host_data.width)
     cudaFree(host_data.width);
