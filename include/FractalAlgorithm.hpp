@@ -7,6 +7,7 @@
 
 #include "Complex.hpp"
 #include "CudaCompat.hpp"
+#include "OptionalGPU.hpp"
 
 namespace PekiProc {
 
@@ -21,19 +22,27 @@ enum class FractalAlgorithmType {
 
 struct FractalAlgorithmConfiguration {
   FractalAlgorithmType fractalType = FractalAlgorithmType::MANDELBROT;
-  int max_iterations;
-  std::optional<int> exponent;
-  std::optional<Complex> increment;
-  std::optional<Complex> relaxation;
-  std::optional<Complex> startValue;
-  std::optional<bool> usePixelStart;
-  std::optional<std::vector<Complex>> polynomialTerms;
+  int maxIterations;
+
+  OptionalGPU<int> exponent;
+  OptionalGPU<Complex> increment;
+  OptionalGPU<Complex> relaxation;
+  OptionalGPU<Complex> startValue;
+  OptionalGPU<bool> usePixelStart;
+  OptionalGPU<int> polynomialSize;
+
+  // Fixed-size polynomial term buffer for GPU use
+  static constexpr int MAX_POLY_TERMS = 16;
+  Complex polynomialTerms[MAX_POLY_TERMS];
+
+  CUDA_HOST CUDA_DEVICE
+  FractalAlgorithmConfiguration() {}
 };
 
 class FractalAlgorithm {
  public:
   FractalAlgorithm(FractalAlgorithmType falg) : algorithmType(falg) {
-    config.max_iterations = max_iter;
+    config.maxIterations = max_iter;
   }
 
   virtual std::pair<int, std::tuple<Complex, Complex, Complex>>
@@ -48,7 +57,7 @@ class FractalAlgorithm {
     // We can only change value if it makes sense
     if (n >= MIN_ITERATIONS && n <= MAX_ITERATIONS) {
       max_iter = n;
-      config.max_iterations = max_iter;
+      config.maxIterations = max_iter;
       return true;
     } else {
       std::cerr << "Iteration value have to be integer meeting the condition: ";
@@ -61,22 +70,23 @@ class FractalAlgorithm {
 
   virtual void dumpConfig(std::ostream& os = std::cout) {
     os << "Fractal Type: " << static_cast<int>(config.fractalType) << "\n";
-    os << "Max Iterations: " << config.max_iterations << "\n";
-    if (config.exponent)
-      os << "Exponent: " << *config.exponent << "\n";
-    if (config.increment)
-      os << "Increment: " << *config.increment << "\n";
-    if (config.relaxation)
-      os << "Relaxation: " << *config.relaxation << "\n";
-    if (config.startValue)
-      os << "Start Value: " << *config.startValue << "\n";
-    if (config.usePixelStart)
-      os << "Use Pixel Start: " << (*config.usePixelStart ? "true" : "false")
+    os << "Max Iterations: " << config.maxIterations << "\n";
+    if (config.exponent.hasValue())
+      os << "Exponent: " << config.exponent.get() << "\n";
+    if (config.increment.hasValue())
+      os << "Increment: " << config.increment.get() << "\n";
+    if (config.relaxation.hasValue())
+      os << "Relaxation: " << config.relaxation.get() << "\n";
+    if (config.startValue.hasValue())
+      os << "Start Value: " << config.startValue.get() << "\n";
+    if (config.usePixelStart.hasValue())
+      os << "Use Pixel Start: " << (config.usePixelStart.get() ? "true" : "false")
          << "\n";
-    if (config.polynomialTerms) {
+    if (config.polynomialSize.hasValue()) {
+      os << "Polynomial size: " << config.polynomialSize.get() << "\n";
       os << "Polynomial Terms: ";
-      for (const auto& term : *config.polynomialTerms)
-        os << term << ", ";
+      for(int i = 0; i < config.polynomialSize.get(); i++)
+        os << config.polynomialTerms[i] << ", ";
       os << "\n";
     }
   }
