@@ -35,6 +35,8 @@ class FractalColoring {
 
   int getColorMapSize() const noexcept { return map_size; }
 
+  const RGB* getColorMap() const noexcept { return color_map.data(); }
+
   bool setColorMapSize(int mapSize) {
     if (mapSize >= MIN_MAP_SIZE && mapSize <= MAX_MAP_SIZE) {
       if (map_size != mapSize) {

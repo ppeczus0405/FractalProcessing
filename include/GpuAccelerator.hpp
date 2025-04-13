@@ -4,9 +4,22 @@
 #include <cstdint>
 #include "FractalAlgorithm.hpp"
 #include "FractalColoring.hpp"
+#include "FractalColoringGPU.hpp"
 #include "Scale.hpp"
 
 namespace PekiProc {
+
+// Value of members below points to location that is accessible from GPU kernel function.
+struct KernelProcessingData {
+  int* width;
+  int* height;
+  uint8_t* image_data;
+  Scale* scale;
+  FractalAlgorithm** falg;
+  FractalColoringGPU** fcol;
+  RGB* color_map;
+  int* map_size;
+};
 
 class GpuAccelerator {
  public:
@@ -14,16 +27,12 @@ class GpuAccelerator {
   GpuAccelerator(int width, int height, uint8_t* data, const Scale& scale,
                  FractalAlgorithm* falg, FractalColoring* fcol);
   void generateFractal();
-  ~GpuAccelerator();
 
+  static KernelProcessingData* kernel_data;
+
+  ~GpuAccelerator();
  private:
-  // Value of members below points to location that is accessible from GPU kernel function.
-  int* m_width{nullptr};
-  int* m_height{nullptr};
-  uint8_t* m_data{nullptr};
-  Scale* m_scale{nullptr};
-  FractalAlgorithm* m_falg{nullptr};
-  FractalColoring* m_fcol{nullptr};
+  KernelProcessingData host_data{};
 };
 
 }  // namespace PekiProc

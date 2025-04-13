@@ -3,49 +3,96 @@
 
 namespace PekiProc {
 
+KernelProcessingData* GpuAccelerator::kernel_data = nullptr;
+
 GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
-                               const Scale& scale,
-                               [[maybe_unused]] FractalAlgorithm* falg,
-                               [[maybe_unused]] FractalColoring* fcol) {
-  // Allocate and copy width
-  cudaMalloc(&m_width, sizeof(int));
-  cudaMemcpy(m_width, &width, sizeof(int), cudaMemcpyHostToDevice);
+                               const Scale& scale, FractalAlgorithm* falg,
+                               FractalColoring* fcol) {
+  // --- Allocate all necessary device buffers ---
+  int* d_width = nullptr;
+  int* d_height = nullptr;
+  uint8_t* d_image = nullptr;
+  Scale* d_scale = nullptr;
+  FractalAlgorithm** d_falg = nullptr;
+  FractalColoringGPU** d_fcol = nullptr;
+  RGB* d_color_map = nullptr;
+  int* d_map_size = nullptr;
 
-  // Allocate and copy height
-  cudaMalloc(&m_height, sizeof(int));
-  cudaMemcpy(m_height, &height, sizeof(int), cudaMemcpyHostToDevice);
+  // Width and height
+  cudaMalloc(&d_width, sizeof(int));
+  cudaMemcpy(d_width, &width, sizeof(int), cudaMemcpyHostToDevice);
 
-  // Allocate and copy image data (assumes already initialized on host)
+  cudaMalloc(&d_height, sizeof(int));
+  cudaMemcpy(d_height, &height, sizeof(int), cudaMemcpyHostToDevice);
+
+  // Image data
   size_t imageSize = width * height * 3 * sizeof(uint8_t);
-  cudaMalloc(&m_data, imageSize);
-  cudaMemcpy(m_data, data, imageSize, cudaMemcpyHostToDevice);
+  cudaMalloc(&d_image, imageSize);
+  cudaMemcpy(d_image, data, imageSize, cudaMemcpyHostToDevice);
 
-  // Allocate and copy Scale object
-  cudaMalloc(&m_scale, sizeof(Scale));
-  cudaMemcpy(m_scale, &scale, sizeof(Scale), cudaMemcpyHostToDevice);
+  // Scale
+  cudaMalloc(&d_scale, sizeof(Scale));
+  cudaMemcpy(d_scale, &scale, sizeof(Scale), cudaMemcpyHostToDevice);
 
-  // We'll handle falg and fcol next
-  m_falg = nullptr;
-  m_fcol = nullptr;
-}
+  // FractalAlgorithm** pointer
+  cudaMalloc(
+      &d_falg,
+      sizeof(FractalAlgorithm*));  // object will be created later on device
 
-void GpuAccelerator::generateFractal() {
-  std::cout << "To be implemented." << std::endl;
+  // FractalColoringGPU**
+  cudaMalloc(
+      &d_fcol,
+      sizeof(
+          FractalColoringGPU*));  // object will also be created later on device
+
+  // Color map
+  int map_size = fcol->getColorMapSize();
+  const RGB* color_map_host = fcol->getColorMap();
+
+  cudaMalloc(&d_map_size, sizeof(int));
+  cudaMemcpy(d_map_size, &map_size, sizeof(int), cudaMemcpyHostToDevice);
+
+  cudaMalloc(&d_color_map, sizeof(RGB) * map_size);
+  cudaMemcpy(d_color_map, color_map_host, sizeof(RGB) * map_size,
+             cudaMemcpyHostToDevice);
+
+  // --- Fill host-side struct ---
+  host_data = {.width = d_width,
+               .height = d_height,
+               .image_data = d_image,
+               .scale = d_scale,
+               .falg = d_falg,
+               .fcol = d_fcol,
+               .color_map = d_color_map,
+               .map_size = d_map_size};
+
+  // --- Copy full struct to device ---
+  cudaMalloc(&kernel_data, sizeof(KernelProcessingData));
+  cudaMemcpy(kernel_data, &host_data, sizeof(KernelProcessingData),
+             cudaMemcpyHostToDevice);
 }
 
 GpuAccelerator::~GpuAccelerator() {
-  if (m_width)
-    cudaFree(m_width);
-  if (m_height)
-    cudaFree(m_height);
-  if (m_data)
-    cudaFree(m_data);
-  if (m_scale)
-    cudaFree(m_scale);
-
-  // m_falg and m_fcol will be handled later when we manage virtual objects on device
-  // if (m_falg) cudaFree(m_falg);
-  // if (m_fcol) cudaFree(m_fcol);
+  if (host_data.width)
+    cudaFree(host_data.width);
+  if (host_data.height)
+    cudaFree(host_data.height);
+  if (host_data.image_data)
+    cudaFree(host_data.image_data);
+  if (host_data.scale)
+    cudaFree(host_data.scale);
+  if (host_data.color_map)
+    cudaFree(host_data.color_map);
+  if (host_data.map_size)
+    cudaFree(host_data.map_size);
+  if (host_data.fcol)
+    cudaFree(host_data.fcol);
+  if (host_data.falg)
+    cudaFree(host_data.falg);
+  if (kernel_data) {
+    cudaFree(kernel_data);
+    kernel_data = nullptr;
+  }
 }
 
 }  // namespace PekiProc
