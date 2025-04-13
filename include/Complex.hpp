@@ -4,7 +4,6 @@
 #include <iostream>
 #include "CudaCompat.hpp"
 
-
 namespace PekiProc {
 
 class Complex {
@@ -16,6 +15,7 @@ class Complex {
   CUDA_HD Complex(double real_v, double imaginary_v);
 
   CUDA_HD static Complex ZERO() { return Complex(0.0, 0.0); }
+
   CUDA_HD static Complex ONE() { return Complex(1.0, 0.0); }
 
   CUDA_HD static Complex power(const Complex& c, int exponent);
@@ -38,14 +38,14 @@ class Complex {
 
   // Multiplication
   CUDA_HD Complex operator*(const Complex& c) const;
-  CUDA_HD Complex operator*(const double a) const;    // Scalar
-  CUDA_HD Complex& operator*=(const double a);  // Scalar
+  CUDA_HD Complex operator*(const double a) const;  // Scalar
+  CUDA_HD Complex& operator*=(const double a);      // Scalar
   CUDA_HD Complex& operator*=(const Complex& c);
 
   // Division
   CUDA_HD Complex operator/(const Complex& c) const;
-  CUDA_HD Complex operator/(const double a) const;    // Scalar
-  CUDA_HD Complex& operator/=(const double a);  // Scalar
+  CUDA_HD Complex operator/(const double a) const;  // Scalar
+  CUDA_HD Complex& operator/=(const double a);      // Scalar
   CUDA_HD Complex& operator/=(const Complex& c);
 };
 

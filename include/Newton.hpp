@@ -21,8 +21,8 @@ class Newton : public FractalAlgorithm {
       const Complex& c) override;
 
   CUDA_DEVICE
-  PairGPU<int, TripleGPU<Complex, Complex, Complex>>
-  getIterationsAndOrbitGPU(const Complex& c) override;
+  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbitGPU(
+      const Complex& c) override;
 
   int getExponent() override;
 
@@ -36,8 +36,8 @@ class Newton : public FractalAlgorithm {
   void computeDerivative();
 
   std::vector<Complex> m_polynomial, m_derivative;
-  Complex relax = Complex::ONE;
-  Complex start_value = Complex::ONE;
+  Complex relax = Complex::ONE();
+  Complex start_value = Complex::ONE();
   bool is_nova = false;
   bool pixel_start = false;
 };

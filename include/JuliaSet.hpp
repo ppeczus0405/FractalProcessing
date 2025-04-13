@@ -19,8 +19,8 @@ class JuliaSet : public FractalAlgorithm {
       const Complex& c) override;
 
   CUDA_DEVICE
-  PairGPU<int, TripleGPU<Complex, Complex, Complex>>
-  getIterationsAndOrbitGPU(const Complex& c) override;
+  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbitGPU(
+      const Complex& c) override;
 
   int getExponent() override;
 

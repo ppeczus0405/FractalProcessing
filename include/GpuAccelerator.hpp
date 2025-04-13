@@ -31,6 +31,7 @@ class GpuAccelerator {
   static KernelProcessingData* kernel_data;
 
   ~GpuAccelerator();
+
  private:
   KernelProcessingData host_data{};
 };

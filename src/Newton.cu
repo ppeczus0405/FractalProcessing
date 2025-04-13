@@ -10,7 +10,8 @@ Newton::Newton(bool nova, bool pixstart)
       is_nova(nova),
       pixel_start(pixstart) {
   // z^3 - 1 = 0
-  m_polynomial = {Complex::ONE, Complex::ZERO, Complex::ZERO, -Complex::ONE};
+  m_polynomial = {Complex::ONE(), Complex::ZERO(), Complex::ZERO(),
+                  -Complex::ONE()};
   initialize_functions();
 }
 
@@ -63,8 +64,8 @@ void Newton::computeDerivative() {
 std::function<Complex(Complex)> Newton::createPolynomialFunction(
     const std::vector<Complex>& polynomial) {
   std::function<Complex(Complex)> func = [&polynomial](Complex c) {
-    Complex ans = Complex::ZERO;
-    Complex z = Complex::ONE;
+    Complex ans = Complex::ZERO();
+    Complex z = Complex::ONE();
     for (auto it = polynomial.rbegin(); it != polynomial.rend(); it++) {
       ans += z * (*it);
       z *= c;
@@ -78,10 +79,10 @@ std::pair<int, std::tuple<Complex, Complex, Complex>>
 Newton::getIterationsAndOrbit(const Complex& c) {
   auto nextIter = [&](Complex z) {
     Complex dx_value = fdx(z);
-    if (dx_value == Complex::ZERO)
-      return std::make_pair(false, Complex::ZERO);
+    if (dx_value == Complex::ZERO())
+      return std::make_pair(false, Complex::ZERO());
     return std::make_pair(
-        true, z - relax * (f(z) / dx_value) + (is_nova ? c : Complex::ZERO));
+        true, z - relax * (f(z) / dx_value) + (is_nova ? c : Complex::ZERO()));
   };
   auto checkEndPoint = [](Complex a, Complex b) {
     return Complex::absolute_square(b - a) /

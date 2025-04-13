@@ -84,12 +84,12 @@ class FractalAlgorithm {
     if (config.startValue.hasValue())
       os << "Start Value: " << config.startValue.get() << "\n";
     if (config.usePixelStart.hasValue())
-      os << "Use Pixel Start: " << (config.usePixelStart.get() ? "true" : "false")
-         << "\n";
+      os << "Use Pixel Start: "
+         << (config.usePixelStart.get() ? "true" : "false") << "\n";
     if (config.polynomialSize.hasValue()) {
       os << "Polynomial size: " << config.polynomialSize.get() << "\n";
       os << "Polynomial Terms: ";
-      for(int i = 0; i < config.polynomialSize.get(); i++)
+      for (int i = 0; i < config.polynomialSize.get(); i++)
         os << config.polynomialTerms[i] << ", ";
       os << "\n";
     }
@@ -107,7 +107,7 @@ class FractalAlgorithm {
   static constexpr double CONVERGENCE_BAILOUT = 1e-14;
 
   CUDA_HD
-  virtual ~FractalAlgorithm() { }
+  virtual ~FractalAlgorithm() {}
 
  protected:
   int max_iter = DEFAULT_ITERATIONS;
