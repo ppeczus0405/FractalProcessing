@@ -19,8 +19,11 @@ class Newton : public FractalAlgorithm {
 
   std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
       const Complex& c) override;
-  std::pair<int, std::tuple<Complex, Complex, Complex>>
+
+  CUDA_DEVICE
+  PairGPU<int, TripleGPU<Complex, Complex, Complex>>
   getIterationsAndOrbitGPU(const Complex& c) override;
+
   int getExponent() override;
 
  private:

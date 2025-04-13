@@ -7,10 +7,12 @@ namespace PekiProc {
 
 using FAT = FractalAlgorithmType;
 
+CUDA_HD
 Mandelbrot::Mandelbrot() : FractalAlgorithm(FAT::MANDELBROT) {
   config.fractalType = FAT::MANDELBROT;
 }
 
+CUDA_HD
 Mandelbrot::Mandelbrot(const int exponent)
     : FractalAlgorithm(FAT::MULTIBROT), m_exponent(exponent) {
   assert(exponent >= 1);
@@ -35,7 +37,8 @@ Mandelbrot::getIterationsAndOrbit(const Complex& c) {
   return {iterations, three_orbit};
 }
 
-std::pair<int, std::tuple<Complex, Complex, Complex>>
+CUDA_DEVICE
+PairGPU<int, TripleGPU<Complex, Complex, Complex>>
 Mandelbrot::getIterationsAndOrbitGPU([[maybe_unused]] const Complex& c) {
   return {};
 }

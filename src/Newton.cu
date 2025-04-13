@@ -1,5 +1,3 @@
-#include <ranges>
-
 #include "Newton.hpp"
 
 namespace PekiProc {
@@ -110,7 +108,8 @@ Newton::getIterationsAndOrbit(const Complex& c) {
   return {iters, three_orbit};
 }
 
-std::pair<int, std::tuple<Complex, Complex, Complex>>
+CUDA_DEVICE
+PairGPU<int, TripleGPU<Complex, Complex, Complex>>
 Newton::getIterationsAndOrbitGPU([[maybe_unused]] const Complex& c) {
   return {};
 }

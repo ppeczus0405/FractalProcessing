@@ -7,16 +7,20 @@ namespace PekiProc {
 
 using FAT = FractalAlgorithmType;
 
+CUDA_HD
 JuliaSet::JuliaSet() : FractalAlgorithm(FAT::JULIA) {}
 
+CUDA_HD
 JuliaSet::JuliaSet(const Complex& inc)
     : FractalAlgorithm(FAT::JULIA), m_inc(inc), m_pixel_as_inc(false) {}
 
+CUDA_HD
 JuliaSet::JuliaSet(const int exponent)
     : FractalAlgorithm(FAT::POLYJULIA), m_exponent(exponent) {
   assert(exponent >= 1);
 }
 
+CUDA_HD
 JuliaSet::JuliaSet(const int exponent, const Complex& inc)
     : FractalAlgorithm(FAT::POLYJULIA),
       m_inc(inc),
@@ -43,7 +47,8 @@ JuliaSet::getIterationsAndOrbit(const Complex& c) {
   return {iterations, three_orbit};
 }
 
-std::pair<int, std::tuple<Complex, Complex, Complex>>
+CUDA_DEVICE
+PairGPU<int, TripleGPU<Complex, Complex, Complex>>
 JuliaSet::getIterationsAndOrbitGPU([[maybe_unused]] const Complex& c) {
   return {};
 }
