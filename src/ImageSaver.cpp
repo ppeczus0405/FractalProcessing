@@ -17,9 +17,7 @@ ImageSaver::ImageSaver(const char* data, int width, int height,
   extMap[SaveFormat::TIFF] = {".tif", "TIFF"};
 }
 
-ImageSaver::ImageSaver(const ImageSaver&) {
-
-}
+ImageSaver::ImageSaver(const ImageSaver&) {}
 
 bool ImageSaver::save(const std::string& filename) {
   if (m_format == SaveFormat::NONE) {

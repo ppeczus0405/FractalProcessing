@@ -31,13 +31,12 @@ class SmoothConvergence : public FractalColoring {
     }
 
     double R = Complex::absolute_square(z - z1) /
-                    std::max(1.0, Complex::absolute_square(z));
+               std::max(1.0, Complex::absolute_square(z));
     double prev_R = Complex::absolute_square(z1 - z2) /
-                         std::max(1.0, Complex::absolute_square(z1));
+                    std::max(1.0, Complex::absolute_square(z1));
 
     // Smooth factor
-    double smooth =
-        (log2(m_bailout) - log2(prev_R)) / (log2(R) - log2(prev_R));
+    double smooth = (log2(m_bailout) - log2(prev_R)) / (log2(R) - log2(prev_R));
     smooth = std::max(0.0, std::min(1.0, smooth));
 
     double ratio = (map_size - 1) / (double)(max_iterations);

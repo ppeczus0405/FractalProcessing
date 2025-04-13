@@ -15,7 +15,7 @@ class Image {
   Image(int width, int height);
 
   void setPixel(int x, int y, const RGB& pixel);
-  
+
   virtual RGB getPixel(int x, int y);
   virtual const uint8_t* getData();
 

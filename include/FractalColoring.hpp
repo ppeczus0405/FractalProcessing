@@ -84,8 +84,7 @@ class FractalColoring {
  private:
   FractalColoring(int exponent) : m_exponent(exponent) {}
 
-  FractalColoring(int exponent, double bailout)
-      : FractalColoring(exponent) {
+  FractalColoring(int exponent, double bailout) : FractalColoring(exponent) {
     m_bailout = bailout;
   }
 };

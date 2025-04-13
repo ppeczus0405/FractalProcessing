@@ -3,8 +3,8 @@
 #include "Fractal.hpp"
 #include "FractalAlgorithmCreator.hpp"
 #include "FractalColoringCreator.hpp"
-#include "Image.hpp"
 #include "GpuAccelerator.hpp"
+#include "Image.hpp"
 
 namespace PekiProc {
 
@@ -105,8 +105,8 @@ bool Fractal::isPreviousScale() {
   return (int)scaleStack.size() > 1;
 }
 
-bool Fractal::setScale(double minR, double maxR, double minI,
-                       double maxI, bool baseChanged) {
+bool Fractal::setScale(double minR, double maxR, double minI, double maxI,
+                       bool baseChanged) {
   bool sameScales = CompareDoubles::isEqual(minR, scale->getMinReal()) and
                     CompareDoubles::isEqual(maxR, scale->getMaxReal()) and
                     CompareDoubles::isEqual(minI, scale->getMinImag()) and
@@ -203,11 +203,10 @@ void Fractal::setGpuAcceleration(bool enabled) {
 void Fractal::generate() {
   if (isGenerated)
     return;
-  if(useGpu) {
+  if (useGpu) {
     GpuAccelerator gpuAcc;
     gpuAcc.generateFractal();
-  }
-  else{
+  } else {
     for (int i = 1; i <= m_width; i++) {
       for (int j = 1; j <= m_height; j++) {
         auto result = scale->getScaled(i, j);
@@ -223,8 +222,8 @@ void Fractal::generate() {
 FractalBuilder::FractalBuilder(int width, int height)
     : fractal(new Fractal(width, height)) {}
 
-FractalBuilder& FractalBuilder::setScale(double minR, double maxR,
-                                         double minI, double maxI) {
+FractalBuilder& FractalBuilder::setScale(double minR, double maxR, double minI,
+                                         double maxI) {
   return setScale(Dim{minR, maxR, minI, maxI});
 }
 

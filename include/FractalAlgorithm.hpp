@@ -1,11 +1,12 @@
 #ifndef PEKI_FRACTAL_ALGORITHM_HPP
 #define PEKI_FRACTAL_ALGORITHM_HPP
 
-#include <utility>
 #include <optional>
+#include <utility>
 #include <vector>
 
 #include "Complex.hpp"
+#include "CudaCompat.hpp"
 
 namespace PekiProc {
 
@@ -32,12 +33,16 @@ struct FractalAlgorithmConfiguration {
 class FractalAlgorithm {
  public:
   FractalAlgorithm(FractalAlgorithmType falg) : algorithmType(falg) {
-   config.max_iterations = max_iter;
+    config.max_iterations = max_iter;
   }
 
   virtual std::pair<int, std::tuple<Complex, Complex, Complex>>
   getIterationsAndOrbit(const Complex& c) = 0;
   virtual int getExponent() = 0;
+
+  CUDA_HOST
+  virtual std::pair<int, std::tuple<Complex, Complex, Complex>>
+  getIterationsAndOrbitGPU(const Complex& c) = 0;
 
   bool setMaxIterationsNumber(int n) {
     // We can only change value if it makes sense
@@ -53,15 +58,21 @@ class FractalAlgorithm {
       return false;
     }
   }
-  
+
   virtual void dumpConfig(std::ostream& os = std::cout) {
     os << "Fractal Type: " << static_cast<int>(config.fractalType) << "\n";
     os << "Max Iterations: " << config.max_iterations << "\n";
-    if (config.exponent) os << "Exponent: " << *config.exponent << "\n";
-    if (config.increment) os << "Increment: " << *config.increment << "\n";
-    if (config.relaxation) os << "Relaxation: " << *config.relaxation << "\n";
-    if (config.startValue) os << "Start Value: " << *config.startValue << "\n";
-    if (config.usePixelStart) os << "Use Pixel Start: " << (*config.usePixelStart ? "true" : "false") << "\n";
+    if (config.exponent)
+      os << "Exponent: " << *config.exponent << "\n";
+    if (config.increment)
+      os << "Increment: " << *config.increment << "\n";
+    if (config.relaxation)
+      os << "Relaxation: " << *config.relaxation << "\n";
+    if (config.startValue)
+      os << "Start Value: " << *config.startValue << "\n";
+    if (config.usePixelStart)
+      os << "Use Pixel Start: " << (*config.usePixelStart ? "true" : "false")
+         << "\n";
     if (config.polynomialTerms) {
       os << "Polynomial Terms: ";
       for (const auto& term : *config.polynomialTerms)

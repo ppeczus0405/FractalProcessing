@@ -49,7 +49,7 @@ if (Qt6_VERSION VERSION_LESS "6.8.2")
     )
 endif()
 
-file(GLOB_RECURSE QT_SAMPLE_APP_SOURCES "src/*.cpp" "include/*.hpp")
+file(GLOB_RECURSE QT_SAMPLE_APP_SOURCES "src/*.cpp" "src/*.cu" "include/*.hpp")
 add_executable(ImagePlaneWithPanel ${QT_SAMPLE_APP_SOURCES} ${QT_SAMPLE_APP_RESOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.qrc")
 
 target_compile_features(ImagePlaneWithPanel PUBLIC cxx_std_17)

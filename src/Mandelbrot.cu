@@ -23,14 +23,21 @@ Mandelbrot::getIterationsAndOrbit(const Complex& c) {
   int iterations = 0;
   std::tuple<Complex, Complex, Complex> three_orbit(c, c, c);
   while (iterations < max_iter &&
-         CompareDoubles::isLesser(Complex::absolute_square(std::get<2>(three_orbit)),
-                                  DIVERGENCE_BAILOUT)) {
+         CompareDoubles::isLesser(
+             Complex::absolute_square(std::get<2>(three_orbit)),
+             DIVERGENCE_BAILOUT)) {
     std::get<0>(three_orbit) = std::get<1>(three_orbit);
     std::get<1>(three_orbit) = std::get<2>(three_orbit);
-    std::get<2>(three_orbit) = Complex::power(std::get<2>(three_orbit), m_exponent) + c;
+    std::get<2>(three_orbit) =
+        Complex::power(std::get<2>(three_orbit), m_exponent) + c;
     iterations++;
   }
   return {iterations, three_orbit};
+}
+
+std::pair<int, std::tuple<Complex, Complex, Complex>>
+Mandelbrot::getIterationsAndOrbitGPU([[maybe_unused]] const Complex& c) {
+  return {};
 }
 
 int Mandelbrot::getExponent() {

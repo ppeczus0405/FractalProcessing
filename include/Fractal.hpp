@@ -19,15 +19,14 @@ class Fractal : public Image {
  public:
   bool resize(int width, int height);
   bool setRectangle(std::pair<int, int> v1, std::pair<int, int> v2);
-  bool setScale(double minR, double maxR, double minI,
-                double maxI, bool baseChanged = false);
+  bool setScale(double minR, double maxR, double minI, double maxI,
+                bool baseChanged = false);
   bool isPreviousScale();
   bool write(const std::string& filename,
              const SaveFormat& format = SaveFormat::JPEG) override;
 
   RGB getPixel(int x, int y) override;
   const uint8_t* getData() override;
-
 
   void setPreviousScale();
   void setDefaultScale();
@@ -70,8 +69,7 @@ class FractalBuilder {
  public:
   FractalBuilder(int width, int height);
 
-  FractalBuilder& setScale(double minR, double maxR, double minI,
-                           double maxI);
+  FractalBuilder& setScale(double minR, double maxR, double minI, double maxI);
   FractalBuilder& setScale(const Dim& scale);
   FractalBuilder& setAlgorithm(std::unique_ptr<FractalAlgorithm> alg);
   FractalBuilder& setMaxIterations(int mxIter);

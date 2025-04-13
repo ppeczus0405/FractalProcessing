@@ -8,13 +8,14 @@
 
 namespace PekiProc {
 
-
 class GpuAccelerator {
  public:
   GpuAccelerator() = default;
-  GpuAccelerator(int width, int height, uint8_t *data, const Scale& scale, FractalAlgorithm* falg, FractalColoring* fcol);
+  GpuAccelerator(int width, int height, uint8_t* data, const Scale& scale,
+                 FractalAlgorithm* falg, FractalColoring* fcol);
   void generateFractal();
   ~GpuAccelerator();
+
  private:
   // Value of members below points to location that is accessible from GPU kernel function.
   int* m_width{nullptr};
@@ -27,4 +28,4 @@ class GpuAccelerator {
 
 }  // namespace PekiProc
 
-#endif // PEKI_GPU_ACCELERATOR_HPP
+#endif  // PEKI_GPU_ACCELERATOR_HPP

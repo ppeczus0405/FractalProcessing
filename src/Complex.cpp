@@ -110,8 +110,7 @@ Complex& Complex::operator-=(const Complex& c) {
 
 Complex Complex::operator*(const Complex& c) {
   double real_result = this->real * c.real - this->imaginary * c.imaginary;
-  double imaginary_result =
-      this->real * c.imaginary + this->imaginary * c.real;
+  double imaginary_result = this->real * c.imaginary + this->imaginary * c.real;
   return Complex(real_result, imaginary_result);
 }
 

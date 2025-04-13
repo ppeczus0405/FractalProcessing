@@ -58,7 +58,7 @@ void Newton::computeDerivative() {
     return;
   m_derivative.pop_back();
   int exponent = 1;
-  for(auto it = m_derivative.rbegin(); it != m_derivative.rend(); it++)
+  for (auto it = m_derivative.rbegin(); it != m_derivative.rend(); it++)
     *it *= exponent++;
 }
 
@@ -67,7 +67,7 @@ std::function<Complex(Complex)> Newton::createPolynomialFunction(
   std::function<Complex(Complex)> func = [&polynomial](Complex c) {
     Complex ans = Complex::ZERO;
     Complex z = Complex::ONE;
-    for(auto it = polynomial.rbegin(); it != polynomial.rend(); it++) {
+    for (auto it = polynomial.rbegin(); it != polynomial.rend(); it++) {
       ans += z * (*it);
       z *= c;
     }
@@ -108,6 +108,11 @@ Newton::getIterationsAndOrbit(const Complex& c) {
     iters++;
   }
   return {iters, three_orbit};
+}
+
+std::pair<int, std::tuple<Complex, Complex, Complex>>
+Newton::getIterationsAndOrbitGPU([[maybe_unused]] const Complex& c) {
+  return {};
 }
 
 int Newton::getExponent() {

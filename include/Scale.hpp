@@ -11,8 +11,8 @@ namespace PekiProc {
 
 class Scale {
  public:
-  Scale(int baseW, int baseH, double widthm, double widthM,
-        double heightm, double heightM)
+  Scale(int baseW, int baseH, double widthm, double widthM, double heightm,
+        double heightM)
       : baseWidth(baseW),
         baseHeight(baseH),
         widthMin(widthm),

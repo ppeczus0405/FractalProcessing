@@ -27,7 +27,8 @@ class FractalGenerator {
   bool isPreviousScale() const;
   void setPreviousScale();
 
-  static PekiProc::FractalAlgorithmType fractalStringToType(const std::string& fractal_type);
+  static PekiProc::FractalAlgorithmType fractalStringToType(
+      const std::string& fractal_type);
 
  private:
   std::unique_ptr<PekiProc::FractalAlgorithm> createAlgorithm();

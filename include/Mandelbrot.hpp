@@ -15,6 +15,8 @@ class Mandelbrot : public FractalAlgorithm {
 
   std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
       const Complex& c) override;
+  std::pair<int, std::tuple<Complex, Complex, Complex>>
+  getIterationsAndOrbitGPU(const Complex& c) override;
   int getExponent() override;
 
  private:
