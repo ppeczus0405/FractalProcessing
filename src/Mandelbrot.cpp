@@ -7,11 +7,15 @@ namespace PekiProc {
 
 using FAT = FractalAlgorithmType;
 
-Mandelbrot::Mandelbrot() : FractalAlgorithm(FAT::MANDELBROT) {}
+Mandelbrot::Mandelbrot() : FractalAlgorithm(FAT::MANDELBROT) {
+  config.fractalType = FAT::MANDELBROT;
+}
 
 Mandelbrot::Mandelbrot(const int exponent)
     : FractalAlgorithm(FAT::MULTIBROT), m_exponent(exponent) {
   assert(exponent >= 1);
+  config.fractalType = FAT::MULTIBROT;
+  config.exponent = m_exponent;
 }
 
 std::pair<int, std::tuple<Complex, Complex, Complex>>
