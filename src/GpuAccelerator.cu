@@ -1,7 +1,34 @@
 #include <iostream>
+#include "FractalAlgorithm.hpp"
 #include "GpuAccelerator.hpp"
+#include "Mandelbrot.hpp"
 
 namespace PekiProc {
+
+namespace kernel {
+CUDA_KERNEL void createFractalInterfacesOnDevice(
+    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* config,
+    FractalColoringGPU** coloringPtr) {
+  if (threadIdx.x == 0 && blockIdx.x == 0) {
+    GpuAccelerator::fractalAlgorithmDeviceInit(algoPtr, config);
+  }
+}
+
+CUDA_KERNEL void deinitFractalInterfacesOnDevice(
+    FractalAlgorithm** algoPtr, FractalColoringGPU** coloringPtr) {
+  if (threadIdx.x == 0 && blockIdx.x == 0) {
+    if (*algoPtr != nullptr) {
+      printf("[DEVICE] Not null algorithm pointer. Deleting!\n");
+      delete *algoPtr;
+    }
+    if (*coloringPtr != nullptr) {
+      printf("[DEVICE] Not null coloring pointer. Deleting!\n");
+      delete *coloringPtr;
+    }
+  }
+}
+
+}  // namespace kernel
 
 KernelProcessingData* GpuAccelerator::kernel_data = nullptr;
 
@@ -38,6 +65,9 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
   cudaMalloc(
       &d_falg,
       sizeof(FractalAlgorithm*));  // object will be created later on device
+  FractalAlgorithm* falgNullPtr = nullptr;
+  cudaMemcpy(d_falg, &falgNullPtr, sizeof(FractalAlgorithm*),
+             cudaMemcpyHostToDevice);
 
   // Assume falg is already initialized and contains configuration
   const FractalAlgorithmConfiguration& h_config =
@@ -53,6 +83,9 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
       &d_fcol,
       sizeof(
           FractalColoringGPU*));  // object will also be created later on device
+  FractalColoringGPU* fcolNullPtr = nullptr;
+  cudaMemcpy(d_fcol, &fcolNullPtr, sizeof(FractalColoringGPU*),
+             cudaMemcpyHostToDevice);
 
   // Color map
   int map_size = fcol->getColorMapSize();
@@ -75,14 +108,49 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
                .color_map = d_color_map,
                .map_size = d_map_size};
 
+  // --- Initialize virtual interfaces ---
+  initializeVirtualInterfacesOnDevice();
+
   // --- Copy full struct to device ---
   cudaMalloc(&kernel_data, sizeof(KernelProcessingData));
   cudaMemcpy(kernel_data, &host_data, sizeof(KernelProcessingData),
              cudaMemcpyHostToDevice);
 }
 
+CUDA_DEVICE void GpuAccelerator::fractalAlgorithmDeviceInit(
+    FractalAlgorithm** falg, FractalAlgorithmConfiguration* config) {
+  switch (config->fractalType) {
+    case PekiProc::FractalAlgorithmType::MANDELBROT:
+      printf("[DEVICE] Mandelbrot fractal creation\n");
+      if (config->exponent.hasValue()) {
+        *falg = new Mandelbrot(config->exponent.get());
+      } else {
+        *falg = new Mandelbrot();
+      }
+      break;
+    default:
+      printf("[DEVICE] Default fractal creation\n");
+  }
+}
+
+CUDA_DEVICE void GpuAccelerator::fractalColoringDeviceInit(
+    FractalColoring** fcol) {}
+
+void GpuAccelerator::initializeVirtualInterfacesOnDevice() {
+  kernel::createFractalInterfacesOnDevice<<<1, 1>>>(
+      host_data.falg, d_algorithmConfiguration, host_data.fcol);
+
+  cudaDeviceSynchronize();
+}
+
 void GpuAccelerator::generateFractal() {
   std::cout << "Not implemented yet." << std::endl;
+}
+
+void GpuAccelerator::deinitializeVirtualInterfacesOnDevice() {
+  kernel::deinitFractalInterfacesOnDevice<<<1, 1>>>(host_data.falg,
+                                                    host_data.fcol);
+  cudaDeviceSynchronize();
 }
 
 GpuAccelerator::~GpuAccelerator() {
@@ -98,10 +166,15 @@ GpuAccelerator::~GpuAccelerator() {
     cudaFree(host_data.color_map);
   if (host_data.map_size)
     cudaFree(host_data.map_size);
+
+  // Virtual interfaces
+  deinitializeVirtualInterfacesOnDevice();
   if (host_data.fcol)
     cudaFree(host_data.fcol);
   if (host_data.falg)
     cudaFree(host_data.falg);
+
+  // Kernel Data
   if (kernel_data) {
     cudaFree(kernel_data);
     kernel_data = nullptr;

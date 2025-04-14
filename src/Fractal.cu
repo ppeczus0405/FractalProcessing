@@ -204,8 +204,10 @@ void Fractal::generate() {
   if (isGenerated)
     return;
   if (useGpu) {
-    GpuAccelerator gpuAcc;
-    gpuAcc.generateFractal();
+    falg->dumpConfig();
+    GpuAccelerator(m_width, m_height, m_pixels.get(), *scale.get(), falg.get(),
+                   fcol.get())
+        .generateFractal();
   } else {
     for (int i = 1; i <= m_width; i++) {
       for (int j = 1; j <= m_height; j++) {

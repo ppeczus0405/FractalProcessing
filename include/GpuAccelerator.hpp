@@ -9,6 +9,18 @@
 
 namespace PekiProc {
 
+namespace kernel {
+
+CUDA_KERNEL void createFractalInterfacesOnDevice(
+    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* config,
+    FractalColoringGPU** coloringPtr);
+
+CUDA_KERNEL void deinitFractalInterfacesOnDevice(
+    FractalAlgorithm** algoPtr, FractalColoringGPU** coloringPtr);
+
+} // namespace kernel
+
+
 // Value of members below points to location that is accessible from GPU kernel function.
 struct KernelProcessingData {
   int* width;
@@ -31,6 +43,19 @@ class GpuAccelerator {
   static KernelProcessingData* kernel_data;
 
   ~GpuAccelerator();
+
+
+ friend CUDA_KERNEL void kernel::createFractalInterfacesOnDevice(
+    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* config,
+    FractalColoringGPU** coloringPtr);
+
+ private:
+ CUDA_DEVICE static void fractalAlgorithmDeviceInit(FractalAlgorithm** falg, FractalAlgorithmConfiguration* config);
+ CUDA_DEVICE static void fractalColoringDeviceInit(FractalColoring** fcol);
+
+
+ void initializeVirtualInterfacesOnDevice();
+ void deinitializeVirtualInterfacesOnDevice();
 
  private:
   KernelProcessingData host_data{};
