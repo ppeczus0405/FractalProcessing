@@ -57,6 +57,10 @@ class FractalAlgorithm {
   virtual PairGPU<int, TripleGPU<Complex, Complex, Complex>>
   getIterationsAndOrbitGPU(const Complex& c) = 0;
 
+  const FractalAlgorithmConfiguration& getFractalAlgorithmConfig() const {
+    return config;
+  }
+
   bool setMaxIterationsNumber(int n) {
     // We can only change value if it makes sense
     if (n >= MIN_ITERATIONS && n <= MAX_ITERATIONS) {

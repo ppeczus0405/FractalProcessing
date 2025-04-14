@@ -39,6 +39,15 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
       &d_falg,
       sizeof(FractalAlgorithm*));  // object will be created later on device
 
+  // Assume falg is already initialized and contains configuration
+  const FractalAlgorithmConfiguration& h_config =
+      falg->getFractalAlgorithmConfig();
+
+  // Allocate on device
+  cudaMalloc(&d_algorithmConfiguration, sizeof(FractalAlgorithmConfiguration));
+  cudaMemcpy(d_algorithmConfiguration, &h_config,
+             sizeof(FractalAlgorithmConfiguration), cudaMemcpyHostToDevice);
+
   // FractalColoringGPU**
   cudaMalloc(
       &d_fcol,

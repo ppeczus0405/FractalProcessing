@@ -34,6 +34,7 @@ class GpuAccelerator {
 
  private:
   KernelProcessingData host_data{};
+  FractalAlgorithmConfiguration* d_algorithmConfiguration;
 };
 
 }  // namespace PekiProc
