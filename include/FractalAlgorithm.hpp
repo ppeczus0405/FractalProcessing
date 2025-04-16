@@ -46,6 +46,7 @@ class FractalAlgorithm {
  public:
   CUDA_HD
   FractalAlgorithm(FractalAlgorithmType falg) : algorithmType(falg) {
+    config.fractalType = falg;
     config.maxIterations = max_iter;
   }
 

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "FractalAlgorithm.hpp"
 #include "GpuAccelerator.hpp"
+#include "JuliaSet.hpp"
 #include "Mandelbrot.hpp"
 
 namespace PekiProc {
@@ -127,6 +128,24 @@ CUDA_DEVICE void GpuAccelerator::fractalAlgorithmDeviceInit(
     case PekiProc::FractalAlgorithmType::MULTIBROT:
       printf("[DEVICE] Multibrot fractal creation\n");
       *falg = new Mandelbrot(config->exponent.get());
+      break;
+    case PekiProc::FractalAlgorithmType::JULIA:
+      if (config->increment.hasValue()) {
+        printf("[DEVICE] Julia increment creation\n");
+        *falg = new JuliaSet(config->increment.get());
+      } else {
+        printf("[DEVICE] Julia common creation\n");
+        *falg = new JuliaSet();
+      }
+      break;
+    case PekiProc::FractalAlgorithmType::POLYJULIA:
+      if (config->increment.hasValue()) {
+        printf("[DEVICE] PolyJulia increment creation\n");
+        *falg = new JuliaSet(config->exponent.get(), config->increment.get());
+      } else {
+        printf("[DEVICE] PolyJulia exponent creation\n");
+        *falg = new JuliaSet(config->exponent.get());
+      }
       break;
     default:
       printf("[DEVICE] Default fractal creation\n");

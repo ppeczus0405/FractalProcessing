@@ -8,15 +8,12 @@ namespace PekiProc {
 using FAT = FractalAlgorithmType;
 
 CUDA_HD
-Mandelbrot::Mandelbrot() : FractalAlgorithm(FAT::MANDELBROT) {
-  config.fractalType = FAT::MANDELBROT;
-}
+Mandelbrot::Mandelbrot() : FractalAlgorithm(FAT::MANDELBROT) {}
 
 CUDA_HD
 Mandelbrot::Mandelbrot(const int exponent)
     : FractalAlgorithm(FAT::MULTIBROT), m_exponent(exponent) {
   assert(exponent >= 1);
-  config.fractalType = FAT::MULTIBROT;
   config.exponent = m_exponent;
 }
 
