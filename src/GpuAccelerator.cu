@@ -122,11 +122,11 @@ CUDA_DEVICE void GpuAccelerator::fractalAlgorithmDeviceInit(
   switch (config->fractalType) {
     case PekiProc::FractalAlgorithmType::MANDELBROT:
       printf("[DEVICE] Mandelbrot fractal creation\n");
-      if (config->exponent.hasValue()) {
-        *falg = new Mandelbrot(config->exponent.get());
-      } else {
-        *falg = new Mandelbrot();
-      }
+      *falg = new Mandelbrot();
+      break;
+    case PekiProc::FractalAlgorithmType::MULTIBROT:
+      printf("[DEVICE] Multibrot fractal creation\n");
+      *falg = new Mandelbrot(config->exponent.get());
       break;
     default:
       printf("[DEVICE] Default fractal creation\n");

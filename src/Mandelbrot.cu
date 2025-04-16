@@ -39,8 +39,18 @@ Mandelbrot::getIterationsAndOrbit(const Complex& c) {
 
 CUDA_DEVICE
 PairGPU<int, TripleGPU<Complex, Complex, Complex>>
-Mandelbrot::getIterationsAndOrbitGPU([[maybe_unused]] const Complex& c) {
-  return {};
+Mandelbrot::getIterationsAndOrbitGPU(const Complex& c) {
+  int iterations = 0;
+  TripleGPU<Complex, Complex, Complex> three_orbit(c, c, c);
+  while (iterations < max_iter &&
+         CompareDoubles::isLesser(Complex::absolute_square(three_orbit.third),
+                                  DIVERGENCE_BAILOUT)) {
+    three_orbit.first = three_orbit.second;
+    three_orbit.second = three_orbit.third;
+    three_orbit.third = Complex::power(three_orbit.third, m_exponent) + c;
+    iterations++;
+  }
+  return {iterations, three_orbit};
 }
 
 int Mandelbrot::getExponent() {
