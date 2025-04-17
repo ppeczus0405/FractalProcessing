@@ -69,13 +69,11 @@ class FractalColoring {
   static constexpr int MIN_MAP_SIZE = 1;
 
   virtual RGB getPixel(
-      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>&
-          iterOrbit) = 0;
+      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit) = 0;
 
   virtual ~FractalColoring() = default;
 
  protected:
-
   // Util function used to determine color map index.
   template <typename T>
   CUDA_HD static constexpr T clamp(const T& v, const T& lo, const T& hi) {

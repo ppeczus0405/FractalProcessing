@@ -8,12 +8,13 @@ namespace PekiProc {
 class Newton : public FractalAlgorithm {
  public:
   CUDA_HD Newton(bool nova = false, bool pixstart = true);
-  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size, bool nova = false,
-         bool pixstart = true);
-  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size, const Complex& relaxation,
-         bool nova = false, bool pixstart = true);
-  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size, const Complex& relaxation,
-         const Complex& incrementation);
+  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size,
+                 bool nova = false, bool pixstart = true);
+  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size,
+                 const Complex& relaxation, bool nova = false,
+                 bool pixstart = true);
+  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size,
+                 const Complex& relaxation, const Complex& incrementation);
 
   CUDA_HD
   PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbit(
@@ -21,9 +22,11 @@ class Newton : public FractalAlgorithm {
 
   int getExponent() override;
 
-  CUDA_HD ~Newton() { }
+  CUDA_HD ~Newton() {}
+
  private:
-  CUDA_HD static Complex computePolynomialValue(Complex polynomial[], unsigned int size, Complex c);
+  CUDA_HD static Complex computePolynomialValue(Complex polynomial[],
+                                                unsigned int size, Complex c);
   CUDA_HD void initPolynomial(Complex polynomial[], unsigned int size);
   CUDA_HD void computeDerivative();
 

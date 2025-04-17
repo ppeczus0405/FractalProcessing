@@ -1,10 +1,10 @@
 #ifndef PEKI_SMOOTH_DIVERGENCE_HPP
 #define PEKI_SMOOTH_DIVERGENCE_HPP
 
+#include <math.h>
 #include "CompareDoubles.hpp"
 #include "FractalAlgorithm.hpp"
 #include "FractalColoring.hpp"
-#include <math.h>
 
 namespace PekiProc {
 
@@ -17,9 +17,8 @@ class SmoothDivergence : public FractalColoring {
                         FractalAlgorithm::DIVERGENCE_BAILOUT, mapSize,
                         std::move(gradient)) {}
 
-  virtual RGB getPixel(
-      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit)
-      override {
+  virtual RGB getPixel(const PairGPU<int, TripleGPU<Complex, Complex, Complex>>&
+                           iterOrbit) override {
     return SmoothDivergence::getPixelGeneric(iterOrbit, color_map.data(),
                                              map_size, max_iterations,
                                              m_exponent, m_bailout);
@@ -41,16 +40,14 @@ class SmoothDivergence : public FractalColoring {
     }
 
     // Smooth factor
-    const double smooth = clamp(
-        ::log2(::log2(bailout) / ::log2(R)) /
-            ::log2(static_cast<double>(exponent)),
-        0.0, 1.0);
+    const double smooth = clamp(::log2(::log2(bailout) / ::log2(R)) /
+                                    ::log2(static_cast<double>(exponent)),
+                                0.0, 1.0);
 
     const double ratio = (mapSize - 1) / static_cast<double>(maxIterations);
     const double value = ratio * iterations;
     const double prev_value = ratio * (iterations - 1);
-    int index =
-        static_cast<int>(smooth * value + (1.0 - smooth) * prev_value);
+    int index = static_cast<int>(smooth * value + (1.0 - smooth) * prev_value);
     index = clamp(index, 0, mapSize - 1);
     return colorMap[index];
   }
@@ -59,4 +56,3 @@ class SmoothDivergence : public FractalColoring {
 }  // namespace PekiProc
 
 #endif  // PEKI_SMOOTH_DIVERGENCE_HPP
-
