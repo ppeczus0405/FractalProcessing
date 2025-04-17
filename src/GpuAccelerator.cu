@@ -1,5 +1,6 @@
 #include <iostream>
 #include "FractalAlgorithm.hpp"
+#include "FractalColoring.hpp"
 #include "GpuAccelerator.hpp"
 #include "JuliaSet.hpp"
 #include "Mandelbrot.hpp"
@@ -9,15 +10,18 @@ namespace PekiProc {
 
 namespace kernel {
 CUDA_KERNEL void createFractalInterfacesOnDevice(
-    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* config,
-    FractalColoringGPU** coloringPtr) {
+    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* algoConfig,
+    FractalColoringGPU** coloringPtr,
+    FractalColoringConfiguration* coloringConfig) {
   if (threadIdx.x == 0 && blockIdx.x == 0) {
-    GpuAccelerator::fractalAlgorithmDeviceInit(algoPtr, config);
+    GpuAccelerator::fractalAlgorithmDeviceInit(algoPtr, algoConfig);
+    GpuAccelerator::fractalColoringDeviceInit(coloringPtr, coloringConfig);
   }
 }
 
 CUDA_KERNEL void deinitFractalInterfacesOnDevice(
-    FractalAlgorithm** algoPtr, FractalColoringGPU** coloringPtr) {
+    FractalAlgorithm** algoPtr, FractalColoringGPU** coloringPtr,
+    FractalColoringConfiguration* coloringConfig) {
   if (threadIdx.x == 0 && blockIdx.x == 0) {
     if (*algoPtr != nullptr) {
       printf("[DEVICE] Not null algorithm pointer. Deleting!\n");
@@ -25,6 +29,10 @@ CUDA_KERNEL void deinitFractalInterfacesOnDevice(
     }
     if (*coloringPtr != nullptr) {
       printf("[DEVICE] Not null coloring pointer. Deleting!\n");
+      if (coloringConfig != nullptr) {
+        printf("[DEVICE] Not null coloring config. Deleting!\n");
+        delete coloringConfig;
+      }
       delete *coloringPtr;
     }
   }
@@ -44,8 +52,6 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
   Scale* d_scale = nullptr;
   FractalAlgorithm** d_falg = nullptr;
   FractalColoringGPU** d_fcol = nullptr;
-  RGB* d_color_map = nullptr;
-  int* d_map_size = nullptr;
 
   // Width and height
   cudaMalloc(&d_width, sizeof(int));
@@ -63,6 +69,7 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
   cudaMalloc(&d_scale, sizeof(Scale));
   cudaMemcpy(d_scale, &scale, sizeof(Scale), cudaMemcpyHostToDevice);
 
+  // ----- ALGORITHM -----
   // FractalAlgorithm** pointer
   cudaMalloc(
       &d_falg,
@@ -72,14 +79,15 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
              cudaMemcpyHostToDevice);
 
   // Assume falg is already initialized and contains configuration
-  const FractalAlgorithmConfiguration& h_config =
+  const FractalAlgorithmConfiguration& h_algorithmConfig =
       falg->getFractalAlgorithmConfig();
 
   // Allocate on device
   cudaMalloc(&d_algorithmConfiguration, sizeof(FractalAlgorithmConfiguration));
-  cudaMemcpy(d_algorithmConfiguration, &h_config,
+  cudaMemcpy(d_algorithmConfiguration, &h_algorithmConfig,
              sizeof(FractalAlgorithmConfiguration), cudaMemcpyHostToDevice);
 
+  // ----- COLORING -----
   // FractalColoringGPU**
   cudaMalloc(
       &d_fcol,
@@ -89,16 +97,18 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
   cudaMemcpy(d_fcol, &fcolNullPtr, sizeof(FractalColoringGPU*),
              cudaMemcpyHostToDevice);
 
-  // Color map
-  int map_size = fcol->getColorMapSize();
-  const RGB* color_map_host = fcol->getColorMap();
+  // Prepare coloring configuration & map
+  FractalColoringConfiguration h_coloringConfig =
+      fcol->getFractalColoringConfig();
+  RGB* d_color_map = nullptr;
+  cudaMalloc(&d_color_map, sizeof(RGB) * h_coloringConfig.mapSize);
+  cudaMemcpy(d_color_map, h_coloringConfig.colorMap,
+             sizeof(RGB) * h_coloringConfig.mapSize, cudaMemcpyHostToDevice);
+  h_coloringConfig.colorMap = d_color_map;
 
-  cudaMalloc(&d_map_size, sizeof(int));
-  cudaMemcpy(d_map_size, &map_size, sizeof(int), cudaMemcpyHostToDevice);
-
-  cudaMalloc(&d_color_map, sizeof(RGB) * map_size);
-  cudaMemcpy(d_color_map, color_map_host, sizeof(RGB) * map_size,
-             cudaMemcpyHostToDevice);
+  cudaMalloc(&d_coloringConfiguration, sizeof(FractalColoringConfiguration));
+  cudaMemcpy(d_coloringConfiguration, &h_coloringConfig,
+             sizeof(FractalColoringConfiguration), cudaMemcpyHostToDevice);
 
   // --- Fill host-side struct ---
   host_data = {.width = d_width,
@@ -106,9 +116,7 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
                .image_data = d_image,
                .scale = d_scale,
                .falg = d_falg,
-               .fcol = d_fcol,
-               .color_map = d_color_map,
-               .map_size = d_map_size};
+               .fcol = d_fcol};
 
   // --- Initialize virtual interfaces ---
   initializeVirtualInterfacesOnDevice();
@@ -174,16 +182,34 @@ CUDA_DEVICE void GpuAccelerator::fractalAlgorithmDeviceInit(
       break;
     }
     default:
+      assert(!"[DEVICE] Undefined fractal algorithm.");
       break;
   }
 }
 
 CUDA_DEVICE void GpuAccelerator::fractalColoringDeviceInit(
-    FractalColoring** fcol) {}
+    FractalColoringGPU** fcol, FractalColoringConfiguration* config) {
+  switch (config->coloringType) {
+    case FractalColoringType::SMOOTH_CONVERGENCE:
+      printf("[DEVICE] SmoothConvergence coloring creation\n");
+      *fcol = new SmoothConvergenceGPU(*config);
+      break;
+    case FractalColoringType::SMOOTH_DIVERGENCE:
+      printf("[DEVICE] SmoothDivergence coloring creation\n");
+      *fcol = new SmoothDivergenceGPU(*config);
+      break;
+    default:
+      assert(!"[DEVICE] Undefined fractal coloring.");
+      break;
+  }
+  if (*fcol)
+    config->dumpConfig();
+}
 
 void GpuAccelerator::initializeVirtualInterfacesOnDevice() {
   kernel::createFractalInterfacesOnDevice<<<1, 1>>>(
-      host_data.falg, d_algorithmConfiguration, host_data.fcol);
+      host_data.falg, d_algorithmConfiguration, host_data.fcol,
+      d_coloringConfiguration);
 
   cudaDeviceSynchronize();
 }
@@ -193,8 +219,8 @@ void GpuAccelerator::generateFractal() {
 }
 
 void GpuAccelerator::deinitializeVirtualInterfacesOnDevice() {
-  kernel::deinitFractalInterfacesOnDevice<<<1, 1>>>(host_data.falg,
-                                                    host_data.fcol);
+  kernel::deinitFractalInterfacesOnDevice<<<1, 1>>>(
+      host_data.falg, host_data.fcol, d_coloringConfiguration);
   cudaDeviceSynchronize();
 }
 
@@ -207,14 +233,14 @@ GpuAccelerator::~GpuAccelerator() {
     cudaFree(host_data.image_data);
   if (host_data.scale)
     cudaFree(host_data.scale);
-  if (host_data.color_map)
-    cudaFree(host_data.color_map);
-  if (host_data.map_size)
-    cudaFree(host_data.map_size);
-  if (d_algorithmConfiguration)
-    cudaFree(d_algorithmConfiguration);
+
   // Virtual interfaces
   deinitializeVirtualInterfacesOnDevice();
+  if (d_algorithmConfiguration)
+    cudaFree(d_algorithmConfiguration);
+  if (d_coloringConfiguration) {
+    cudaFree(d_coloringConfiguration);
+  }
   if (host_data.fcol)
     cudaFree(host_data.fcol);
   if (host_data.falg)

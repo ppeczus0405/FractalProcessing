@@ -12,11 +12,11 @@ namespace PekiProc {
 namespace kernel {
 
 CUDA_KERNEL void createFractalInterfacesOnDevice(
-    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* config,
-    FractalColoringGPU** coloringPtr);
+    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* algoConfig,
+    FractalColoringGPU** coloringPtr, FractalColoringConfiguration* coloringConfig);
 
 CUDA_KERNEL void deinitFractalInterfacesOnDevice(
-    FractalAlgorithm** algoPtr, FractalColoringGPU** coloringPtr);
+    FractalAlgorithm** algoPtr, FractalColoringGPU** coloringPtr, FractalColoringConfiguration* coloringConfig);
 
 }  // namespace kernel
 
@@ -28,8 +28,6 @@ struct KernelProcessingData {
   Scale* scale;
   FractalAlgorithm** falg;
   FractalColoringGPU** fcol;
-  RGB* color_map;
-  int* map_size;
 };
 
 class GpuAccelerator {
@@ -44,13 +42,13 @@ class GpuAccelerator {
   ~GpuAccelerator();
 
   friend CUDA_KERNEL void kernel::createFractalInterfacesOnDevice(
-      FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* config,
-      FractalColoringGPU** coloringPtr);
+      FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* algoConfig,
+      FractalColoringGPU** coloringPtr, FractalColoringConfiguration* coloringConfig);
 
  private:
   CUDA_DEVICE static void fractalAlgorithmDeviceInit(
       FractalAlgorithm** falg, FractalAlgorithmConfiguration* config);
-  CUDA_DEVICE static void fractalColoringDeviceInit(FractalColoring** fcol);
+  CUDA_DEVICE static void fractalColoringDeviceInit(FractalColoringGPU** fcol, FractalColoringConfiguration* config);
 
   void initializeVirtualInterfacesOnDevice();
   void deinitializeVirtualInterfacesOnDevice();
@@ -58,6 +56,7 @@ class GpuAccelerator {
  private:
   KernelProcessingData host_data{};
   FractalAlgorithmConfiguration* d_algorithmConfiguration{nullptr};
+  FractalColoringConfiguration* d_coloringConfiguration{nullptr};
 };
 
 }  // namespace PekiProc
