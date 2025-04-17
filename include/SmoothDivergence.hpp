@@ -17,11 +17,11 @@ class SmoothDivergence : public FractalColoring {
                         std::move(gradient)) {}
 
   virtual RGB getPixel(
-      const std::pair<int, std::tuple<Complex, Complex, Complex>>& iterOrbit)
+      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit)
       override {
     auto iterations = iterOrbit.first;
     auto threeOrbit = iterOrbit.second;
-    double R = Complex::absolute_square(std::get<1>(threeOrbit));
+    double R = Complex::absolute_square(threeOrbit.second);
 
     // Special case when reached max iterations number or logarithm is undefined
     if (iterations == max_iterations || CompareDoubles::isEqual(R, 1.0)) {

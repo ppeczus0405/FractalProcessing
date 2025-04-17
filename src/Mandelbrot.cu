@@ -17,26 +17,9 @@ Mandelbrot::Mandelbrot(const int exponent)
   config.exponent = m_exponent;
 }
 
-std::pair<int, std::tuple<Complex, Complex, Complex>>
-Mandelbrot::getIterationsAndOrbit(const Complex& c) {
-  int iterations = 0;
-  std::tuple<Complex, Complex, Complex> three_orbit(c, c, c);
-  while (iterations < max_iter &&
-         CompareDoubles::isLesser(
-             Complex::absolute_square(std::get<2>(three_orbit)),
-             DIVERGENCE_BAILOUT)) {
-    std::get<0>(three_orbit) = std::get<1>(three_orbit);
-    std::get<1>(three_orbit) = std::get<2>(three_orbit);
-    std::get<2>(three_orbit) =
-        Complex::power(std::get<2>(three_orbit), m_exponent) + c;
-    iterations++;
-  }
-  return {iterations, three_orbit};
-}
-
-CUDA_DEVICE
+CUDA_HD
 PairGPU<int, TripleGPU<Complex, Complex, Complex>>
-Mandelbrot::getIterationsAndOrbitGPU(const Complex& c) {
+Mandelbrot::getIterationsAndOrbit(const Complex& c) {
   int iterations = 0;
   TripleGPU<Complex, Complex, Complex> three_orbit(c, c, c);
   while (iterations < max_iter &&

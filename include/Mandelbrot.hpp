@@ -13,11 +13,8 @@ class Mandelbrot : public FractalAlgorithm {
   CUDA_HD Mandelbrot();
   CUDA_HD Mandelbrot(const int exponent);
 
-  std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
-      const Complex& c) override;
-
-  CUDA_DEVICE
-  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbitGPU(
+  CUDA_HD
+  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbit(
       const Complex& c) override;
 
   int getExponent() override;

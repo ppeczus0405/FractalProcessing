@@ -15,11 +15,8 @@ class Newton : public FractalAlgorithm {
   CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size, const Complex& relaxation,
          const Complex& incrementation);
 
-  std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
-      const Complex& c) override;
-
-  CUDA_DEVICE
-  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbitGPU(
+  CUDA_HD
+  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbit(
       const Complex& c) override;
 
   int getExponent() override;

@@ -83,44 +83,9 @@ CUDA_HD Complex Newton::fdx(Complex c) {
       m_derivative, m_polynomial_size > 0 ? m_polynomial_size - 1 : 0, c);
 }
 
-std::pair<int, std::tuple<Complex, Complex, Complex>>
-Newton::getIterationsAndOrbit(const Complex& c) {
-  auto nextIter = [&](Complex z) {
-    Complex dx_value = fdx(z);
-    if (dx_value == Complex::ZERO())
-      return std::make_pair(false, Complex::ZERO());
-    return std::make_pair(
-        true, z - relax * (f(z) / dx_value) + (is_nova ? c : Complex::ZERO()));
-  };
-  auto checkEndPoint = [](Complex a, Complex b) {
-    return CompareDoubles::isGreater(
-        Complex::absolute_square(b - a) /
-            std::max(1.0, Complex::absolute_square(b)),
-        CONVERGENCE_BAILOUT);
-  };
-
-  int iters = 0;
-  bool notEnd = true;
-  Complex z0 = pixel_start ? c : start_value;
-  std::tuple<Complex, Complex, Complex> three_orbit(z0, z0, z0);
-
-  while (notEnd && iters < max_iter) {
-    auto next = nextIter(std::get<2>(three_orbit));
-    // Encounter case when derivative is equal to zero
-    if (!next.first)
-      return make_pair(-1, three_orbit);
-    std::get<0>(three_orbit) = std::get<1>(three_orbit);
-    std::get<1>(three_orbit) = std::get<2>(three_orbit);
-    std::get<2>(three_orbit) = next.second;
-    notEnd = checkEndPoint(std::get<1>(three_orbit), std::get<2>(three_orbit));
-    iters++;
-  }
-  return {iters, three_orbit};
-}
-
-CUDA_DEVICE
+CUDA_HD
 PairGPU<int, TripleGPU<Complex, Complex, Complex>>
-Newton::getIterationsAndOrbitGPU([[maybe_unused]] const Complex& c) {
+Newton::getIterationsAndOrbit(const Complex& c) {
   int iters = 0;
   bool notEnd = true;
 

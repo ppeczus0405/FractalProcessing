@@ -4,6 +4,7 @@
 #include "Complex.hpp"
 #include "Gradient.hpp"
 #include "RGB.hpp"
+#include "UtilsGPU.hpp"
 
 namespace PekiProc {
 
@@ -68,7 +69,7 @@ class FractalColoring {
   static constexpr int MIN_MAP_SIZE = 1;
 
   virtual RGB getPixel(
-      const std::pair<int, std::tuple<Complex, Complex, Complex>>&
+      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>&
           iterOrbit) = 0;
 
   virtual ~FractalColoring() = default;

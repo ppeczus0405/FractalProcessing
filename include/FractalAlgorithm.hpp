@@ -50,13 +50,11 @@ class FractalAlgorithm {
     config.maxIterations = max_iter;
   }
 
-  virtual std::pair<int, std::tuple<Complex, Complex, Complex>>
-  getIterationsAndOrbit(const Complex& c) = 0;
-  virtual int getExponent() = 0;
-
-  CUDA_DEVICE
+  CUDA_HD
   virtual PairGPU<int, TripleGPU<Complex, Complex, Complex>>
-  getIterationsAndOrbitGPU(const Complex& c) = 0;
+  getIterationsAndOrbit(const Complex& c) = 0;
+
+  virtual int getExponent() = 0;
 
   const FractalAlgorithmConfiguration& getFractalAlgorithmConfig() const {
     return config;

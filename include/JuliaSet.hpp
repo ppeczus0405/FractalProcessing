@@ -15,11 +15,8 @@ class JuliaSet : public FractalAlgorithm {
   CUDA_HD JuliaSet(const int exponent);
   CUDA_HD JuliaSet(const int exponent, const Complex& inc);
 
-  std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
-      const Complex& c) override;
-
-  CUDA_DEVICE
-  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbitGPU(
+  CUDA_HD
+  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbit(
       const Complex& c) override;
 
   int getExponent() override;
