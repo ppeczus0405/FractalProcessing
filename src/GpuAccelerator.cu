@@ -211,7 +211,8 @@ GpuAccelerator::~GpuAccelerator() {
     cudaFree(host_data.color_map);
   if (host_data.map_size)
     cudaFree(host_data.map_size);
-
+  if (d_algorithmConfiguration)
+    cudaFree(d_algorithmConfiguration);
   // Virtual interfaces
   deinitializeVirtualInterfacesOnDevice();
   if (host_data.fcol)
