@@ -3,6 +3,8 @@
 
 #include "Complex.hpp"
 #include "CudaCompat.hpp"
+#include "SmoothConvergence.hpp"
+#include "SmoothDivergence.hpp"
 #include "RGB.hpp"
 
 namespace PekiProc {
@@ -10,30 +12,51 @@ namespace PekiProc {
 class FractalColoringGPU {
  public:
   CUDA_DEVICE
-  FractalColoringGPU(int maxIterations, int exponent, double bailout,
-                     int mapSize, RGB* color_map)
-      : m_bailout(bailout),
-        max_iterations(maxIterations),
-        m_exponent(exponent),
-        map_size(mapSize),
-        color_map(color_map) {}
+  FractalColoringGPU(const FractalColoringConfiguration& cfg)
+      : m_bailout(cfg.bailout),
+        max_iterations(cfg.maxIterations),
+        m_exponent(cfg.exponent),
+        map_size(cfg.mapSize),
+        color_map(cfg.colorMap) {}
 
-  CUDA_DEVICE
-  virtual RGB getPixel(
-      const std::pair<int, std::tuple<Complex, Complex, Complex>>&
-          iterOrbit) = 0;
+  CUDA_DEVICE virtual RGB getPixel(
+      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit) = 0;
 
-  CUDA_DEVICE
-  virtual ~FractalColoringGPU() {};
+  CUDA_DEVICE virtual ~FractalColoringGPU() {}
 
  protected:
   double m_bailout;
-
   int max_iterations;
   int m_exponent;
-  int map_size = -1;
-
+  int map_size;
   RGB* color_map;
+};
+
+class SmoothConvergenceGPU : public FractalColoringGPU {
+ public:
+  CUDA_DEVICE
+  explicit SmoothConvergenceGPU(const FractalColoringConfiguration& cfg)
+      : FractalColoringGPU(cfg) {}
+
+  CUDA_DEVICE
+  RGB getPixel(const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit) override {
+    return SmoothConvergence::getPixelGeneric(iterOrbit, color_map, map_size,
+                                              max_iterations, m_bailout);
+  }
+};
+
+class SmoothDivergenceGPU : public FractalColoringGPU {
+ public:
+  CUDA_DEVICE
+  explicit SmoothDivergenceGPU(const FractalColoringConfiguration& cfg)
+      : FractalColoringGPU(cfg) {}
+
+  CUDA_DEVICE
+  RGB getPixel(const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit) override {
+    return SmoothDivergence::getPixelGeneric(iterOrbit, color_map, map_size,
+                                             max_iterations, m_exponent,
+                                             m_bailout);
+  }
 };
 
 }  // namespace PekiProc
