@@ -8,6 +8,33 @@
 
 namespace PekiProc {
 
+enum class FractalColoringType {
+  SMOOTH_CONVERGENCE,
+  SMOOTH_DIVERGENCE,
+};
+
+struct FractalColoringConfiguration {
+  FractalColoringType coloringType;
+  int maxIterations;
+  int exponent;
+  double bailout;
+  int mapSize;
+  RGB* colorMap = nullptr;  // device pointer!
+
+  CUDA_HD void dumpConfig() const {
+#if CUDA_COMPATIBLE
+    printf("[DEVICE] Coloring cfg: type=%d, iter=%d, exp=%d, bailout=%f, map=%d\n",
+           static_cast<int>(coloringType), maxIterations, exponent, bailout,
+           mapSize);
+#else
+    std::cout << "Coloring Type: " << static_cast<int>(coloringType)
+              << "\nMax Iterations: " << maxIterations
+              << "\nExponent: " << exponent << "\nBailout: " << bailout
+              << "\nMap size: " << mapSize << std::endl;
+#endif
+  }
+};
+
 class FractalColoring {
  public:
   FractalColoring(int maxIterations, int exponent, double bailout,
@@ -21,12 +48,14 @@ class FractalColoring {
 
     setColorMapSize(mapSize);
     max_iterations = maxIterations;
+    color_config.maxIterations = max_iterations;
   }
 
   void setGradient(std::unique_ptr<Gradient> gradient) {
     if (gradient) {
       m_gradient = std::move(gradient);
       color_map = m_gradient->generateGradientMap(map_size);
+      color_config.colorMap = color_map.data();
     }
   }
 
@@ -39,13 +68,14 @@ class FractalColoring {
   const RGB* getColorMap() const noexcept { return color_map.data(); }
 
   bool setColorMapSize(int mapSize) {
+    bool status = true;
     if (mapSize >= MIN_MAP_SIZE && mapSize <= MAX_MAP_SIZE) {
       if (map_size != mapSize) {
         map_size = mapSize;
         color_map = m_gradient->generateGradientMap(map_size);
-        return true;
+      } else {
+        status = false;
       }
-      return false;
     } else {
       std::cerr << "Map size has to meet the condition: ";
       std::cerr << MIN_MAP_SIZE << " <= size <= " << MAX_MAP_SIZE << std::endl;
@@ -54,15 +84,23 @@ class FractalColoring {
                   << std::endl;
         map_size = DEFAULT_COLOR_MAP_SIZE;
         color_map = m_gradient->generateGradientMap(map_size);
-        return true;
       } else {
         std::cerr << "Size not changed" << std::endl;
-        return false;
+        status = false;
       }
     }
+    color_config.mapSize = getColorMapSize();
+    color_config.colorMap = color_map.data();
+    return status;
   }
 
-  void setMaxIterations(int iters) { max_iterations = iters; }
+  void setMaxIterations(int iters) {
+    color_config.maxIterations = max_iterations = iters;
+  }
+
+  const FractalColoringConfiguration& getFractalColoringConfig() const {
+    return color_config;
+  }
 
   static constexpr int DEFAULT_COLOR_MAP_SIZE = 512;
   static constexpr int MAX_MAP_SIZE = 16384;
@@ -89,11 +127,15 @@ class FractalColoring {
   std::unique_ptr<Gradient> m_gradient = nullptr;
   std::vector<RGB> color_map;
 
+  FractalColoringConfiguration color_config;
+
  private:
-  FractalColoring(int exponent) : m_exponent(exponent) {}
+  FractalColoring(int exponent) : m_exponent(exponent) {
+    color_config.exponent = m_exponent;
+  }
 
   FractalColoring(int exponent, double bailout) : FractalColoring(exponent) {
-    m_bailout = bailout;
+    color_config.bailout = m_bailout = bailout;
   }
 };
 

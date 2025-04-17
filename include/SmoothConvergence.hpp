@@ -14,7 +14,9 @@ class SmoothConvergence : public FractalColoring {
                     std::unique_ptr<Gradient> gradient = nullptr)
       : FractalColoring(maxIterations, exponent,
                         FractalAlgorithm::CONVERGENCE_BAILOUT, mapSize,
-                        std::move(gradient)) {}
+                        std::move(gradient)) {
+    color_config.coloringType = FractalColoringType::SMOOTH_CONVERGENCE;
+  }
 
   virtual RGB getPixel(const PairGPU<int, TripleGPU<Complex, Complex, Complex>>&
                            iterOrbit) override {
