@@ -75,6 +75,13 @@ class FractalColoring {
   virtual ~FractalColoring() = default;
 
  protected:
+
+  // Util function used to determine color map index.
+  template <typename T>
+  CUDA_HD static constexpr T clamp(const T& v, const T& lo, const T& hi) {
+    return (v < lo) ? lo : (v > hi ? hi : v);
+  }
+
   double m_bailout;
 
   int max_iterations;

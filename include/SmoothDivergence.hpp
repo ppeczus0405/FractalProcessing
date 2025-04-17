@@ -4,6 +4,7 @@
 #include "CompareDoubles.hpp"
 #include "FractalAlgorithm.hpp"
 #include "FractalColoring.hpp"
+#include <math.h>
 
 namespace PekiProc {
 
@@ -19,28 +20,43 @@ class SmoothDivergence : public FractalColoring {
   virtual RGB getPixel(
       const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit)
       override {
-    auto iterations = iterOrbit.first;
-    auto threeOrbit = iterOrbit.second;
-    double R = Complex::absolute_square(threeOrbit.second);
+    return SmoothDivergence::getPixelGeneric(iterOrbit, color_map.data(),
+                                             map_size, max_iterations,
+                                             m_exponent, m_bailout);
+  }
 
-    // Special case when reached max iterations number or logarithm is undefined
-    if (iterations == max_iterations || CompareDoubles::isEqual(R, 1.0)) {
-      return color_map[map_size - 1];
+ public:
+  CUDA_HD
+  static RGB getPixelGeneric(
+      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit,
+      const RGB* colorMap, int mapSize, int maxIterations, int exponent,
+      double bailout) {
+    const int iterations = iterOrbit.first;
+    const auto& threeOrbit = iterOrbit.second;
+    const double R = Complex::absolute_square(threeOrbit.second);
+
+    // Special case – reached max iterations or undefined logarithm
+    if (iterations == maxIterations || CompareDoubles::isEqual(R, 1.0)) {
+      return colorMap[mapSize - 1];
     }
 
     // Smooth factor
-    double smooth = log2(log2(m_bailout) / log2(R)) / log2(m_exponent);
-    smooth = std::max(0.0, std::min(1.0, smooth));
+    const double smooth = clamp(
+        ::log2(::log2(bailout) / ::log2(R)) /
+            ::log2(static_cast<double>(exponent)),
+        0.0, 1.0);
 
-    double ratio = (map_size - 1) / (double)(max_iterations);
-    double value = ratio * iterations;
-    double prev_value = ratio * (iterations - 1);
-    int index = smooth * value + (1.0 - smooth) * prev_value;
-    index = std::max(0, std::min(map_size - 1, index));
-    return color_map[index];
+    const double ratio = (mapSize - 1) / static_cast<double>(maxIterations);
+    const double value = ratio * iterations;
+    const double prev_value = ratio * (iterations - 1);
+    int index =
+        static_cast<int>(smooth * value + (1.0 - smooth) * prev_value);
+    index = clamp(index, 0, mapSize - 1);
+    return colorMap[index];
   }
 };
 
 }  // namespace PekiProc
 
 #endif  // PEKI_SMOOTH_DIVERGENCE_HPP
+

@@ -3,6 +3,7 @@
 
 #include "FractalAlgorithm.hpp"
 #include "FractalColoring.hpp"
+#include <math.h>
 
 namespace PekiProc {
 
@@ -18,36 +19,53 @@ class SmoothConvergence : public FractalColoring {
   virtual RGB getPixel(
       const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit)
       override {
-    auto iterations = iterOrbit.first;
-    auto threeOrbit = iterOrbit.second;
-    auto z = threeOrbit.first;
-    auto z1 = threeOrbit.second;
-    auto z2 = threeOrbit.third;
+    return SmoothConvergence::getPixelGeneric(iterOrbit, color_map.data(),
+                                              map_size, max_iterations,
+                                              m_bailout);
+  }
 
-    // Special case when reached max iterations number or something goes
-    // wrong(e.g dx(complex) = 0 in Newton method)
-    if (iterations == max_iterations || iterations == -1) {
-      return color_map[map_size - 1];
+ public:
+  CUDA_HD
+  static RGB getPixelGeneric(
+      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit,
+      const RGB* colorMap, int mapSize, int maxIterations, double bailout) {
+    const int iterations = iterOrbit.first;
+    const auto& threeOrbit = iterOrbit.second;
+    const Complex& z = threeOrbit.first;
+    const Complex& z1 = threeOrbit.second;
+    const Complex& z2 = threeOrbit.third;
+
+    // Escaped or invalid
+    if (iterations == maxIterations || iterations == -1) {
+      return colorMap[mapSize - 1];
     }
 
-    double R = Complex::absolute_square(z - z1) /
-               std::max(1.0, Complex::absolute_square(z));
-    double prev_R = Complex::absolute_square(z1 - z2) /
-                    std::max(1.0, Complex::absolute_square(z1));
+    const double R =
+        Complex::absolute_square(z - z1) /
+        ::fmax(1.0, Complex::absolute_square(z));
+    const double prev_R =
+        Complex::absolute_square(z1 - z2) /
+        ::fmax(1.0, Complex::absolute_square(z1));
 
-    // Smooth factor
-    double smooth = (log2(m_bailout) - log2(prev_R)) / (log2(R) - log2(prev_R));
-    smooth = std::max(0.0, std::min(1.0, smooth));
+    const double denom = ::log2(R) - ::log2(prev_R);
+    double smooth = 0.0;
+    if (denom != 0.0) {
+      smooth = (::log2(bailout) - ::log2(prev_R)) / denom;
+      smooth = clamp(smooth, 0.0, 1.0);
+    }
 
-    double ratio = (map_size - 1) / (double)(max_iterations);
-    double value = ratio * iterations;
-    double prev_value = ratio * (iterations - 1);
-    int index = smooth * value + (1.0 - smooth) * prev_value;
-    index = std::max(0, std::min(map_size - 1, index));
-    return color_map[index];
+    const double ratio = (mapSize - 1) / static_cast<double>(maxIterations);
+    const double value = ratio * iterations;
+    const double prev_value = ratio * (iterations - 1);
+    int index =
+        static_cast<int>(smooth * value + (1.0 - smooth) * prev_value);
+    index = clamp(index, 0, mapSize - 1);
+
+    return colorMap[index];
   }
 };
 
 }  // namespace PekiProc
 
 #endif  // PEKI_SMOOTH_CONVERGENCE_HPP
+
