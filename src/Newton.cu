@@ -1,3 +1,4 @@
+#include "CompareDoubles.hpp"
 #include "Newton.hpp"
 
 namespace PekiProc {
@@ -5,74 +6,81 @@ namespace PekiProc {
 using FAT = FractalAlgorithmType;
 
 // Newton constructors
-Newton::Newton(bool nova, bool pixstart)
+CUDA_HD Newton::Newton(bool nova, bool pixstart)
     : FractalAlgorithm(nova ? FAT::NOVA : FAT::NEWTON),
       is_nova(nova),
       pixel_start(pixstart) {
   // z^3 - 1 = 0
-  m_polynomial = {Complex::ONE(), Complex::ZERO(), Complex::ZERO(),
-                  -Complex::ONE()};
-  initialize_functions();
+  m_polynomial_size = 4;
+  m_polynomial[0] = -Complex::ONE();
+  m_polynomial[1] = Complex::ZERO();
+  m_polynomial[2] = Complex::ZERO();
+  m_polynomial[3] = Complex::ONE();
+
+  config.usePixelStart = pixel_start;
 }
 
-Newton::Newton(const std::vector<Complex>& polynomial, bool nova, bool pixstart)
+CUDA_HD Newton::Newton(Complex polynomial[], unsigned int polynomial_size,
+                       bool nova, bool pixstart)
     : FractalAlgorithm(nova ? FAT::NOVA : FAT::NEWTON),
-      m_polynomial(polynomial),
       is_nova(nova),
       pixel_start(pixstart) {
-  initialize_functions();
+  initPolynomial(polynomial, polynomial_size);
+  config.usePixelStart = pixel_start;
 }
 
-Newton::Newton(const std::vector<Complex>& polynomial,
-               const Complex& relaxation, bool nova, bool pixstart)
+CUDA_HD Newton::Newton(Complex polynomial[], unsigned int polynomial_size,
+                       const Complex& relaxation, bool nova, bool pixstart)
     : FractalAlgorithm(nova ? FAT::NOVA : FAT::NEWTON),
-      m_polynomial(polynomial),
       relax(relaxation),
       is_nova(nova),
       pixel_start(pixstart) {
-  initialize_functions();
+  initPolynomial(polynomial, polynomial_size);
+  config.relaxation = relax;
+  config.usePixelStart = pixel_start;
 }
 
-Newton::Newton(const std::vector<Complex>& polynomial,
-               const Complex& relaxation, const Complex& startval)
+CUDA_HD Newton::Newton(Complex polynomial[], unsigned int polynomial_size,
+                       const Complex& relaxation, const Complex& startval)
     : FractalAlgorithm(FAT::NOVA),
-      m_polynomial(polynomial),
       relax(relaxation),
       start_value(startval),
       is_nova(true),
       pixel_start(false) {
-  initialize_functions();
+  initPolynomial(polynomial, polynomial_size);
+  config.relaxation = relax;
+  config.startValue = start_value;
 }
 
-void Newton::initialize_functions() {
-  computeDerivative();
-  f = createPolynomialFunction(m_polynomial);
-  fdx = createPolynomialFunction(m_derivative);
-}
-
-void Newton::computeDerivative() {
-  m_derivative = m_polynomial;
-  if ((int)m_polynomial.size() ==
-      0)  // empty polynomial is treated as W(c) = 0, where c is complex number
-    return;
-  m_derivative.pop_back();
+CUDA_HD void Newton::initPolynomial(Complex polynomial[], unsigned int size) {
+  for (int i = 0; i < size; i++)
+    m_polynomial[i] = config.polynomialTerms[i] = polynomial[i];
+  config.polynomialSize = m_polynomial_size = size;
+  // Compute derivative
   int exponent = 1;
-  for (auto it = m_derivative.rbegin(); it != m_derivative.rend(); it++)
-    *it *= exponent++;
+  for (int i = 1; i < m_polynomial_size; i++) {
+    m_derivative[i - 1] = m_polynomial[i] * exponent++;
+  }
 }
 
-std::function<Complex(Complex)> Newton::createPolynomialFunction(
-    const std::vector<Complex>& polynomial) {
-  std::function<Complex(Complex)> func = [&polynomial](Complex c) {
-    Complex ans = Complex::ZERO();
-    Complex z = Complex::ONE();
-    for (auto it = polynomial.rbegin(); it != polynomial.rend(); it++) {
-      ans += z * (*it);
-      z *= c;
-    }
-    return ans;
-  };
-  return func;
+CUDA_HD Complex Newton::computePolynomialValue(Complex polynomial[],
+                                               unsigned int size, Complex c) {
+  Complex ans = Complex::ZERO();
+  Complex z = Complex::ONE();
+  for (unsigned int i = 0; i < size; i++) {
+    ans += z * polynomial[i];
+    z *= c;
+  }
+  return ans;
+}
+
+CUDA_HD Complex Newton::f(Complex c) {
+  return computePolynomialValue(m_polynomial, m_polynomial_size, c);
+}
+
+CUDA_HD Complex Newton::fdx(Complex c) {
+  return computePolynomialValue(
+      m_derivative, m_polynomial_size > 0 ? m_polynomial_size - 1 : 0, c);
 }
 
 std::pair<int, std::tuple<Complex, Complex, Complex>>
@@ -85,9 +93,10 @@ Newton::getIterationsAndOrbit(const Complex& c) {
         true, z - relax * (f(z) / dx_value) + (is_nova ? c : Complex::ZERO()));
   };
   auto checkEndPoint = [](Complex a, Complex b) {
-    return Complex::absolute_square(b - a) /
-               std::max(1.0, Complex::absolute_square(b)) <=
-           CONVERGENCE_BAILOUT;
+    return CompareDoubles::isGreater(
+        Complex::absolute_square(b - a) /
+            std::max(1.0, Complex::absolute_square(b)),
+        CONVERGENCE_BAILOUT);
   };
 
   int iters = 0;
@@ -103,7 +112,7 @@ Newton::getIterationsAndOrbit(const Complex& c) {
     std::get<0>(three_orbit) = std::get<1>(three_orbit);
     std::get<1>(three_orbit) = std::get<2>(three_orbit);
     std::get<2>(three_orbit) = next.second;
-    notEnd = !checkEndPoint(std::get<1>(three_orbit), std::get<2>(three_orbit));
+    notEnd = checkEndPoint(std::get<1>(three_orbit), std::get<2>(three_orbit));
     iters++;
   }
   return {iters, three_orbit};
@@ -112,11 +121,44 @@ Newton::getIterationsAndOrbit(const Complex& c) {
 CUDA_DEVICE
 PairGPU<int, TripleGPU<Complex, Complex, Complex>>
 Newton::getIterationsAndOrbitGPU([[maybe_unused]] const Complex& c) {
-  return {};
+  int iters = 0;
+  bool notEnd = true;
+
+  Complex z0 = pixel_start ? c : start_value;
+  Complex z1 = z0;
+  Complex z2 = z0;
+
+  while (notEnd && iters < max_iter) {
+    Complex dx_value = fdx(z2);
+    if (dx_value == Complex::ZERO()) {
+      return {-1, {z0, z1, z2}};
+    }
+
+    Complex fz = f(z2);
+    Complex delta = fz / dx_value;
+    Complex next = z2 - relax * delta;
+    if (is_nova) {
+      next = next + c;
+    }
+
+    // Rotate the orbit
+    z0 = z1;
+    z1 = z2;
+    z2 = next;
+
+    // Check convergence
+    Complex diff = z2 - z1;
+    double num = Complex::absolute_square(diff);
+    double denom = max(1.0, Complex::absolute_square(z2));
+    notEnd = CompareDoubles::isGreater(num / denom, CONVERGENCE_BAILOUT);
+
+    iters++;
+  }
+  return {iters, {z0, z1, z2}};
 }
 
 int Newton::getExponent() {
-  return (int)m_polynomial.size() - 1;
+  return m_polynomial_size - 1;
 }
 
 }  // namespace PekiProc

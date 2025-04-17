@@ -3,6 +3,7 @@
 #include "GpuAccelerator.hpp"
 #include "JuliaSet.hpp"
 #include "Mandelbrot.hpp"
+#include "Newton.hpp"
 
 namespace PekiProc {
 
@@ -147,8 +148,33 @@ CUDA_DEVICE void GpuAccelerator::fractalAlgorithmDeviceInit(
         *falg = new JuliaSet(config->exponent.get());
       }
       break;
+    case PekiProc::FractalAlgorithmType::NEWTON:
+      [[fallthrough]];
+    case PekiProc::FractalAlgorithmType::NOVA: {
+      bool nova = config->fractalType == FractalAlgorithmType::NOVA;
+      if (!config->polynomialSize.hasValue()) {
+        printf("[DEVICE] Newton/Nova default creation - no poly\n");
+        *falg = new Newton(nova, config->usePixelStart.get());
+      } else if (!config->relaxation.hasValue()) {
+        printf("[DEVICE] Newton/Nova - no relaxation\n");
+        *falg =
+            new Newton(config->polynomialTerms, config->polynomialSize.get(),
+                       nova, config->usePixelStart.get());
+      } else if (config->usePixelStart.hasValue()) {
+        printf("[DEVICE] Newton/Nova - relaxation, pixelStart\n");
+        *falg = new Newton(
+            config->polynomialTerms, config->polynomialSize.get(),
+            config->relaxation.get(), nova, config->usePixelStart.get());
+      } else {
+        printf("[DEVICE] Nova - start value\n");
+        *falg =
+            new Newton(config->polynomialTerms, config->polynomialSize.get(),
+                       config->relaxation.get(), config->startValue.get());
+      }
+      break;
+    }
     default:
-      printf("[DEVICE] Default fractal creation\n");
+      break;
   }
 }
 

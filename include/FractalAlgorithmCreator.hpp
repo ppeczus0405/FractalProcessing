@@ -47,17 +47,18 @@ class FractalAlgorithmCreator {
 
   template <typename T>
   static std::unique_ptr<FractalAlgorithm> createNewton(T&& polynomial) {
-    static_assert(std::is_constructible<Newton, T>::value,
+    static_assert(std::is_constructible<Newton, decltype(polynomial.data()), unsigned int>::value,
                   "Can't pass given polynomial to Newton class constructor");
-    return std::make_unique<Newton>(std::forward<T>(polynomial));
+
+    return std::make_unique<Newton>(polynomial.data(), polynomial.size());
   }
 
   template <typename T>
   static std::unique_ptr<FractalAlgorithm> createNewton(
       T&& polynomial, const Complex& relaxation) {
-    static_assert(std::is_constructible<Newton, T>::value,
+    static_assert(std::is_constructible<Newton, decltype(polynomial.data()), unsigned int>::value,
                   "Can't pass given polynomial to Newton class constructor");
-    return std::make_unique<Newton>(std::forward<T>(polynomial), relaxation);
+    return std::make_unique<Newton>(polynomial.data(), polynomial.size(), relaxation);
   }
 
   static std::unique_ptr<FractalAlgorithm> createNova() {
@@ -66,17 +67,17 @@ class FractalAlgorithmCreator {
 
   template <typename T>
   static std::unique_ptr<FractalAlgorithm> createNova(T&& polynomial) {
-    static_assert(std::is_constructible<Newton, T>::value,
+    static_assert(std::is_constructible<Newton, decltype(polynomial.data()), unsigned int>::value,
                   "Can't pass given polynomial to Newton class constructor");
-    return std::make_unique<Newton>(std::forward<T>(polynomial), true, false);
+    return std::make_unique<Newton>(polynomial.data(), polynomial.size(), true, false);
   }
 
   template <typename T>
   static std::unique_ptr<FractalAlgorithm> createNova(
       T&& polynomial, const Complex& relaxation) {
-    static_assert(std::is_constructible<Newton, T>::value,
+    static_assert(std::is_constructible<Newton, decltype(polynomial.data()), unsigned int>::value,
                   "Can't pass given polynomial to Newton class constructor");
-    return std::make_unique<Newton>(std::forward<T>(polynomial), relaxation,
+    return std::make_unique<Newton>(polynomial.data(), polynomial.size(), relaxation,
                                     true, false);
   }
 
@@ -84,9 +85,9 @@ class FractalAlgorithmCreator {
   static std::unique_ptr<FractalAlgorithm> createNova(T&& polynomial,
                                                       const Complex& relaxation,
                                                       const Complex& startval) {
-    static_assert(std::is_constructible<Newton, T>::value,
+    static_assert(std::is_constructible<Newton, decltype(polynomial.data()), unsigned int>::value,
                   "Can't pass given polynomial to Newton class constructor");
-    return std::make_unique<Newton>(std::forward<T>(polynomial), relaxation,
+    return std::make_unique<Newton>(polynomial.data(), polynomial.size(), relaxation,
                                     startval);
   }
 
@@ -94,9 +95,9 @@ class FractalAlgorithmCreator {
   static std::unique_ptr<FractalAlgorithm> createNova(T&& polynomial,
                                                       const Complex& relaxation,
                                                       const bool pixstart) {
-    static_assert(std::is_constructible<Newton, T>::value,
+    static_assert(std::is_constructible<Newton, decltype(polynomial.data()), unsigned int>::value,
                   "Can't pass given polynomial to Newton class constructor");
-    return std::make_unique<Newton>(std::forward<T>(polynomial), relaxation,
+    return std::make_unique<Newton>(polynomial.data(), polynomial.size(), relaxation,
                                     true, pixstart);
   }
 };

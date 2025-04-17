@@ -1,20 +1,18 @@
 #ifndef PEKI_NEWTON_HPP
 #define PEKI_NEWTON_HPP
 
-#include <functional>
-
 #include "FractalAlgorithm.hpp"
 
 namespace PekiProc {
 
 class Newton : public FractalAlgorithm {
  public:
-  Newton(bool nova = false, bool pixstart = true);
-  Newton(const std::vector<Complex>& polynomial, bool nova = false,
+  CUDA_HD Newton(bool nova = false, bool pixstart = true);
+  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size, bool nova = false,
          bool pixstart = true);
-  Newton(const std::vector<Complex>& polynomial, const Complex& relaxation,
+  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size, const Complex& relaxation,
          bool nova = false, bool pixstart = true);
-  Newton(const std::vector<Complex>& polynomial, const Complex& relaxation,
+  CUDA_HD Newton(Complex polynomial[], unsigned int polynomial_size, const Complex& relaxation,
          const Complex& incrementation);
 
   std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
@@ -26,16 +24,18 @@ class Newton : public FractalAlgorithm {
 
   int getExponent() override;
 
+  CUDA_HD ~Newton() { }
  private:
-  std::function<Complex(Complex)> f = nullptr;
-  std::function<Complex(Complex)> fdx = nullptr;
+  CUDA_HD static Complex computePolynomialValue(Complex polynomial[], unsigned int size, Complex c);
+  CUDA_HD void initPolynomial(Complex polynomial[], unsigned int size);
+  CUDA_HD void computeDerivative();
 
-  std::function<Complex(Complex)> createPolynomialFunction(
-      const std::vector<Complex>& polynomial);
-  void initialize_functions();
-  void computeDerivative();
+  CUDA_HD Complex f(Complex c);
+  CUDA_HD Complex fdx(Complex c);
 
-  std::vector<Complex> m_polynomial, m_derivative;
+  Complex m_polynomial[FractalAlgorithmConfiguration::MAX_POLY_TERMS]{};
+  Complex m_derivative[FractalAlgorithmConfiguration::MAX_POLY_TERMS]{};
+  unsigned int m_polynomial_size = 0;
   Complex relax = Complex::ONE();
   Complex start_value = Complex::ONE();
   bool is_nova = false;
