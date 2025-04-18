@@ -71,9 +71,9 @@ void FractalGenerator::update(const Configuration& config) {
   m_config = config;
 
   m_fractal = PekiProc::FractalBuilder(1080, 720)
-                  .setMaxIterations(256)
+                  .setMaxIterations(64)
                   .setGradient(getDefaultGradient())
-                  .setGradientMapSize(1024)
+                  .setGradientMapSize(8192)
                   .setAlgorithm(createAlgorithm())
                   .setScale(config.scaleParams)
                   .setGpuAcceleration()

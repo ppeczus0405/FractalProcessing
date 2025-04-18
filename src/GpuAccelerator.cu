@@ -38,13 +38,35 @@ CUDA_KERNEL void deinitFractalInterfacesOnDevice(
   }
 }
 
+CUDA_KERNEL void renderFractalKernel(kernel::ProcessingData* kdata) {
+  const int x = blockIdx.x * blockDim.x + threadIdx.x;  // 0‑based coords
+  const int y = blockIdx.y * blockDim.y + threadIdx.y;
+  const int width = *kdata->width;
+  const int height = *kdata->height;
+  if (x >= width || y >= height)
+    return;
+
+  // Scale works with 1‑based image coordinates (same convention as CPU path).
+  const auto scaled = kdata->scale->getScaled(x + 1, y + 1);
+  const Complex c(scaled.first, scaled.second);
+
+  const auto result = (*kdata->falg)->getIterationsAndOrbit(c);
+  const RGB pix = (*kdata->fcol)->getPixel(result);
+
+  const int idx = (y * width + x) * 3;
+  kdata->image_data[idx] = pix.getR();
+  kdata->image_data[idx + 1] = pix.getG();
+  kdata->image_data[idx + 2] = pix.getB();
+}
+
 }  // namespace kernel
 
-KernelProcessingData* GpuAccelerator::kernel_data = nullptr;
+kernel::ProcessingData* GpuAccelerator::kernel_data = nullptr;
 
 GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
                                const Scale& scale, FractalAlgorithm* falg,
-                               FractalColoring* fcol) {
+                               FractalColoring* fcol)
+    : m_width(width), m_height(height) {
   // --- Allocate all necessary device buffers ---
   int* d_width = nullptr;
   int* d_height = nullptr;
@@ -122,8 +144,8 @@ GpuAccelerator::GpuAccelerator(int width, int height, uint8_t* data,
   initializeVirtualInterfacesOnDevice();
 
   // --- Copy full struct to device ---
-  cudaMalloc(&kernel_data, sizeof(KernelProcessingData));
-  cudaMemcpy(kernel_data, &host_data, sizeof(KernelProcessingData),
+  cudaMalloc(&kernel_data, sizeof(kernel::ProcessingData));
+  cudaMemcpy(kernel_data, &host_data, sizeof(kernel::ProcessingData),
              cudaMemcpyHostToDevice);
 }
 
@@ -214,8 +236,20 @@ void GpuAccelerator::initializeVirtualInterfacesOnDevice() {
   cudaDeviceSynchronize();
 }
 
-void GpuAccelerator::generateFractal() {
-  std::cout << "Not implemented yet." << std::endl;
+void GpuAccelerator::generateFractal(uint8_t* host_image) {
+  assert(kernel_data != nullptr && "GpuAccelerator not properly constructed");
+  assert(host_image != nullptr && "host_image must not be null");
+
+  dim3 block(16, 16);
+  dim3 grid((m_width + block.x - 1) / block.x,
+            (m_height + block.y - 1) / block.y);
+  kernel::renderFractalKernel<<<grid, block>>>(kernel_data);
+  cudaDeviceSynchronize();
+
+  // Copy the RGB image back into caller‑supplied buffer.
+  const size_t imageSize = static_cast<size_t>(m_width) * m_height * 3;
+  cudaMemcpy(host_image, host_data.image_data, imageSize,
+             cudaMemcpyDeviceToHost);
 }
 
 void GpuAccelerator::deinitializeVirtualInterfacesOnDevice() {

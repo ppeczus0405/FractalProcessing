@@ -11,17 +11,7 @@ namespace PekiProc {
 
 namespace kernel {
 
-CUDA_KERNEL void createFractalInterfacesOnDevice(
-    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* algoConfig,
-    FractalColoringGPU** coloringPtr, FractalColoringConfiguration* coloringConfig);
-
-CUDA_KERNEL void deinitFractalInterfacesOnDevice(
-    FractalAlgorithm** algoPtr, FractalColoringGPU** coloringPtr, FractalColoringConfiguration* coloringConfig);
-
-}  // namespace kernel
-
-// Value of members below points to location that is accessible from GPU kernel function.
-struct KernelProcessingData {
+struct ProcessingData {
   int* width;
   int* height;
   uint8_t* image_data;
@@ -30,14 +20,25 @@ struct KernelProcessingData {
   FractalColoringGPU** fcol;
 };
 
+CUDA_KERNEL void createFractalInterfacesOnDevice(
+    FractalAlgorithm** algoPtr, FractalAlgorithmConfiguration* algoConfig,
+    FractalColoringGPU** coloringPtr, FractalColoringConfiguration* coloringConfig);
+
+CUDA_KERNEL void deinitFractalInterfacesOnDevice(
+    FractalAlgorithm** algoPtr, FractalColoringGPU** coloringPtr, FractalColoringConfiguration* coloringConfig);
+
+CUDA_KERNEL void renderFractalKernel(kernel::ProcessingData *kdata);
+
+}  // namespace kernel
+
 class GpuAccelerator {
  public:
   GpuAccelerator() = default;
   GpuAccelerator(int width, int height, uint8_t* data, const Scale& scale,
                  FractalAlgorithm* falg, FractalColoring* fcol);
-  void generateFractal();
+  void generateFractal(uint8_t* host_image);
 
-  static KernelProcessingData* kernel_data;
+  static kernel::ProcessingData* kernel_data;
 
   ~GpuAccelerator();
 
@@ -54,9 +55,12 @@ class GpuAccelerator {
   void deinitializeVirtualInterfacesOnDevice();
 
  private:
-  KernelProcessingData host_data{};
+  kernel::ProcessingData host_data{};
   FractalAlgorithmConfiguration* d_algorithmConfiguration{nullptr};
   FractalColoringConfiguration* d_coloringConfiguration{nullptr};
+
+  int m_width{0};
+  int m_height{0};
 };
 
 }  // namespace PekiProc
