@@ -265,10 +265,10 @@ RGB Gradient::interpolate(const double x) {
     };
 
     for (const auto& interval : v) {
-      double a = grad_points[get<1>(interval)].first;
-      double b = grad_points[get<2>(interval)].first;
+      double a = grad_points[std::get<1>(interval)].first;
+      double b = grad_points[std::get<2>(interval)].first;
       if (is_inside(a, b, xx))
-        return get<0>(interval)(xx);
+        return std::get<0>(interval)(xx);
     }
     return -1.0;  // Result is inside of for, just to silent warnings
   };

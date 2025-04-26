@@ -1,6 +1,7 @@
 #ifndef PEKI_SMOOTH_DIVERGENCE_HPP
 #define PEKI_SMOOTH_DIVERGENCE_HPP
 
+#include <math.h>
 #include "CompareDoubles.hpp"
 #include "FractalAlgorithm.hpp"
 #include "FractalColoring.hpp"
@@ -14,30 +15,43 @@ class SmoothDivergence : public FractalColoring {
                    std::unique_ptr<Gradient> gradient = nullptr)
       : FractalColoring(maxIterations, exponent,
                         FractalAlgorithm::DIVERGENCE_BAILOUT, mapSize,
-                        std::move(gradient)) {}
+                        std::move(gradient)) {
+    color_config.coloringType = FractalColoringType::SMOOTH_DIVERGENCE;
+  }
 
-  virtual RGB getPixel(
-      const std::pair<int, std::tuple<Complex, Complex, Complex>>& iterOrbit)
-      override {
-    auto iterations = iterOrbit.first;
-    auto threeOrbit = iterOrbit.second;
-    long double R = Complex::absolute_square(get<1>(threeOrbit));
+  virtual RGB getPixel(const PairGPU<int, TripleGPU<Complex, Complex, Complex>>&
+                           iterOrbit) override {
+    return SmoothDivergence::getPixelGeneric(iterOrbit, color_map.data(),
+                                             map_size, max_iterations,
+                                             m_exponent, m_bailout);
+  }
 
-    // Special case when reached max iterations number or logarithm is undefined
-    if (iterations == max_iterations || CompareDoubles::isEqual(R, 1.0L)) {
-      return color_map[map_size - 1];
+ public:
+  CUDA_HD
+  static RGB getPixelGeneric(
+      const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit,
+      const RGB* colorMap, int mapSize, int maxIterations, int exponent,
+      double bailout) {
+    const int iterations = iterOrbit.first;
+    const auto& threeOrbit = iterOrbit.second;
+    const double R = Complex::absolute_square(threeOrbit.second);
+
+    // Special case – reached max iterations or undefined logarithm
+    if (iterations == maxIterations || CompareDoubles::isEqual(R, 1.0)) {
+      return colorMap[mapSize - 1];
     }
 
     // Smooth factor
-    long double smooth = log2(log2(m_bailout) / log2(R)) / log2(m_exponent);
-    smooth = std::max(0.0L, std::min(1.0L, smooth));
+    const double smooth = clamp(::log2(::log2(bailout) / ::log2(R)) /
+                                    ::log2(static_cast<double>(exponent)),
+                                0.0, 1.0);
 
-    long double ratio = (map_size - 1) / (long double)(max_iterations);
-    long double value = ratio * iterations;
-    long double prev_value = ratio * (iterations - 1);
-    int index = smooth * value + (1.0L - smooth) * prev_value;
-    index = std::max(0, std::min(map_size - 1, index));
-    return color_map[index];
+    const double ratio = (mapSize - 1) / static_cast<double>(maxIterations);
+    const double value = ratio * iterations;
+    const double prev_value = ratio * (iterations - 1);
+    int index = static_cast<int>(smooth * value + (1.0 - smooth) * prev_value);
+    index = clamp(index, 0, mapSize - 1);
+    return colorMap[index];
   }
 };
 

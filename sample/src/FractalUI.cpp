@@ -1,18 +1,16 @@
 #include "FractalUI.hpp"
-#include "FractalParameterPanel.hpp"
 #include "FractalActionPanel.hpp"
+#include "FractalParameterPanel.hpp"
 
 #include <QVBoxLayout>
 
-FractalUI::FractalUI(QWidget* parent)
-    : QWidget(parent)
-{
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setContentsMargins(6, 6, 6, 6);
-    layout->setSpacing(4);
+FractalUI::FractalUI(QWidget* parent) : QWidget(parent) {
+  QVBoxLayout* layout = new QVBoxLayout(this);
+  layout->setContentsMargins(6, 6, 6, 6);
+  layout->setSpacing(4);
 
-    setFixedWidth(300);
-    setStyleSheet(R"(
+  setFixedWidth(300);
+  setStyleSheet(R"(
         /* Base widget styling */
         QWidget {
             background-color: #2e2e2e;
@@ -91,24 +89,21 @@ FractalUI::FractalUI(QWidget* parent)
         }
     )");
 
-    // 1) The parameter panel at the top
-    m_parameterPanel = new FractalParameterPanel(this);
-    layout->addWidget(m_parameterPanel);
+  // 1) The parameter panel at the top
+  m_parameterPanel = new FractalParameterPanel(this);
+  layout->addWidget(m_parameterPanel);
 
-    layout->addStretch(1);
+  layout->addStretch(1);
 
-    // 2) The action panel (Generate, Info label, Zoom out)
-    m_actionPanel = new FractalActionPanel(this);
-    layout->addWidget(m_actionPanel);
+  // 2) The action panel (Generate, Info label, Zoom out)
+  m_actionPanel = new FractalActionPanel(this);
+  layout->addWidget(m_actionPanel);
 }
 
-FractalParameterPanel* FractalUI::parameterPanel() const
-{
-    return m_parameterPanel;
+FractalParameterPanel* FractalUI::parameterPanel() const {
+  return m_parameterPanel;
 }
 
-FractalActionPanel* FractalUI::actionPanel() const
-{
-    return m_actionPanel;
+FractalActionPanel* FractalUI::actionPanel() const {
+  return m_actionPanel;
 }
-

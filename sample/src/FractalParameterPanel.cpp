@@ -3,6 +3,7 @@
 #include <QIntValidator>
 #include <QMenu>
 #include <QRegularExpression>
+#include <charconv>
 
 #include "Fractal.hpp"
 #include "FractalAlgorithm.hpp"
@@ -10,20 +11,22 @@
 #include "FractalParameterPanel.hpp"
 
 namespace {
-  long double toLongDouble(const QString& qStr) {
-    long double value;
-    std::string numText = qStr.toStdString();
-    std::for_each(numText.begin(), numText.end(), [](char &c) {
-      if(c == ',') c = '.';
-    });
-    auto [ptr, ec] = std::from_chars(numText.data(), numText.data() + numText.size(), value);
-    if (ec != std::errc() || ptr != numText.data() + numText.size()) {
-      std::cerr << "Conversion for " << numText << " failed. " << std::endl;
-      assert(!"Dobule conversion error");
-    }
-    return value;
+double toDouble(const QString& qStr) {
+  double value;
+  std::string numText = qStr.toStdString();
+  std::for_each(numText.begin(), numText.end(), [](char& c) {
+    if (c == ',')
+      c = '.';
+  });
+  auto [ptr, ec] =
+      std::from_chars(numText.data(), numText.data() + numText.size(), value);
+  if (ec != std::errc() || ptr != numText.data() + numText.size()) {
+    std::cerr << "Conversion for " << numText << " failed. " << std::endl;
+    assert(!"Dobule conversion error");
   }
+  return value;
 }
+}  // namespace
 
 FractalParameterPanel::FractalParameterPanel(QWidget* parent)
     : QWidget(parent) {
@@ -96,34 +99,31 @@ FractalParameterPanel::FractalParameterPanel(QWidget* parent)
 Configuration FractalParameterPanel::collectParameters() const {
   Configuration config;
 
-  config.fractalType = FractalGenerator::fractalStringToType(getSelectedFractalType().toStdString());
+  config.fractalType = FractalGenerator::fractalStringToType(
+      getSelectedFractalType().toStdString());
 
-  config.scaleParams = PekiProc::Dim{toLongDouble(minRField->text()),
-                                     toLongDouble(maxRField->text()),
-                                     toLongDouble(minIField->text()),
-                                     toLongDouble(maxIField->text())
-  };
+  config.scaleParams =
+      PekiProc::Dim{toDouble(minRField->text()), toDouble(maxRField->text()),
+                    toDouble(minIField->text()), toDouble(maxIField->text())};
 
   config.exponent = getExponent();
 
   auto increment = getIncrement();
-  config.increment = {toLongDouble(increment.first), toLongDouble(increment.second)};
+  config.increment = {toDouble(increment.first), toDouble(increment.second)};
 
   auto relaxation = getRelaxation();
-  config.relaxation = {toLongDouble(relaxation.first),
-                       toLongDouble(relaxation.second)};
+  config.relaxation = {toDouble(relaxation.first), toDouble(relaxation.second)};
 
   auto startValue = getStartValue();
-  config.startValue = {toLongDouble(startValue.first),
-                       toLongDouble(startValue.second)};
+  config.startValue = {toDouble(startValue.first), toDouble(startValue.second)};
 
   config.usePixelStart = isPixStartEnabled();
 
   // Handle polynomial terms if applicable
   auto polynomialStrTerms = getPolynomial();
   for (const auto& term : polynomialStrTerms) {
-    double realPart = toLongDouble(term.first);
-    double imagPart = toLongDouble(term.second);
+    double realPart = toDouble(term.first);
+    double imagPart = toDouble(term.second);
     config.polynomialTerms.emplace_back(realPart, imagPart);
   }
 
@@ -192,91 +192,99 @@ void FractalParameterPanel::onFractalTypeChanged(const QString& type) {
     pixStartCheck->toggle();
   }
 
-    // =====================
-    //  SET DEFAULT VALUES
-    // =====================
-    if (type == "Mandelbrot") {
-        // No exponent or increment to set
-        // Typically nothing extra to set for the classic Mandelbrot
-    }
-    else if (type == "Multibrot") {
-        // Classic exponent = 3 (z^3 + c).  Feel free to change as you like.
-        if (exponentInput) exponentInput->setText("3");
-    }
-    else if (type == "Julia") {
-        // A common “classic” Julia is c = -0.7 + 0.27015i
-        if (incReal) incReal->setText("-0,7");
-        if (incImag) incImag->setText("0,27015");
-    }
-    else if (type == "PolyJulia") {
-        // Custom one
-        if (exponentInput) exponentInput->setText("5");
-        if (incReal) incReal->setText("-0,70176");
-        if (incImag) incImag->setText("-0,3842");
-    }
-    else if (type == "Newton") {
-        // A classic polynomial is z^3 - 1
-        // That means 4 polynomial terms: [1,0,0,-1]
-        // Use onAddPolyClicked() to add them to polyList.
-        // Relaxation often set to 1
-        if (relaxReal) relaxReal->setText("1");
-        if (relaxImag) relaxImag->setText("0");
+  // =====================
+  //  SET DEFAULT VALUES
+  // =====================
+  if (type == "Mandelbrot") {
+    // No exponent or increment to set
+    // Typically nothing extra to set for the classic Mandelbrot
+  } else if (type == "Multibrot") {
+    // Classic exponent = 3 (z^3 + c).  Feel free to change as you like.
+    if (exponentInput)
+      exponentInput->setText("3");
+  } else if (type == "Julia") {
+    // A common “classic” Julia is c = -0.7 + 0.27015i
+    if (incReal)
+      incReal->setText("-0,7");
+    if (incImag)
+      incImag->setText("0,27015");
+  } else if (type == "PolyJulia") {
+    // Custom one
+    if (exponentInput)
+      exponentInput->setText("5");
+    if (incReal)
+      incReal->setText("-0,70176");
+    if (incImag)
+      incImag->setText("-0,3842");
+  } else if (type == "Newton") {
+    // A classic polynomial is z^3 - 1
+    // That means 4 polynomial terms: [1,0,0,-1]
+    // Use onAddPolyClicked() to add them to polyList.
+    // Relaxation often set to 1
+    if (relaxReal)
+      relaxReal->setText("1");
+    if (relaxImag)
+      relaxImag->setText("0");
 
-        // Start by clearing any leftover list items
-        onClearPolyClicked();
+    // Start by clearing any leftover list items
+    onClearPolyClicked();
 
-        // Add the polynomial terms for z^3 - 1
-        // (lowest exponent => first item we add)
-        polyReal->setText("1");
-        polyImag->setText("0");
-        onAddPolyClicked(); // => z^0 coefficient
+    // Add the polynomial terms for z^3 - 1
+    // (lowest exponent => first item we add)
+    polyReal->setText("1");
+    polyImag->setText("0");
+    onAddPolyClicked();  // => z^0 coefficient
 
-        polyReal->setText("0");
-        polyImag->setText("0");
-        onAddPolyClicked(); // => z^1 coefficient
+    polyReal->setText("0");
+    polyImag->setText("0");
+    onAddPolyClicked();  // => z^1 coefficient
 
-        polyReal->setText("0");
-        polyImag->setText("0");
-        onAddPolyClicked(); // => z^2 coefficient
+    polyReal->setText("0");
+    polyImag->setText("0");
+    onAddPolyClicked();  // => z^2 coefficient
 
-        polyReal->setText("-1");
-        polyImag->setText("0");
-        onAddPolyClicked(); // => z^3 coefficient
-    }
-    else if (type == "Nova") {
-        // Similar polynomial for Nova: z^3 - 1
-        // Relaxation=1, StartValue=1+0i, or any typical values
-        if (relaxReal) relaxReal->setText("1");
-        if (relaxImag) relaxImag->setText("0");
+    polyReal->setText("-1");
+    polyImag->setText("0");
+    onAddPolyClicked();  // => z^3 coefficient
+  } else if (type == "Nova") {
+    // Similar polynomial for Nova: z^3 - 1
+    // Relaxation=1, StartValue=1+0i, or any typical values
+    if (relaxReal)
+      relaxReal->setText("1");
+    if (relaxImag)
+      relaxImag->setText("0");
 
-        // Usually we do not rely on pixel start:
-        if (pixStartCheck) pixStartCheck->setChecked(false);
+    // Usually we do not rely on pixel start:
+    if (pixStartCheck)
+      pixStartCheck->setChecked(false);
 
-        if (startReal) startReal->setText("1");
-        if (startImag) startImag->setText("0");
+    if (startReal)
+      startReal->setText("1");
+    if (startImag)
+      startImag->setText("0");
 
-        // Clear and add polynomial z^3 - 1
-        onClearPolyClicked();
+    // Clear and add polynomial z^3 - 1
+    onClearPolyClicked();
 
-        polyReal->setText("1");
-        polyImag->setText("0");
-        onAddPolyClicked();
+    polyReal->setText("1");
+    polyImag->setText("0");
+    onAddPolyClicked();
 
-        polyReal->setText("0");
-        polyImag->setText("0");
-        onAddPolyClicked();
+    polyReal->setText("0");
+    polyImag->setText("0");
+    onAddPolyClicked();
 
-        polyReal->setText("0");
-        polyImag->setText("0");
-        onAddPolyClicked();
+    polyReal->setText("0");
+    polyImag->setText("0");
+    onAddPolyClicked();
 
-        polyReal->setText("-1");
-        polyImag->setText("0");
-        onAddPolyClicked();
-    }
+    polyReal->setText("-1");
+    polyImag->setText("0");
+    onAddPolyClicked();
+  }
 
-
-  const auto [minR, maxR, minI, maxI] = PekiProc::Fractal::getDefaultDimension(FractalGenerator::fractalStringToType(type.toStdString()));
+  const auto [minR, maxR, minI, maxI] = PekiProc::Fractal::getDefaultDimension(
+      FractalGenerator::fractalStringToType(type.toStdString()));
   minRField->setText(QString(std::to_string(minR).data()));
   maxRField->setText(QString(std::to_string(maxR).data()));
   minIField->setText(QString(std::to_string(minI).data()));
@@ -353,10 +361,10 @@ bool FractalParameterPanel::validateInputs() const {
                         : true;
   bool polynomialValid = polyList ? getPolynomial().size() > 0 : true;
 
-  bool scaleValid = minRField && !minRField->text().isEmpty() &&
-                    maxRField && !maxRField->text().isEmpty() &&
-                    minIField && !minIField->text().isEmpty() &&
-                    maxIField && !maxIField->text().isEmpty();
+  bool scaleValid = minRField && !minRField->text().isEmpty() && maxRField &&
+                    !maxRField->text().isEmpty() && minIField &&
+                    !minIField->text().isEmpty() && maxIField &&
+                    !maxIField->text().isEmpty();
 
   return isValid(incReal) && isValid(incImag) && isValid(relaxReal) &&
          isValid(relaxImag) && isValid(exponentInput) && startValid &&

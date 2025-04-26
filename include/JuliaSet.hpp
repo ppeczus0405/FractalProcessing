@@ -10,14 +10,18 @@ namespace PekiProc {
 
 class JuliaSet : public FractalAlgorithm {
  public:
-  JuliaSet();
-  JuliaSet(const Complex& inc);
-  JuliaSet(const int exponent);
-  JuliaSet(const int exponent, const Complex& inc);
+  CUDA_HD JuliaSet();
+  CUDA_HD JuliaSet(const Complex& inc);
+  CUDA_HD JuliaSet(const int exponent);
+  CUDA_HD JuliaSet(const int exponent, const Complex& inc);
 
-  std::pair<int, std::tuple<Complex, Complex, Complex>> getIterationsAndOrbit(
+  CUDA_HD
+  PairGPU<int, TripleGPU<Complex, Complex, Complex>> getIterationsAndOrbit(
       const Complex& c) override;
+
   int getExponent() override;
+
+  CUDA_HD ~JuliaSet() {}
 
  private:
   Complex m_inc;
