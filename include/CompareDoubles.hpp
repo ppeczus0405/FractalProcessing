@@ -10,8 +10,7 @@ class CompareDoubles {
  public:
   CompareDoubles() = delete;
 
-  constexpr static double EPSILON_LONG = 1e-10;
-  constexpr static double EPSILON = 1e-7;
+  constexpr static double EPSILON = 1e-10;
 
   CUDA_HD
   static bool isEqual(const double a, const double b) {

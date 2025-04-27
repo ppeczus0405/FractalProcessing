@@ -107,7 +107,7 @@ class FractalAlgorithm {
   static constexpr int DEFAULT_ITERATIONS = 35;
 
   static constexpr double DIVERGENCE_BAILOUT = 1e8;
-  static constexpr double CONVERGENCE_BAILOUT = 1e-14;
+  static constexpr double CONVERGENCE_BAILOUT = 1e-7;
 
   CUDA_HD
   virtual ~FractalAlgorithm() {}

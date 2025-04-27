@@ -31,9 +31,9 @@ class SmoothConvergence : public FractalColoring {
       const RGB* colorMap, int mapSize, int maxIterations, double bailout) {
     const int iterations = iterOrbit.first;
     const auto& threeOrbit = iterOrbit.second;
-    const Complex& z = threeOrbit.first;
+    const Complex& z = threeOrbit.third;
     const Complex& z1 = threeOrbit.second;
-    const Complex& z2 = threeOrbit.third;
+    const Complex& z2 = threeOrbit.first;
 
     // Escaped or invalid
     if (iterations == maxIterations || iterations == -1) {
