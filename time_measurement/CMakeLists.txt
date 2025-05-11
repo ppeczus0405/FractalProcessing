@@ -1,0 +1,4 @@
+add_executable(time_measurement main.cpp)
+
+target_compile_features(time_measurement PUBLIC cxx_std_20)
+target_link_libraries(time_measurement PRIVATE fractalproc)
