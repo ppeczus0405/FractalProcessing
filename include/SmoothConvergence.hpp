@@ -30,35 +30,7 @@ class SmoothConvergence : public FractalColoring {
       const PairGPU<int, TripleGPU<Complex, Complex, Complex>>& iterOrbit,
       const RGB* colorMap, int mapSize, int maxIterations, double bailout) {
     const int iterations = iterOrbit.first;
-    const auto& threeOrbit = iterOrbit.second;
-    const Complex& z = threeOrbit.third;
-    const Complex& z1 = threeOrbit.second;
-    const Complex& z2 = threeOrbit.first;
-
-    // Escaped or invalid
-    if (iterations == maxIterations || iterations == -1) {
-      return colorMap[mapSize - 1];
-    }
-
-    const double R = Complex::absolute_square(z - z1) /
-                     ::fmax(1.0, Complex::absolute_square(z));
-    const double prev_R = Complex::absolute_square(z1 - z2) /
-                          ::fmax(1.0, Complex::absolute_square(z1));
-
-    const double denom = ::log2(R) - ::log2(prev_R);
-    double smooth = 0.0;
-    if (denom != 0.0) {
-      smooth = (::log2(bailout) - ::log2(prev_R)) / denom;
-      smooth = clamp(smooth, 0.0, 1.0);
-    }
-
-    const double ratio = (mapSize - 1) / static_cast<double>(maxIterations);
-    const double value = ratio * iterations;
-    const double prev_value = ratio * (iterations - 1);
-    int index = static_cast<int>(smooth * value + (1.0 - smooth) * prev_value);
-    index = clamp(index, 0, mapSize - 1);
-
-    return colorMap[index];
+    return colorMap[iterations];
   }
 };
 

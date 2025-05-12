@@ -56,6 +56,7 @@ FractalGenerator::createAlgorithm() {
 
 std::vector<std::pair<double, PekiProc::RGB>>
 FractalGenerator::getDefaultGradient() {
+/*
   return {
       {0.0, {0, 7, 100}},       // Deep Navy Blue
       {0.16, {32, 107, 203}},   // Vivid Blue
@@ -65,18 +66,31 @@ FractalGenerator::getDefaultGradient() {
       {0.84, {128, 0, 128}},    // Purple
       {1.0, {0, 0, 0}}          // Black
   };
+*/
+/*
+  return {
+      {0.0, {0, 0, 0}},          // Black
+      {1.0, {255, 255, 255}}     // White
+  };
+*/
+return {
+    {0.0, {0, 0, 0}},           // Black
+    {0.1, {0, 100, 200}},       // Cool Blue
+    {0.5, {255, 165, 0}},       // Orange
+    {1.0, {255, 255, 255}}      // White
+};
 }
 
 void FractalGenerator::update(const Configuration& config) {
   m_config = config;
 
   m_fractal = PekiProc::FractalBuilder(1080, 720)
-                  .setMaxIterations(64)
+                  .setMaxIterations(1000)
                   .setGradient(getDefaultGradient())
-                  .setGradientMapSize(512)
+                  .setGradientMapSize(1001)
                   .setAlgorithm(createAlgorithm())
                   .setScale(config.scaleParams)
-//                  .setGpuAcceleration()
+                  .setGpuAcceleration()
                   .build();
 }
 

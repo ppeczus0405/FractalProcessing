@@ -34,11 +34,11 @@ void dumpArguments()
   std::cout << "resolution: " << width << "x" << height << std::endl;
   std::cout << "iterations: " << iterations << std::endl;
   singleResultFile = std::format("{}/single/{}-{}-{}x{}-{}.csv", path, fractalType, mode, width, height, iterations);
-  singleImageFile = std::format("{}/single/{}-{}-{}x{}-{}", path, fractalType, mode, width, height, iterations);
+  singleImageFile = std::format("{}/single/{}-{}-{}x{}-{}-iteration_bounds", path, fractalType, mode, width, height, iterations);
   outputFile = std::format("{}/result.csv", path);
-  std::cout << "singleResultFile: " << singleResultFile << std::endl;
+  //std::cout << "singleResultFile: " << singleResultFile << std::endl;
   std::cout << "singleImageFile: " << singleImageFile << ".jpg" << std::endl;
-  std::cout << "outputFile: " << outputFile << std::endl;
+  //std::cout << "outputFile: " << outputFile << std::endl;
 }
 
 void saveResultsToFile(std::string filename) {
@@ -66,13 +66,10 @@ void saveResultsToFile(std::string filename) {
 std::vector<std::pair<double, PekiProc::RGB>>
 getDefaultGradient() {
   return {
-      {0.0, {0, 7, 100}},       // Deep Navy Blue
-      {0.16, {32, 107, 203}},   // Vivid Blue
-      {0.33, {237, 255, 255}},  // Pale Cyan
-      {0.5, {255, 170, 0}},     // Bright Orange
-      {0.67, {255, 85, 0}},     // Vivid Red-Orange
-      {0.84, {128, 0, 128}},    // Purple
-      {1.0, {0, 0, 0}}          // Black
+      {0.0, {0, 0, 0}},           // Black
+      {0.1, {0, 100, 200}},       // Cool Blue
+      {0.5, {255, 165, 0}},       // Orange
+      {1.0, {255, 255, 255}}      // White
   };
 }
 
@@ -109,7 +106,7 @@ std::unique_ptr<PekiProc::Fractal> createFractal()
     return PekiProc::FractalBuilder(width, height)
                   .setMaxIterations(iterations)
                   .setGradient(getDefaultGradient())
-                  .setGradientMapSize(512)
+                  .setGradientMapSize(1001)
                   .setAlgorithm(createAlgorithm())
                   .setGpuAcceleration()
                   .build();
@@ -118,18 +115,13 @@ std::unique_ptr<PekiProc::Fractal> createFractal()
   return PekiProc::FractalBuilder(width, height)
                   .setMaxIterations(iterations)
                   .setGradient(getDefaultGradient())
-                  .setGradientMapSize(2048)
+                  .setGradientMapSize(1001)
                   .setAlgorithm(createAlgorithm())
                   .build();
 }
 
 void benchmark() {
     auto fractal = createFractal();
-    auto start = std::chrono::high_resolution_clock::now();
-    [[maybe_unused]] const auto* data = fractal->getData();
-    auto end = std::chrono::high_resolution_clock::now();
-
-    timeMs = std::chrono::duration<double, std::milli>(end - start).count();
     fractal->write(singleImageFile);
 }
 
@@ -162,7 +154,7 @@ int main(int argc, char* argv[]) {
 
   dumpArguments();
   benchmark();
-  saveResultsToFile(singleResultFile);
-  saveResultsToFile(outputFile);
+  //saveResultsToFile(singleResultFile);
+  //saveResultsToFile(outputFile);
   return 0;
 }

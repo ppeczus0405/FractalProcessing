@@ -83,6 +83,7 @@ class FractalBuilder {
     static_assert(std::is_constructible<Gradient, T>::value,
                   "Cannot construct Gradient object from this type");
     gradient = std::make_unique<Gradient>(std::forward<T>(g));
+    gradient->write("/home/p3ki/Dev/eng_degree/FractalProcessing/time_measurement/results/gradient");
     return *this;
   }
 

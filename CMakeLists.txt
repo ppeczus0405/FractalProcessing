@@ -29,8 +29,8 @@ add_definitions( -DMAGICKCORE_HDRI_ENABLE=0 )
 target_include_directories(fractalproc PUBLIC ${HEADERS_DIR} PRIVATE ${ImageMagick_INCLUDE_DIRS})
 target_link_libraries(fractalproc PUBLIC ${ImageMagick_LIBRARIES})
 
-#if(BUILD_SAMPLE_APP)
-#    add_subdirectory(sample)
-#endif()
+if(BUILD_SAMPLE_APP)
+    add_subdirectory(sample)
+endif()
 
 add_subdirectory(time_measurement)

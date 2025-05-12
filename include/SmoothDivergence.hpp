@@ -33,25 +33,7 @@ class SmoothDivergence : public FractalColoring {
       const RGB* colorMap, int mapSize, int maxIterations, int exponent,
       double bailout) {
     const int iterations = iterOrbit.first;
-    const auto& threeOrbit = iterOrbit.second;
-    const double R = Complex::absolute_square(threeOrbit.second);
-
-    // Special case – reached max iterations or undefined logarithm
-    if (iterations == maxIterations || CompareDoubles::isEqual(R, 1.0)) {
-      return colorMap[mapSize - 1];
-    }
-
-    // Smooth factor
-    const double smooth = clamp(::log2(::log2(bailout) / ::log2(R)) /
-                                    ::log2(static_cast<double>(exponent)),
-                                0.0, 1.0);
-
-    const double ratio = (mapSize - 1) / static_cast<double>(maxIterations);
-    const double value = ratio * iterations;
-    const double prev_value = ratio * (iterations - 1);
-    int index = static_cast<int>(smooth * value + (1.0 - smooth) * prev_value);
-    index = clamp(index, 0, mapSize - 1);
-    return colorMap[index];
+    return colorMap[iterations];
   }
 };
 
