@@ -17,6 +17,7 @@ int width = 0, height = 0, iterations = 0;
 int timeMs = -1;
 std::string outputFile;
 std::string singleResultFile;
+std::string singleImageFile;
 
 namespace {
 
@@ -33,8 +34,10 @@ void dumpArguments()
   std::cout << "resolution: " << width << "x" << height << std::endl;
   std::cout << "iterations: " << iterations << std::endl;
   singleResultFile = std::format("{}/single/{}-{}-{}x{}-{}.csv", path, fractalType, mode, width, height, iterations);
+  singleImageFile = std::format("{}/single/{}-{}-{}x{}-{}", path, fractalType, mode, width, height, iterations);
   outputFile = std::format("{}/result.csv", path);
   std::cout << "singleResultFile: " << singleResultFile << std::endl;
+  std::cout << "singleImageFile: " << singleImageFile << ".jpg" << std::endl;
   std::cout << "outputFile: " << outputFile << std::endl;
 }
 
@@ -115,7 +118,7 @@ std::unique_ptr<PekiProc::Fractal> createFractal()
   return PekiProc::FractalBuilder(width, height)
                   .setMaxIterations(iterations)
                   .setGradient(getDefaultGradient())
-                  .setGradientMapSize(512)
+                  .setGradientMapSize(2048)
                   .setAlgorithm(createAlgorithm())
                   .build();
 }
@@ -127,6 +130,7 @@ void benchmark() {
     auto end = std::chrono::high_resolution_clock::now();
 
     timeMs = std::chrono::duration<double, std::milli>(end - start).count();
+    fractal->write(singleImageFile);
 }
 
 } // anonymous namespace

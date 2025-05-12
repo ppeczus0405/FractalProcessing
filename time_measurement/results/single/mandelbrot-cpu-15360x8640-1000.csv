@@ -1,0 +1,3 @@
+tryb,fraktal,rozdzielczosc,iteracje,czas_ms
+CPU,mandelbrot,15360x8640,1000,1034824
+CPU,mandelbrot,15360x8640,1000,965799
